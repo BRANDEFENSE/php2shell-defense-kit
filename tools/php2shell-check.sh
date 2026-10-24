@@ -19,8 +19,9 @@
 #   4 deployment  local docker/podman images and running containers with their PHP version
 # plus the ini values relevant to the temporary controls (INFO lines).
 #
-# Read-only: it reads /proc, package databases, config files, and runs `<php binary> -v` / `-i` and `docker|podman
-# ps|images|exec php -v`. It makes NO network calls, writes nothing, sends no exploit traffic.
+# Read-only: it reads /proc, package databases, config files and the bytes of PHP binaries (version string), and runs
+# `docker|podman ps|images|exec php -v` (that one runs INSIDE a container). It NEVER executes a binary it found on the host
+# or via /proc. It makes NO network calls, writes nothing, sends no exploit traffic.
 # Run as root for a complete process check (other users' /proc entries are unreadable otherwise).
 #
 # Exit codes: 0 all PASS (INFO/N/A only), 1 at least one WARN, 2 at least one FAIL, 3 nothing PHP-related found.
@@ -55,23 +56,36 @@ emit() { # level section text
 }
 
 # ---- version helpers -------------------------------------------------------------------------------------
-# upstream_of <packager version>: strip epoch and distro suffix  ("1:8.2.35-1~deb12u1" -> 8.2.35)
-upstream_of() { printf '%s' "$1" | sed -E 's/^[0-9]+://; s/^([0-9]+\.[0-9]+\.[0-9]+).*/\1/' ; }
-# fixed_state <x.y.z>: prints fixed | vulnerable | unknown   (upstream numbering only)
+# upstream_of <packager version>: strip epoch and distro suffix ("1:8.2.35-1~deb12u1" -> 8.2.35); a pre-release
+# (dev, alpha, beta, RC) keeps a marker: "8.6.0RC1" -> 8.6.0-pre
+upstream_of() {
+  local v pre='[-~]?(dev|alpha|beta|RC|rc|Alpha|Beta|pre)[0-9]*'
+  v=$(printf '%s' "$1" | sed -E 's/^[0-9]+://')
+  if printf '%s' "$v" | grep -qE "^[0-9]+\.[0-9]+\.[0-9]+$pre"; then
+    printf '%s' "$v" | sed -E 's/^([0-9]+\.[0-9]+\.[0-9]+).*/\1-pre/'
+  else
+    printf '%s' "$v" | sed -E 's/^([0-9]+\.[0-9]+\.[0-9]+).*/\1/'
+  fi
+}
+# fixed_state <version>: prints fixed | vulnerable | unknown   (upstream numbering only)
+# Pre-releases (dev/alpha/beta/RC) are never "fixed": below the fixed patch of a known line they are vulnerable,
+# otherwise unknown. Only a final release at or above the fixed one is fixed.
 fixed_state() {
-  local v="$1" ma mi pa
+  local v pre=0 ma mi pa
+  v=$(upstream_of "$1")
+  case "$v" in *-pre) pre=1; v=${v%-pre} ;; esac
   case "$v" in [0-9]*.[0-9]*.[0-9]*) ;; *) echo unknown; return ;; esac
   ma=${v%%.*}; mi=${v#*.}; mi=${mi%%.*}; pa=${v##*.}; pa=${pa%%[!0-9]*}
-  if [ "$ma" -gt 8 ] 2>/dev/null; then echo fixed; return; fi
   if [ "$ma" -lt 8 ] 2>/dev/null; then echo vulnerable; return; fi
+  if [ "$ma" -gt 8 ] 2>/dev/null; then [ "$pre" = 1 ] && echo unknown || echo fixed; return; fi
   case "$mi" in
-    0|1) echo vulnerable ;;
-    2) [ "$pa" -ge 35 ] && echo fixed || echo vulnerable ;;
-    3) [ "$pa" -ge 36 ] && echo fixed || echo vulnerable ;;
-    4) [ "$pa" -ge 27 ] && echo fixed || echo vulnerable ;;
-    5) [ "$pa" -ge 12 ] && echo fixed || echo vulnerable ;;
-    *) echo fixed ;;  # 8.6 and newer
+    0|1) echo vulnerable; return ;;
+    2) fx=35 ;; 3) fx=36 ;; 4) fx=27 ;; 5) fx=12 ;;
+    *) [ "$pre" = 1 ] && echo unknown || echo fixed; return ;;   # 8.6 and newer: only a final release counts
   esac
+  if [ "$pa" -lt "$fx" ]; then echo vulnerable
+  elif [ "$pre" = 1 ]; then echo unknown
+  else echo fixed; fi
 }
 have() { command -v "$1" >/dev/null 2>&1; }
 # in_other_ns <pid>: true when the process lives in another mount namespace (a container seen from the host)
@@ -114,6 +128,8 @@ else
     [ -n "$ch" ] && { n1=${ch%% *}; r=${ch#* }; n2=${r%% *}; src=${r#* }; }
     if [ "$st" = fixed ]; then
       emit PASS package "$pkg $ver  upstream $up >= fixed release"; printf '%s\tOK\t%s\n' "$pkg" "$ver" >> "$PKGSTATE"
+    elif [ "$st" = unknown ]; then
+      emit WARN package "$pkg $ver  pre-release or unreadable version: cannot be proven fixed (only a final release at or above the fixed one counts)"; printf '%s\tUNSURE\t%s\n' "$pkg" "$ver" >> "$PKGSTATE"
     elif [ -n "$ch" ] && [ "$n1" -gt 0 ] && [ "$n2" -gt 0 ]; then
       emit PASS package "$pkg $ver  upstream $up is older but the package changelog names BOTH $CVE1 and $CVE2 (backport) [$src]"; printf '%s\tOK\t%s\n' "$pkg" "$ver" >> "$PKGSTATE"
     elif [ -n "$ch" ] && { [ "$n1" -gt 0 ] || [ "$n2" -gt 0 ]; }; then
@@ -130,7 +146,10 @@ fi
 echo "== 2. runtime evidence (which PHP serves HTTP?)"
 RTLIST="$TMP/runtimes"; : > "$RTLIST"   # kind \t path \t version
 add_rt() { grep -qF "$(printf '%s\t%s\t' "$1" "$2")" "$RTLIST" 2>/dev/null || printf '%s\t%s\t%s\n' "$1" "$2" "$3" >> "$RTLIST"; }
-bin_version() { timeout 10 "$1" -v 2>/dev/null | head -1 | sed -E 's/^[A-Za-z-]+ ([0-9]+\.[0-9]+\.[0-9]+[^ ]*).*/\1/; s/^PHP ([0-9.]+).*/\1/'; }
+bin_version() { # static read, never executes the file: the compiled-in banner "PHP/x.y.z" (X-Powered-By)
+  [ -f "$1" ] && [ -r "$1" ] || return 0
+  grep -a -o -E 'PHP/[0-9]+\.[0-9]+\.[0-9]+([-~]?(dev|alpha|beta|RC|rc)[0-9]*)?' "$1" 2>/dev/null | head -1 | sed 's#PHP/##'
+}
 owner_pkg() { # file -> package name or empty
   if have dpkg; then dpkg -S "$1" 2>/dev/null | head -1 | sed 's/:.*//; s/, .*//'
   elif have rpm; then rpm -qf --qf '%{NAME}\n' "$1" 2>/dev/null | head -1 | grep -v 'not owned'
@@ -149,6 +168,9 @@ for p in /proc/[0-9]*; do
   esac
   [ -r "$p/exe" ] || continue
   in_other_ns "$pid" && continue   # containers are judged in section 4
+  if [ "$(stat -c %u "$p/exe" 2>/dev/null)" != "0" ]; then   # a process named php-fpm whose binary is not root-owned is not trusted
+    emit WARN runtime "process $pid is named like php-fpm but its binary is not owned by root: not trusted, version not read"; continue
+  fi
   v=$(bin_version "$p/exe"); [ -n "$v" ] && add_rt "php-fpm(running pid $pid)" "$(readlink "$p/exe" 2>/dev/null)" "$v"
 done
 # b) Apache mod_php: libphp files referenced by the config and mapped into running httpd processes
@@ -169,11 +191,11 @@ for b in /usr/local/lsws/lsphp*/bin/lsphp /opt/cpanel/ea-php*/root/usr/bin/lsphp
   [ -x "$b" ] && add_rt "litespeed-lsphp" "$b" "$(bin_version "$b")"
 done
 for b in $(command -v frankenphp 2>/dev/null) /usr/local/bin/frankenphp; do
-  [ -x "$b" ] && { v=$(timeout 10 "$b" php-cli -v 2>/dev/null | head -1 | sed -E 's/^PHP ([0-9.]+).*/\1/'); add_rt "frankenphp" "$b" "$v"; }
+  [ -x "$b" ] && add_rt "frankenphp" "$b" "$(bin_version "$b")"
 done
 for b in $(command -v php-cgi 2>/dev/null); do [ -x "$b" ] && add_rt "php-cgi" "$b" "$(bin_version "$b")"; done
 # d) CLI php: informational only
-CLI=$(command -v php 2>/dev/null); [ -n "$CLI" ] && emit INFO runtime "CLI php $CLI = $(bin_version "$CLI") (the CLI says nothing about what serves HTTP)"
+CLI=$(command -v php 2>/dev/null); [ -n "$CLI" ] && emit INFO runtime "CLI php $CLI = $(bin_version "$CLI") (read from the file, not run; the CLI says nothing about what serves HTTP)"
 
 if [ ! -s "$RTLIST" ]; then
   emit INFO runtime "no php-fpm / Apache mod_php / LiteSpeed / FrankenPHP found on this host (containers: see section 4)"
@@ -188,6 +210,7 @@ else
     own=$(owner_pkg "$path"); ostate=""
     [ -n "$own" ] && ostate=$(awk -F'\t' -v p="$own" '$1==p{print $2; exit}' "$PKGSTATE")
     if [ "$st" = fixed ]; then emit PASS runtime "$kind $path = $ver (>= fixed release)"
+    elif [ "$st" = unknown ]; then emit WARN runtime "$kind $path = $ver : pre-release or unreadable version, cannot be proven fixed"
     elif [ "$ostate" = OK ]; then emit PASS runtime "$kind $path = $ver : owned by package $own whose changelog names both CVEs (backport)"
     elif [ "$ostate" = BAD ]; then emit FAIL runtime "$kind $path = $ver : below fixed release, package $own has no fix"
     else emit FAIL runtime "$kind $path = $ver : below the fixed release and no backport proof${own:+ (package $own)}"; fi
@@ -265,10 +288,11 @@ else
     FOUND=1; ANYC=0
     timeout 20 "$CE" ps --format '{{.ID}}\t{{.Image}}\t{{.Names}}' 2>/dev/null | while IFS="$(printf '\t')" read -r id img name; do
       out=$(timeout 15 "$CE" exec "$id" sh -c 'v=$(php -v 2>/dev/null | head -1); f=$(php-fpm -v 2>/dev/null | head -1); a=$(apache2 -v 2>/dev/null | head -1; httpd -v 2>/dev/null | head -1); printf "%s | %s | %s" "$v" "$f" "$a"' 2>/dev/null) || out=""
-      ver=$(printf '%s' "$out" | grep -o -E 'PHP [0-9]+\.[0-9]+\.[0-9]+' | head -1 | sed 's/PHP //')
+      ver=$(printf '%s' "$out" | grep -o -E 'PHP [0-9]+\.[0-9]+\.[0-9]+([-~]?(dev|alpha|beta|RC|rc)[0-9]*)?' | head -1 | sed 's/PHP //')
       if [ -z "$ver" ]; then continue; fi
-      st=$(fixed_state "$(upstream_of "$ver")")
+      st=$(fixed_state "$ver")
       if [ "$st" = fixed ]; then echo "PASS|container $name ($img) runs PHP $ver (>= fixed release)"
+      elif [ "$st" = unknown ]; then echo "WARN|container $name ($img) runs PHP $ver : pre-release or unreadable version, cannot be proven fixed"
       else echo "FAIL|container $name ($img) runs PHP $ver (below fixed release): rebuild the image from a fixed base and redeploy every replica; its processes are separate from the host's"; fi
     done > "$TMP/cont"
     while IFS='|' read -r lvl txt; do emit "$lvl" deployment "$txt"; ANYC=1; done < "$TMP/cont"
@@ -277,9 +301,10 @@ else
     timeout 20 "$CE" images --format '{{.Repository}}:{{.Tag}}' 2>/dev/null | sort -u | while read -r ref; do
       t=${ref#*:}; r=${ref%%:*}
       case "$r" in php|*/php|*/php-fpm|*/php-apache|*/php-cli) ;; *) continue ;; esac
-      v=$(printf '%s' "$t" | grep -o -E '^[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+      v=$(printf '%s' "$t" | grep -o -E '^[0-9]+\.[0-9]+\.[0-9]+([-~]?(dev|alpha|beta|RC|rc)[0-9]*)?' | head -1)
       if [ -z "$v" ]; then echo "WARN|image $ref has a floating tag: its PHP version depends on when it was pulled; pull again and redeploy"; continue; fi
-      if [ "$(fixed_state "$v")" = fixed ]; then echo "PASS|image $ref (PHP $v >= fixed release)"; else echo "WARN|image $ref pins PHP $v (below fixed release): do not deploy it; rebuild on a fixed tag"; fi
+      if [ "$(fixed_state "$v")" = unknown ]; then echo "WARN|image $ref pins PHP $v : pre-release, cannot be proven fixed"
+      elif [ "$(fixed_state "$v")" = fixed ]; then echo "PASS|image $ref (PHP $v >= fixed release)"; else echo "WARN|image $ref pins PHP $v (below fixed release): do not deploy it; rebuild on a fixed tag"; fi
     done > "$TMP/imgs"
     while IFS='|' read -r lvl txt; do emit "$lvl" deployment "$txt"; done < "$TMP/imgs"
   fi
@@ -292,11 +317,7 @@ show_ini() { # label cmd...
   out=$("$@" 2>/dev/null | grep -E '^(session\.upload_progress\.(enabled|name)|memory_limit|post_max_size|fatal_error_backtraces|max_input_vars|max_file_uploads)\b' | tr '\n' ';' | sed 's/ => /=/g')
   [ -n "$out" ] && emit INFO ini "$lbl: $out"
 }
-if [ -s "$RTLIST" ]; then
-  awk -F'\t' '$1 ~ /php-fpm\(disk\)|php-cgi|litespeed/ {print $2}' "$RTLIST" | sort -u | while read -r b; do
-    case "$b" in *fpm*) show_ini "$b -i (global ini as the FPM binary loads it, before pool overrides)" timeout 10 "$b" -i ;; esac
-  done
-fi
+# (no `<binary> -i`: ini values are read from the config files below; discovered binaries are never executed)
 for d in /etc/php*/fpm/pool.d /etc/php-fpm.d /usr/local/etc/php-fpm.d /etc/opt/remi/php*/php-fpm.d /etc/php/*/fpm/pool.d; do
   [ -d "$d" ] || continue
   g=$(grep -hE '^\s*php(_admin)?_(value|flag)\[(session\.upload_progress\.[a-z]+|memory_limit|post_max_size|fatal_error_backtraces)\]|^\s*pm\.max_requests' "$d"/*.conf 2>/dev/null | tr -s ' ' | tr '\n' ';')

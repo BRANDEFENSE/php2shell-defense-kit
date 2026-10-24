@@ -2,7 +2,7 @@
 
 **v0.3.0 · 24 October 2026 · macOS arm64 / Python venv**
 
-**169 tests passed; 0 failures; 0 errors; 0 skipped** (`python3 -I -m pytest`).
+**195 tests passed; 0 failures; 0 errors; 0 skipped** (`python3 -I -m pytest`).
 
 The suite validated 21 Sigma rules, 62 event fixtures plus 16 missing-field checks, 21 Splunk selection-query conversions, a replay of the lab corpus through every runnable rule, 5 YARA rules with 13 inert samples, and collector/analysis regression cases. All included fixtures are synthetic; no PHP payload was executed and no external test target was contacted. The Linux collector ran only in this container, not a customer estate.
 

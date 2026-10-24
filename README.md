@@ -44,6 +44,7 @@ We replayed every rule we could run against real records from a lab of unpatched
 - **Not tested:** all process, file, cookie and user-agent rules (the lab produced none of that telemetry; no code execution was reproduced), the Windows script, and the SIEM queries. They are marked "not tested", not "works".
 - **Engines:** Suricata, Zeek, ModSecurity and YARA were run offline. They caught some attack shapes and missed others; three rules also hit benign traffic (Corelight 3000650, ModSecurity 9109618 and break-the-build's ModSecurity 20260008, each on 1 to 4 of the benign captures). YARA ran only on 8 benign PHP files and says nothing about attack shapes.
 - **Benign baseline is thin:** only 8 of the 42 benign runs are ordinary traffic; the other 34 are a script-level memory error. Narrowing `php_memory_exhaustion` gives up detection of script-level memory errors.
+- **Safety of `php2shell-check`:** the script never executes a binary it discovers on the host or through `/proc` (it reads the version string from the file); only `docker exec ... php -v` runs, and that runs inside the container. A pre-release PHP (dev, alpha, beta, RC) is reported as unknown (WARN), never as fixed.
 - **Limits:** one arm64 lab, release builds, synthetic traffic. These are not production false-positive rates.
 - `tools/php2shell-check.sh` (is the PHP that serves HTTP really fixed?) was tested in lab containers; `tools/php2shell-check.ps1` is **untested**. See [docs/php2shell-check.md](docs/php2shell-check.md).
 

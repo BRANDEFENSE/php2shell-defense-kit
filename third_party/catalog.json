@@ -520,7 +520,8 @@
     "licence": "MIT",
     "commit": "17253b3185380956e4fc0aade158f8001793e2c5",
     "format": "yaml-config",
-    "sha256": "f09b881c905871e52ae9fe1176c5883fe401ad3bf057e336ca69d27e7d4cce57"
+    "sha256": "f09b881c905871e52ae9fe1176c5883fe401ad3bf057e336ca69d27e7d4cce57",
+    "notes": "The post_max_size check is regex-based and can miss values in plain bytes or K units; verify the effective value with `php -i` / ini_parse_quantity before relying on it. File left unchanged."
   },
   {
     "file": "third_party/orbitron-ai__php2shell-response-kit/LICENSE",

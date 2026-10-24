@@ -23,16 +23,22 @@ function Emit($lvl, $sec, $msg) {
   Write-Host ("[{0}] {1,-10} {2}" -f $lvl, $sec, $msg) -ForegroundColor $col
 }
 function FixedState([string]$v) {
-  if ($v -notmatch '^(\d+)\.(\d+)\.(\d+)') { return 'unknown' }
+  # pre-releases (dev/alpha/beta/RC) are never "fixed": vulnerable below the fixed patch of a known line, else unknown
+  if ($v -notmatch '^(\d+)\.(\d+)\.(\d+)(.*)$') { return 'unknown' }
   $ma = [int]$Matches[1]; $mi = [int]$Matches[2]; $pa = [int]$Matches[3]
-  if ($ma -gt 8) { return 'fixed' }; if ($ma -lt 8) { return 'vulnerable' }
-  switch ($mi) { 0 { 'vulnerable' } 1 { 'vulnerable' } 2 { if ($pa -ge 35) { 'fixed' } else { 'vulnerable' } }
-    3 { if ($pa -ge 36) { 'fixed' } else { 'vulnerable' } } 4 { if ($pa -ge 27) { 'fixed' } else { 'vulnerable' } }
-    5 { if ($pa -ge 12) { 'fixed' } else { 'vulnerable' } } default { 'fixed' } }
+  $pre = $Matches[4] -match '(?i)(dev|alpha|beta|rc|pre)'
+  if ($ma -lt 8) { return 'vulnerable' }
+  if ($ma -gt 8) { if ($pre) { return 'unknown' } else { return 'fixed' } }
+  $fx = switch ($mi) { 0 { 999 } 1 { 999 } 2 { 35 } 3 { 36 } 4 { 27 } 5 { 12 } default { 0 } }
+  if ($mi -ge 6) { if ($pre) { return 'unknown' } else { return 'fixed' } }
+  if ($pa -lt $fx) { return 'vulnerable' }
+  if ($pre) { return 'unknown' }
+  return 'fixed'
 }
 function BinVersion([string]$exe) {
-  $o = & $exe -v 2>$null | Select-Object -First 1
-  if ($o -match 'PHP (\d+\.\d+\.\d+)') { return $Matches[1] }
+  # never executes the file: read the version resource of the binary
+  try { $vi = (Get-Item -LiteralPath $exe -ErrorAction Stop).VersionInfo } catch { return $null }
+  foreach ($v in @($vi.ProductVersion, $vi.FileVersion)) { if ($v -match '(\d+\.\d+\.\d+(-?(dev|alpha|beta|RC)\d*)?)') { return $Matches[1] } }
   return $null
 }
 Write-Host '== 2. runtime and 3. process evidence'
@@ -54,6 +60,7 @@ foreach ($pr in $procs) {
   if (-not $seen.ContainsKey($key)) {
     $seen[$key] = 1
     if ((FixedState $ver) -eq 'fixed') { Emit 'PASS' 'runtime' "$exe = $ver (>= fixed release)" }
+    elseif ((FixedState $ver) -eq 'unknown') { Emit 'WARN' 'runtime' "$exe = $ver : pre-release or unreadable version, cannot be proven fixed" }
     else { Emit 'FAIL' 'runtime' "$exe = $ver is below the fixed release (no backport channel on Windows builds)" }
   }
   $written = (Get-Item $exe).LastWriteTime
@@ -68,10 +75,12 @@ elseif (Get-Command docker -ErrorAction SilentlyContinue) {
   foreach ($c in (docker ps --format '{{.ID}}|{{.Image}}|{{.Names}}')) {
     $id, $img, $name = $c -split '\|'
     $o = docker exec $id php -v 2>$null | Select-Object -First 1
-    if ($o -match 'PHP (\d+\.\d+\.\d+)') {
-      $script:found = $true
-      if ((FixedState $Matches[1]) -eq 'fixed') { Emit 'PASS' 'deployment' "container $name ($img) runs PHP $($Matches[1])" }
-      else { Emit 'FAIL' 'deployment' "container $name ($img) runs PHP $($Matches[1]) (below fixed release): rebuild and redeploy" }
+    if ($o -match 'PHP (\d+\.\d+\.\d+(-?(dev|alpha|beta|RC)\d*)?)') {
+      $cv = $Matches[1]; $script:found = $true
+      $st = FixedState $cv
+      if ($st -eq 'fixed') { Emit 'PASS' 'deployment' "container $name ($img) runs PHP $cv" }
+      elseif ($st -eq 'unknown') { Emit 'WARN' 'deployment' "container $name ($img) runs PHP $cv : pre-release, cannot be proven fixed" }
+      else { Emit 'FAIL' 'deployment' "container $name ($img) runs PHP $cv (below fixed release): rebuild and redeploy" }
     }
   }
 } else { Emit 'INFO' 'deployment' 'no docker CLI here' }
