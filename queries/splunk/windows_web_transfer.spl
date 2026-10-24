@@ -1,0 +1,1 @@
+ParentImage IN ("*\\php-cgi.exe", "*\\php.exe", "*\\httpd.exe", "*\\w3wp.exe") Image IN ("*\\curl.exe", "*\\certutil.exe", "*\\bitsadmin.exe")

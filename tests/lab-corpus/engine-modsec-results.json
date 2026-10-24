@@ -1,0 +1,146 @@
+{
+ "engine": "modsec",
+ "summary": {
+  "rule id 9109621": {
+   "attack-oom": {
+    "hit": 1,
+    "total": 11
+   },
+   "benign": {
+    "hit": 0,
+    "total": 24
+   },
+   "attack-leak": {
+    "hit": 0,
+    "total": 1
+   }
+  },
+  "rule id 9109623": {
+   "attack-oom": {
+    "hit": 11,
+    "total": 11
+   },
+   "benign": {
+    "hit": 0,
+    "total": 24
+   },
+   "attack-leak": {
+    "hit": 0,
+    "total": 1
+   }
+  },
+  "rule id 20260001": {
+   "attack-oom": {
+    "hit": 1,
+    "total": 11
+   },
+   "benign": {
+    "hit": 0,
+    "total": 24
+   },
+   "attack-leak": {
+    "hit": 1,
+    "total": 1
+   }
+  },
+  "rule id 9109618": {
+   "attack-oom": {
+    "hit": 1,
+    "total": 11
+   },
+   "benign": {
+    "hit": 1,
+    "total": 24
+   },
+   "attack-leak": {
+    "hit": 1,
+    "total": 1
+   }
+  },
+  "rule id 20260008": {
+   "attack-oom": {
+    "hit": 0,
+    "total": 11
+   },
+   "benign": {
+    "hit": 1,
+    "total": 24
+   },
+   "attack-leak": {
+    "hit": 0,
+    "total": 1
+   }
+  },
+  "rule id 9109622": {
+   "attack-oom": {
+    "hit": 2,
+    "total": 11
+   },
+   "benign": {
+    "hit": 0,
+    "total": 24
+   },
+   "attack-leak": {
+    "hit": 0,
+    "total": 1
+   }
+  },
+  "rule id 20260004": {
+   "attack-oom": {
+    "hit": 0,
+    "total": 11
+   },
+   "benign": {
+    "hit": 0,
+    "total": 24
+   },
+   "attack-leak": {
+    "hit": 0,
+    "total": 1
+   }
+  },
+  "rule id 20260006": {
+   "attack-oom": {
+    "hit": 0,
+    "total": 11
+   },
+   "benign": {
+    "hit": 0,
+    "total": 24
+   },
+   "attack-leak": {
+    "hit": 0,
+    "total": 1
+   }
+  },
+  "rule id 20260007": {
+   "attack-oom": {
+    "hit": 0,
+    "total": 11
+   },
+   "benign": {
+    "hit": 0,
+    "total": 24
+   },
+   "attack-leak": {
+    "hit": 0,
+    "total": 1
+   }
+  },
+  "rule id 9109619": {
+   "attack-oom": {
+    "hit": 0,
+    "total": 11
+   },
+   "benign": {
+    "hit": 0,
+    "total": 24
+   },
+   "attack-leak": {
+    "hit": 0,
+    "total": 1
+   }
+  }
+ },
+ "note": "one pass of the request sequence through ModSecurity v3.0.17 (DetectionOnly); patched requests were not separable in this pass, so no patched column is reported (see docs/lab-validation.md)"
+}

@@ -1,0 +1,38 @@
+title: Linux PHP or Web Worker Segmentation Fault
+id: 83268377-ff33-513c-bc29-f72d00920a47
+status: experimental
+description: Generic worker crash requiring syslog or journal normalization; retain
+  timestamp and PID separately. This is a producer signal only (the error the advisory describes can cause), not evidence of exploitation. This is a hunting lead, not attribution to PHP2Shell
+  or proof of successful exploitation.
+references:
+- https://www.wiz.io/blog/php2shell-php-rce
+- https://www.php.net/archive/2026.php#2026-10-21-5
+- https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp
+author: Brandefense Research Team
+date: '2026-10-24'
+license: MIT
+tags:
+- attack.t1190
+- attack.t1499
+logsource:
+  product: linux
+  service: syslog
+detection:
+  context:
+    Message|contains:
+    - php-fpm
+    - php-cgi
+    - lsphp
+    - frankenphp
+    - apache2
+    - httpd
+  fault:
+    Message|contains:
+    - segfault
+    - SIGSEGV
+    - signal 11
+  condition: context and fault
+falsepositives:
+- Native extension defects
+- Hardware and memory issues
+level: medium

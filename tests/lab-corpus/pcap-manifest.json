@@ -1,0 +1,45 @@
+{
+ "note": "Loopback captures taken inside the lab containers (--network none) with tcpdump. They contain the attack request bodies (synthetic data) and stay in the lab folder, not in the kit.",
+ "pcaps": [
+  {
+   "file": "apache-8.3.35-oom.pcap",
+   "bytes": 32287113,
+   "sha256": "4ee68d807f1b149256764751c38bac27b7360b86565c780096898a52a235c4e2"
+  },
+  {
+   "file": "apache-8.3.35-stock.pcap",
+   "bytes": 4725410,
+   "sha256": "333b5cd2e174e563b84628803766a12b5d513de498d5d088aa4969e44ac981fc"
+  },
+  {
+   "file": "apache-8.3.36-oom.pcap",
+   "bytes": 33416682,
+   "sha256": "a025ea267b2d84a889c989dec6900fb6839340f4efb36e811160015eb7412295"
+  },
+  {
+   "file": "apache-8.3.36-stock.pcap",
+   "bytes": 5341627,
+   "sha256": "9f058c2bb57c6663eb36a44db61a626ec6504363d58c2b151005a27c97b828c7"
+  },
+  {
+   "file": "fpm-8.3.35-oom.pcap",
+   "bytes": 32434965,
+   "sha256": "3534af519aad02fc16923c552cddabf39c1f3109809a09e58054623d1c0031c3"
+  },
+  {
+   "file": "fpm-8.3.35-stock.pcap",
+   "bytes": 5339409,
+   "sha256": "1b8662dae9420c697468982d1a564343a53ee1bf0b4198d37432b166168d9eff"
+  },
+  {
+   "file": "fpm-8.3.36-oom.pcap",
+   "bytes": 31193353,
+   "sha256": "7be6140b1ac5b9c1c31b928983aa19bc8cb457e81d75835e6d76f97680ecf717"
+  },
+  {
+   "file": "fpm-8.3.36-stock.pcap",
+   "bytes": 4062355,
+   "sha256": "2456efd44c7ea058dfb74de7aa2d98a49aeb04143ecda392219d25a730b9267a"
+  }
+ ]
+}

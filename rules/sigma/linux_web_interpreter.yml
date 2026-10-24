@@ -1,0 +1,36 @@
+title: Linux Web Runtime Spawning Another Interpreter
+id: acf78751-1464-5768-99b9-6f60778c60c6
+status: experimental
+description: Detects direct secondary interpreter execution; includes legitimate jobs
+  and cannot see in-process execution. This is a hunting lead, not attribution to
+  PHP2Shell or proof of successful exploitation.
+references:
+- https://www.php.net/archive/2026.php#2026-10-21-5
+- https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp
+author: Brandefense Research Team
+date: '2026-10-24'
+license: MIT
+tags:
+- attack.execution
+- attack.t1059
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  parent:
+    ParentImage|re: (^|/)(php-fpm[0-9.]*|php-cgi[0-9.]*|lsphp[0-9.]*|frankenphp|sw-engine-fpm|apache2|httpd)$
+  child:
+    Image|re: (^|/)(python[0-9.]*|perl|ruby|node)$
+  condition: parent and child and image_family
+  image_family:
+    Image|contains:
+    - /python
+    - /perl
+    - /ruby
+    - /node
+falsepositives:
+- PDF generation or queue integrations
+- Scheduled maintenance scripts started by the web server user
+- PHP CLI children (php, php-cgi) are deliberately not matched because FPM-spawned PHP CLI jobs are common and noisy
+- Application-managed scripts
+level: medium

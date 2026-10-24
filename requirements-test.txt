@@ -1,0 +1,5 @@
+PyYAML==6.0.3
+yara-python==4.5.4
+pySigma==1.5.1
+pySigma-backend-splunk==2.1.0
+pytest==9.1.1

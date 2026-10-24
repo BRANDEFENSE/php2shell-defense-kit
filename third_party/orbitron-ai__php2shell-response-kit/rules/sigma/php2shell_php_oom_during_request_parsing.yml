@@ -1,0 +1,36 @@
+title: PHP Ran Out Of Memory While Parsing The Request (php2shell trigger condition)
+id: 3d0b6f0e-6c1a-4f7e-9a52-1f0c9d2b7a61
+status: experimental
+description: |
+  CVE-2026-109618 / CVE-2026-109619 (fixed in PHP 8.2.35 / 8.3.36 / 8.4.27 / 8.5.12, "Avoid state corruption
+  via bailout"): when memory_limit is reached while PHP parses the request body - before the script runs -
+  unpatched PHP aborts and leaves request state corrupted or stale for the next request on the same worker.
+  PHP reports such errors with the location "Unknown on line 0" because no script is executing yet. This rule
+  matches that message in PHP / PHP-FPM / web server error logs. On an unpatched host every hit is a
+  potential exploitation attempt; a hit followed by a PHP worker crash (see php2shell_php_worker_crash) or by
+  the process-creation rules is strong evidence. Verified: the message is produced by an unpatched PHP 8.3.35
+  build for PHP's own regression-test request body (ORBITRON lab). Log-forwarding paths are UNTESTED.
+references:
+  - https://www.php.net/archive/2026.php#2026-10-21-2
+  - https://github.com/orbitron-ai/php2shell-response-kit
+author: ORBITRON
+date: 2026-10-21
+tags:
+  - attack.initial-access
+  - attack.t1190
+  - cve.2026-109618
+  - cve.2026-109619
+logsource:
+  product: linux
+  service: php-fpm
+  definition: 'PHP error_log, PHP-FPM error log (catch_workers_output) and Apache/nginx/LiteSpeed error logs forwarded as raw text'
+detection:
+  keywords_oom:
+    - 'Allowed memory size of'
+  keywords_location:
+    - 'in Unknown on line 0'
+  condition: keywords_oom and keywords_location
+falsepositives:
+  - Legitimate very large form posts or uploads on hosts with a low memory_limit (check the source and request size)
+  - Already patched hosts still log the message (the patched PHP stops cleanly) - lower the severity there
+level: high

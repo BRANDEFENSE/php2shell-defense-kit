@@ -1,0 +1,28 @@
+title: Abnormally Large Default PHP Session Response Cookie
+id: 8f5d3061-e275-58ff-83d8-4c45f0afc768
+status: experimental
+description: Requires custom response-cookie metadata extraction. 4096 bytes is an
+  initial triage threshold, not an exploit signature. Do not store cookie values.
+  This is a hunting lead, not attribution to PHP2Shell or proof of successful exploitation.
+references:
+- https://aws.amazon.com/blogs/security/amazon-threat-intelligence-identifies-php2shell-exploitation-prior-to-public-disclosure-in-madpot/
+- https://www.wiz.io/blog/php2shell-php-rce
+- https://www.php.net/archive/2026.php#2026-10-21-5
+- https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp
+author: Brandefense Research Team
+date: '2026-10-24'
+license: MIT
+tags:
+- attack.t1190
+logsource:
+  category: webserver
+detection:
+  name:
+    ResponseCookieName: PHPSESSID
+  size:
+    ResponseCookieValueLength|gte: 4096
+  condition: name and size
+falsepositives:
+- Custom session implementations
+- Unexpected application bugs
+level: medium

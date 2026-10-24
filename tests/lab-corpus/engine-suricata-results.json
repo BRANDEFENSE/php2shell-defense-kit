@@ -1,0 +1,136 @@
+{
+ "engine": "suricata",
+ "summary": {
+  "sid 20260001 PHP upload progress field with body session id": {
+   "attack-oom": {
+    "hit": 2,
+    "total": 22
+   },
+   "benign": {
+    "hit": 0,
+    "total": 96
+   },
+   "attack-leak": {
+    "hit": 2,
+    "total": 2
+   },
+   "patched-graceful": {
+    "hit": 4,
+    "total": 24
+   }
+  },
+  "sid 3000650 CORELIGHT EXPLOIT php2shell CVE-2026-109618 / CVE-2026-109619 Potential RCE in PHP longjmp": {
+   "attack-oom": {
+    "hit": 2,
+    "total": 22
+   },
+   "benign": {
+    "hit": 4,
+    "total": 96
+   },
+   "attack-leak": {
+    "hit": 2,
+    "total": 2
+   },
+   "patched-graceful": {
+    "hit": 4,
+    "total": 24
+   }
+  },
+  "sid 20260004 PHP upload progress field with large multipart body": {
+   "attack-oom": {
+    "hit": 1,
+    "total": 22
+   },
+   "benign": {
+    "hit": 0,
+    "total": 96
+   },
+   "attack-leak": {
+    "hit": 0,
+    "total": 2
+   },
+   "patched-graceful": {
+    "hit": 0,
+    "total": 24
+   }
+  },
+  "sid 20260006 PHP multipart part-header inflation (CVE-2026-109618 OOM strategy)": {
+   "attack-oom": {
+    "hit": 2,
+    "total": 22
+   },
+   "benign": {
+    "hit": 0,
+    "total": 96
+   },
+   "attack-leak": {
+    "hit": 0,
+    "total": 2
+   },
+   "patched-graceful": {
+    "hit": 2,
+    "total": 24
+   }
+  },
+  "sid 3000651 CORELIGHT EXPLOIT php2shell CVE-2026-109618 / CVE-2026-109619 Potential RCE in PHP longjmp": {
+   "attack-oom": {
+    "hit": 4,
+    "total": 22
+   },
+   "benign": {
+    "hit": 0,
+    "total": 96
+   },
+   "attack-leak": {
+    "hit": 0,
+    "total": 2
+   },
+   "patched-graceful": {
+    "hit": 0,
+    "total": 24
+   }
+  }
+ },
+ "hits": {
+  "sid 3000651 CORELIGHT EXPLOIT php2shell CVE-2026-109618 / CVE-2026-109619 Potential RCE in PHP longjmp": [
+   "fpm-8.3.35-stock #0 hdr600k [attack-oom] GHSA-f883-007 600k part headers, 3 MB body",
+   "fpm-8.3.35-oom #0 hdrcount [attack-oom] oom_rfc1867_header_count 150k headers",
+   "apache-8.3.35-stock #0 hdr600k [attack-oom] GHSA-f883-007 600k part headers, 3 MB body",
+   "apache-8.3.35-oom #0 hdrcount [attack-oom] oom_rfc1867_header_count 150k headers"
+  ],
+  "sid 20260001 PHP upload progress field with body session id": [
+   "fpm-8.3.35-stock #2 leak [attack-leak] rfc1867_no_user_code upload-progress with another ",
+   "fpm-8.3.35-oom #17 progress [attack-oom] oom_rfc1867_upload_progress 4000 file parts",
+   "fpm-8.3.36-stock #2 leak [patched-graceful] rfc1867_no_user_code upload-progress with another ",
+   "fpm-8.3.36-oom #17 progress [patched-graceful] oom_rfc1867_upload_progress 4000 file parts",
+   "apache-8.3.35-stock #2 leak [attack-leak] rfc1867_no_user_code upload-progress with another ",
+   "apache-8.3.35-oom #17 progress [attack-oom] oom_rfc1867_upload_progress 4000 file parts",
+   "apache-8.3.36-stock #2 leak [patched-graceful] rfc1867_no_user_code upload-progress with another ",
+   "apache-8.3.36-oom #17 progress [patched-graceful] oom_rfc1867_upload_progress 4000 file parts"
+  ],
+  "sid 3000650 CORELIGHT EXPLOIT php2shell CVE-2026-109618 / CVE-2026-109619 Potential RCE in PHP longjmp": [
+   "fpm-8.3.35-stock #2 leak [attack-leak] rfc1867_no_user_code upload-progress with another ",
+   "fpm-8.3.35-stock #7 benign [benign] benign legitimate upload-progress bar upload (own ",
+   "fpm-8.3.35-oom #17 progress [attack-oom] oom_rfc1867_upload_progress 4000 file parts",
+   "fpm-8.3.36-stock #2 leak [patched-graceful] rfc1867_no_user_code upload-progress with another ",
+   "fpm-8.3.36-stock #7 benign [benign] benign legitimate upload-progress bar upload (own ",
+   "fpm-8.3.36-oom #17 progress [patched-graceful] oom_rfc1867_upload_progress 4000 file parts",
+   "apache-8.3.35-stock #2 leak [attack-leak] rfc1867_no_user_code upload-progress with another ",
+   "apache-8.3.35-stock #7 benign [benign] benign legitimate upload-progress bar upload (own ",
+   "apache-8.3.35-oom #17 progress [attack-oom] oom_rfc1867_upload_progress 4000 file parts",
+   "apache-8.3.36-stock #2 leak [patched-graceful] rfc1867_no_user_code upload-progress with another ",
+   "apache-8.3.36-stock #7 benign [benign] benign legitimate upload-progress bar upload (own ",
+   "apache-8.3.36-oom #17 progress [patched-graceful] oom_rfc1867_upload_progress 4000 file parts"
+  ],
+  "sid 20260006 PHP multipart part-header inflation (CVE-2026-109618 OOM strategy)": [
+   "fpm-8.3.35-oom #0 hdrcount [attack-oom] oom_rfc1867_header_count 150k headers",
+   "fpm-8.3.36-oom #0 hdrcount [patched-graceful] oom_rfc1867_header_count 150k headers",
+   "apache-8.3.35-oom #0 hdrcount [attack-oom] oom_rfc1867_header_count 150k headers",
+   "apache-8.3.36-oom #0 hdrcount [patched-graceful] oom_rfc1867_header_count 150k headers"
+  ],
+  "sid 20260004 PHP upload progress field with large multipart body": [
+   "apache-8.3.35-oom #17 progress [attack-oom] oom_rfc1867_upload_progress 4000 file parts"
+  ]
+ }
+}

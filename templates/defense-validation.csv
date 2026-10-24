@@ -1,0 +1,2 @@
+experiment_id,build_commit_or_digest,sapi,control,reference_outcome,request_rejected_before_origin,worker_terminated,synthetic_marker_observed,response_blocked,alert_generated,legitimate_traffic_impact,telemetry_gaps,result
+EXAMPLE_ONLY,record_exact_build,record_sapi,record_one_control,not_run,not_run,not_run,not_run,not_run,not_run,not_run,not_assessed,not_run

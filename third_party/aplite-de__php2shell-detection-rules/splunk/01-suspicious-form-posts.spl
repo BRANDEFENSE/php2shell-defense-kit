@@ -1,0 +1,23 @@
+``` PHP2Shell (CVE-2026-109618, CVE-2026-109619)
+    Query 01. Suspicious form POSTs in web server access logs.
+    Finds multipart POSTs to URLs that never take uploads: chunked bodies, bursts
+    from one source, and POSTs that fail with a 5xx. The attack body is small (a few
+    hundred KB in our lab), so a large body is only one of several triggers.
+    Data      Web server access logs in the format from log-formats/. Works with any sourcetype.
+    Schedule  Every hour with earliest=-1h. For the first run, use earliest="10/20/2026:00:00:00".
+    Severity  Medium
+    Tuning    Change the index and sourcetypes. Add your real upload URLs to the IN list. ```
+index=web (sourcetype=access_combined OR sourcetype=nginx*) "POST" earliest=-1h
+| rex field=_raw "^(?<src_ip>\S+) \S+ \S+ \[[^\]]+\] \"(?<method>\S+) (?<uri_path>[^\s?]+)\S* [^\"]*\" (?<status>\d{3}) \S+ \"[^\"]*\" \"(?<ua>[^\"]*)\" ct=\"(?<ct>[^\"]*)\" te=\"(?<te>[^\"]*)\" reqlen=(?<reqlen>\d+)"
+| search method=POST NOT uri_path IN ("/wp-admin/async-upload.php")
+| eval ct=lower(ct), te=lower(te), reqlen=tonumber(reqlen), status=tonumber(status)
+| eval multipart=if(like(ct, "multipart/form-data%"), 1, 0),
+       chunked_mp=if(multipart=1 AND like(te, "%chunked%"), 1, 0),
+       large_form=if((multipart=1 OR like(ct, "application/x-www-form-urlencoded%")) AND reqlen>1000000, 1, 0),
+       err=if(status>=500, 1, 0)
+| bin _time span=10m
+| stats count AS posts sum(multipart) AS multipart_posts sum(chunked_mp) AS chunked_multipart sum(large_form) AS large_forms sum(err) AS server_errors values(uri_path) AS paths values(ua) AS user_agents BY _time src_ip host
+``` Chunked, oversized, a burst, or a multipart POST that errored out. The memory
+    crash surfaces here as a 5xx, so one failing multipart POST is enough to flag. ```
+| where chunked_multipart>0 OR large_forms>0 OR multipart_posts>=10 OR (multipart_posts>0 AND server_errors>0)
+| sort -multipart_posts

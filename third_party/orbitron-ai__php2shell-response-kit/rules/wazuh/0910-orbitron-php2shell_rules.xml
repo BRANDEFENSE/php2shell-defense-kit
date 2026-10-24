@@ -1,0 +1,140 @@
+<!--
+  ORBITRON php2shell (CVE-2026-109618 / CVE-2026-109619) - Wazuh rules   v1.0.0 (2026-10-21)
+  Post-exploitation / hunting rules. NOT specific to the CVEs. UNTESTED against a live manager:
+  validate with /var/ossec/bin/wazuh-logtest before enabling, and change the IDs if 109610-109629
+  collide with your local rules.
+  Install: copy to /var/ossec/etc/rules/ on the manager, restart wazuh-manager.
+  Linux process rules need the audit rules in auditd-php2shell.rules (key php2shell_webexec) and
+  <localfile><log_format>audit</log_format><location>/var/log/audit/audit.log</location></localfile>.
+  Windows rules need Sysmon (EventID 1 and 11) collected by the agent.
+-->
+
+<group name="php2shell,linux,audit,">
+
+  <!-- Any program executed by the web server account (www-data / apache / nginx) -->
+  <rule id="109610" level="6">
+    <if_sid>80700</if_sid>
+    <field name="audit.key">php2shell_webexec</field>
+    <description>php2shell: program executed by web server account: $(audit.exe)</description>
+    <mitre><id>T1505.003</id></mitre>
+  </rule>
+
+  <!-- Reverse shell / staging / recon command line (evaluated before the generic child rule) -->
+  <rule id="109613" level="14">
+    <if_sid>109610</if_sid>
+    <field name="audit.execve.a2" type="pcre2">/dev/(tcp|udp)/|mkfifo|fsockopen|bash -i|sh -i|nc -e|ncat -e|socat exec|base64 (-d|--decode)|\|\s*(ba)?sh\b|chmod \+x|/dev/shm/|/etc/(passwd|shadow)|uname -a|whoami</field>
+    <description>php2shell: web server account ran reverse-shell/recon command line: $(audit.execve.a2)</description>
+    <mitre><id>T1059.004</id><id>T1190</id></mitre>
+  </rule>
+
+  <!-- Shell, interpreter, download or recon tool started by the web server account -->
+  <rule id="109611" level="12">
+    <if_sid>109610</if_sid>
+    <field name="audit.exe" type="pcre2">/(sh|bash|dash|zsh|ksh|ash|busybox|python[0-9.]*|perl|ruby|nc|ncat|netcat|socat|curl|wget|telnet|openssl|base64|whoami|id|uname|hostname|ifconfig|crontab|mkfifo|nohup)$</field>
+    <description>php2shell: web server account started shell/interpreter/tool $(audit.exe)</description>
+    <mitre><id>T1059.004</id><id>T1505.003</id></mitre>
+  </rule>
+
+  <!-- Downgrade PHP mail() -> sh -c sendmail -->
+  <rule id="109612" level="3">
+    <if_sid>109611</if_sid>
+    <field name="audit.execve.a2" type="pcre2">sendmail|postdrop|exim|msmtp</field>
+    <description>php2shell: web server account invoked mail transfer agent (PHP mail(), expected)</description>
+  </rule>
+
+</group>
+
+<group name="php2shell,syscheck,">
+
+  <!-- New PHP-executable file or per-directory config inside monitored web roots (syscheck "file added") -->
+  <rule id="109615" level="10">
+    <if_sid>554</if_sid>
+    <field name="file" type="pcre2">(?i)\.(php[0-9]?|phtml|phar|pht)$|/\.user\.ini$|/\.htaccess$</field>
+    <description>php2shell: new PHP-executable file or per-directory config in web root: $(file)</description>
+    <mitre><id>T1505.003</id></mitre>
+  </rule>
+
+  <!-- Modified .user.ini / .htaccess (auto_prepend_file persistence) -->
+  <rule id="109616" level="10">
+    <if_sid>550</if_sid>
+    <field name="file" type="pcre2">(?i)/\.user\.ini$|/\.htaccess$</field>
+    <description>php2shell: per-directory PHP config modified: $(file)</description>
+    <mitre><id>T1505.003</id></mitre>
+  </rule>
+
+</group>
+
+<group name="php2shell,web,">
+
+  <!-- PHP-FPM / Apache worker crashed with a memory-corruption signal -->
+  <rule id="109625" level="7">
+    <match type="pcre2">exited on signal (11|6|7)\b|exit signal (Segmentation fault|Aborted|Bus error)</match>
+    <description>php2shell: PHP worker / Apache child crashed with memory-corruption signal</description>
+    <mitre><id>T1190</id></mitre>
+  </rule>
+
+  <rule id="109626" level="12" frequency="5" timeframe="300">
+    <if_matched_sid>109625</if_matched_sid>
+    <description>php2shell: burst of PHP worker crashes (5 in 5 min) - possible exploitation attempts</description>
+    <mitre><id>T1190</id></mitre>
+  </rule>
+
+  <!-- PHP hit memory_limit while parsing the request (before the script ran): php2shell trigger condition.
+       Fixed in PHP 8.2.35 / 8.3.36 / 8.4.27 / 8.5.12; patched PHP still logs it but stops cleanly. -->
+  <rule id="109627" level="10">
+    <match type="pcre2">Allowed memory size of \d+ bytes exhausted.* in (&lt;b&gt;)?Unknown(&lt;/b&gt;)? on line (&lt;b&gt;)?0\b</match>
+    <description>php2shell: PHP ran out of memory while parsing the request (trigger condition)</description>
+    <mitre><id>T1190</id></mitre>
+  </rule>
+
+  <rule id="109628" level="14" timeframe="120">
+    <if_sid>109625</if_sid>
+    <if_matched_sid>109627</if_matched_sid>
+    <description>php2shell: PHP worker crash shortly after an out-of-memory during request parsing - likely exploitation attempt</description>
+    <mitre><id>T1190</id></mitre>
+  </rule>
+
+  <rule id="109629" level="12" frequency="5" timeframe="300">
+    <if_matched_sid>109627</if_matched_sid>
+    <description>php2shell: repeated out-of-memory during request parsing (5 in 5 min)</description>
+    <mitre><id>T1190</id></mitre>
+  </rule>
+
+  <!-- PHP-FPM exits a worker with FPM_EXIT_SOFTWARE (70) when request start-up fails. For php2shell the
+       relevant cause is an out-of-memory during request parsing (lab-verified): the worker does NOT crash
+       with a signal, it exits cleanly with code 70. This is the most common observable of the OOM trigger
+       on PHP-FPM, which the signal-based crash rule (109625) does not catch. -->
+  <rule id="109630" level="7">
+    <match type="pcre2">exited with code 70\b</match>
+    <description>php2shell: PHP-FPM worker exited with code 70 (request start-up failure; OOM during parsing is the php2shell-relevant cause)</description>
+    <mitre><id>T1190</id></mitre>
+  </rule>
+
+  <rule id="109631" level="13" timeframe="120">
+    <if_sid>109630</if_sid>
+    <if_matched_sid>109627</if_matched_sid>
+    <description>php2shell: PHP-FPM worker exited with code 70 right after an out-of-memory during request parsing - OOM trigger confirmed on this worker</description>
+    <mitre><id>T1190</id></mitre>
+  </rule>
+
+</group>
+
+<group name="php2shell,windows,sysmon,">
+
+  <rule id="109620" level="12">
+    <if_group>sysmon_event1</if_group>
+    <field name="win.eventdata.parentImage" type="pcre2">(?i)(php-cgi|php|httpd|w3wp)\.exe$</field>
+    <field name="win.eventdata.image" type="pcre2">(?i)\\(cmd|powershell|pwsh|certutil|bitsadmin|mshta|rundll32|regsvr32|wscript|cscript|whoami|net1?|systeminfo|ipconfig|nltest|tasklist|quser|curl)\.exe$</field>
+    <description>php2shell: $(win.eventdata.parentImage) started $(win.eventdata.image)</description>
+    <mitre><id>T1059.001</id><id>T1059.003</id><id>T1505.003</id></mitre>
+  </rule>
+
+  <rule id="109621" level="10">
+    <if_group>sysmon_event_11</if_group>
+    <field name="win.eventdata.image" type="pcre2">(?i)(php-cgi|php|httpd|w3wp)\.exe$</field>
+    <field name="win.eventdata.targetFilename" type="pcre2">(?i)\\(inetpub|htdocs|www|wwwroot)\\.*(\.(php[0-9]?|phtml|phar|aspx|ashx)|\\\.user\.ini|\\\.htaccess|\\web\.config)$</field>
+    <description>php2shell: $(win.eventdata.image) wrote script/config to web root: $(win.eventdata.targetFilename)</description>
+    <mitre><id>T1505.003</id></mitre>
+  </rule>
+
+</group>

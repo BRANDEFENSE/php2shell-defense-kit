@@ -1,0 +1,8 @@
+## ORBITRON php2shell - auditd rules (copy to /etc/audit/rules.d/php2shell.rules, then: augenrules --load)
+## Record every program executed by the web server account. Replace the UIDs with the output of
+##   id -u www-data   (Debian/Ubuntu, usually 33)   |   id -u apache   (RHEL family, usually 48)   |   id -u nginx
+## Volume is normally low: PHP workers rarely exec. Expect mail() -> sendmail entries.
+-a always,exit -F arch=b64 -S execve -F euid=33 -k php2shell_webexec
+-a always,exit -F arch=b32 -S execve -F euid=33 -k php2shell_webexec
+-a always,exit -F arch=b64 -S execve -F euid=48 -k php2shell_webexec
+-a always,exit -F arch=b32 -S execve -F euid=48 -k php2shell_webexec

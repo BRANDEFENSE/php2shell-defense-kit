@@ -1,0 +1,28 @@
+title: PHP Execution Time Limit Exceeded
+id: 062cb6e4-ceb1-5202-8706-d37ad861e212
+status: experimental
+description: Execution timeout can be relevant to interrupted state; it is not by
+  itself malicious. This is a producer signal only (the error the advisory describes can cause), not evidence of exploitation. This is a hunting lead, not attribution to PHP2Shell or proof
+  of successful exploitation.
+references:
+- https://www.wiz.io/blog/php2shell-php-rce
+- https://www.php.net/archive/2026.php#2026-10-21-5
+- https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp
+author: Brandefense Research Team
+date: '2026-10-24'
+license: MIT
+tags:
+- attack.t1190
+- attack.t1499
+logsource:
+  product: php
+  service: error
+detection:
+  selection:
+    Message|contains|all:
+    - Maximum execution time of
+    - exceeded
+  condition: selection
+falsepositives:
+- Slow imports and external APIs
+level: low

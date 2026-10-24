@@ -1,0 +1,239 @@
+[
+  {
+    "file": "rules/sigma/linux_web_shell.yml",
+    "id": "80072f48-e78a-5af6-beb2-d94fa70ecb0d",
+    "title": "Linux Web Runtime Spawning a Shell",
+    "scope": "generic_post_exploitation",
+    "level": "high",
+    "fields": [
+      "Image",
+      "ParentImage"
+    ]
+  },
+  {
+    "file": "rules/sigma/linux_web_downloader.yml",
+    "id": "c0dc1d10-27db-5b7e-af99-91f42d8f1bb8",
+    "title": "Linux Web Runtime Spawning a Downloader",
+    "scope": "generic_post_exploitation",
+    "level": "medium",
+    "fields": [
+      "Image",
+      "ParentImage"
+    ]
+  },
+  {
+    "file": "rules/sigma/linux_web_interpreter.yml",
+    "id": "acf78751-1464-5768-99b9-6f60778c60c6",
+    "title": "Linux Web Runtime Spawning Another Interpreter",
+    "scope": "generic_post_exploitation",
+    "level": "medium",
+    "fields": [
+      "Image",
+      "ParentImage"
+    ]
+  },
+  {
+    "file": "rules/sigma/linux_web_secret_command.yml",
+    "id": "d07d5d9f-3953-5b87-9508-9b050d3133d9",
+    "title": "Linux Web Runtime Child Referencing Sensitive Credential Paths",
+    "scope": "generic_post_exploitation",
+    "level": "high",
+    "fields": [
+      "CommandLine",
+      "ParentImage"
+    ]
+  },
+  {
+    "file": "rules/sigma/linux_web_persistence_command.yml",
+    "id": "2ae4533b-2c25-5e58-a364-5dcc7591ca4e",
+    "title": "Linux Web Runtime Child Referencing Persistence Locations",
+    "scope": "generic_post_exploitation",
+    "level": "high",
+    "fields": [
+      "CommandLine",
+      "ParentImage"
+    ]
+  },
+  {
+    "file": "rules/sigma/linux_web_temp_child.yml",
+    "id": "e885103d-4e3e-58a1-89e9-45c744f17651",
+    "title": "Linux Web Runtime Executing a Child from Writable Temporary Paths",
+    "scope": "generic_post_exploitation",
+    "level": "high",
+    "fields": [
+      "Image",
+      "ParentImage"
+    ]
+  },
+  {
+    "file": "rules/sigma/linux_webroot_php_write.yml",
+    "id": "67118697-e5a2-5dcd-897d-6735d2f1eba6",
+    "title": "Linux Web Runtime Writing PHP-like Content in a Web Root",
+    "scope": "generic_post_exploitation",
+    "level": "low",
+    "fields": [
+      "Image",
+      "TargetFilename"
+    ]
+  },
+  {
+    "file": "rules/sigma/windows_web_shell.yml",
+    "id": "42e004f6-a0a0-519f-acb5-ee2db3f7b805",
+    "title": "Windows Web Runtime Spawning a Command Interpreter",
+    "scope": "generic_post_exploitation",
+    "level": "high",
+    "fields": [
+      "Image",
+      "ParentImage"
+    ]
+  },
+  {
+    "file": "rules/sigma/windows_web_transfer.yml",
+    "id": "322abe4f-f01d-5c55-b245-a0b8b5f6b774",
+    "title": "Windows Web Runtime Spawning Transfer Utilities",
+    "scope": "generic_post_exploitation",
+    "level": "medium",
+    "fields": [
+      "Image",
+      "ParentImage"
+    ]
+  },
+  {
+    "file": "rules/sigma/windows_webroot_php_write.yml",
+    "id": "962131e4-db56-57bc-8560-dce96e2e8180",
+    "title": "Windows Web Runtime Writing PHP-like Content in IIS Web Root",
+    "scope": "generic_post_exploitation",
+    "level": "low",
+    "fields": [
+      "Image",
+      "TargetFilename"
+    ]
+  },
+  {
+    "file": "rules/sigma/http_upload_progress_field.yml",
+    "id": "49b62df5-a426-58d6-a566-a4a27cd17dd0",
+    "title": "HTTP POST with Default PHP Upload Progress Parameter",
+    "scope": "php2shell_related_hunting_signal",
+    "level": "informational",
+    "fields": [
+      "BodyParameterNames",
+      "cs-method"
+    ]
+  },
+  {
+    "file": "rules/sigma/http_large_session_cookie.yml",
+    "id": "8f5d3061-e275-58ff-83d8-4c45f0afc768",
+    "title": "Abnormally Large Default PHP Session Response Cookie",
+    "scope": "php2shell_related_hunting_signal",
+    "level": "medium",
+    "fields": [
+      "ResponseCookieName",
+      "ResponseCookieValueLength"
+    ]
+  },
+  {
+    "file": "rules/sigma/php_memory_exhaustion.yml",
+    "id": "ac78a8cc-e840-5bb5-be6e-9f06ea7b6cf7",
+    "title": "PHP Allowed Memory Size Exhaustion at Request Startup (narrowed)",
+    "scope": "runtime_anomaly",
+    "level": "low",
+    "fields": [
+      "Message"
+    ],
+    "status": "deprecated"
+  },
+  {
+    "file": "rules/sigma/php_execution_timeout.yml",
+    "id": "062cb6e4-ceb1-5202-8706-d37ad861e212",
+    "title": "PHP Execution Time Limit Exceeded",
+    "scope": "runtime_anomaly",
+    "level": "low",
+    "fields": [
+      "Message"
+    ]
+  },
+  {
+    "file": "rules/sigma/linux_php_worker_crash.yml",
+    "id": "83268377-ff33-513c-bc29-f72d00920a47",
+    "title": "Linux PHP or Web Worker Segmentation Fault",
+    "scope": "runtime_anomaly",
+    "level": "medium",
+    "fields": [
+      "Message"
+    ]
+  },
+  {
+    "file": "rules/sigma/php_startup_oom_fatal.yml",
+    "id": "3915dc05-5060-4706-bbaf-89b78b9c9681",
+    "title": "PHP Out-of-Memory Fatal During Request Startup",
+    "scope": "runtime_anomaly",
+    "level": "low",
+    "fields": [
+      "Message"
+    ],
+    "lab_validated": "see docs/lab-validation.md"
+  },
+  {
+    "file": "rules/sigma/php_fpm_child_exit_70_storm.yml",
+    "id": "b175fdef-2d56-473f-9be0-10b354aacf3f",
+    "title": "PHP-FPM Worker Exited With Code 70 (Single Event and Storm)",
+    "scope": "runtime_anomaly",
+    "level": "low",
+    "fields": [
+      "Message",
+      "host (correlation)",
+      "PoolName (correlation, extracted from the [pool NAME] token)"
+    ],
+    "lab_validated": "see docs/lab-validation.md",
+    "correlation_id": "ad394136-5af6-45d0-8810-9cbe7b8da018",
+    "correlation": ">=5 in 5m per host and pool"
+  },
+  {
+    "file": "rules/sigma/nginx_body_too_large.yml",
+    "id": "25bee979-0b7c-4e49-9e4c-77693459f174",
+    "title": "nginx Rejected an Oversized Request Body",
+    "scope": "frontend_limit_signal",
+    "level": "informational",
+    "fields": [
+      "Message"
+    ],
+    "lab_validated": "see docs/lab-validation.md"
+  },
+  {
+    "file": "rules/sigma/http_post_rejected_413.yml",
+    "id": "dc1817d9-a830-4db7-b157-68085c6dc052",
+    "title": "Oversized POST Rejected With HTTP 413",
+    "scope": "frontend_limit_signal",
+    "level": "informational",
+    "fields": [
+      "cs-method",
+      "sc-status"
+    ],
+    "lab_validated": "see docs/lab-validation.md"
+  },
+  {
+    "file": "rules/sigma/http_upload_progress_with_body_session_id.yml",
+    "id": "426eb98a-ba38-430a-877e-17e211c2c148",
+    "title": "Upload-Progress Field Together With a Session Id in the Body",
+    "scope": "php2shell_related_hunting_signal",
+    "level": "medium",
+    "fields": [
+      "cs-method",
+      "BodyParameterNames"
+    ],
+    "lab_validated": "see docs/lab-validation.md"
+  },
+  {
+    "file": "rules/sigma/http_multipart_flood.yml",
+    "id": "6df09586-c65a-4eca-b588-26a5ca4b29ae",
+    "title": "Multipart POST With Extreme Part or Part-Header Count",
+    "scope": "php2shell_related_hunting_signal",
+    "level": "low",
+    "fields": [
+      "cs-method",
+      "PartHeaderCount",
+      "PartCount"
+    ],
+    "lab_validated": "see docs/lab-validation.md"
+  }
+]

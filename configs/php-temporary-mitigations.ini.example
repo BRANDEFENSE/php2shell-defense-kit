@@ -1,0 +1,12 @@
+; Reference only. Do not install wholesale. Verify branch and startup-effective scope.
+; These settings do NOT replace the two original PHP runtime fixes.
+; Session paths / applicable October 23 follow-up:
+session.upload_progress.enabled = 0
+; PHP 8.5 only, confirmed backtrace path:
+; fatal_error_backtraces = 0
+; OOM partial mitigation requires independent resource containment and review:
+; memory_limit = -1
+; Choose application-compatible limits; frontend decoded/work limits are separate.
+; post_max_size = 8M
+; upload_max_filesize = 7M
+; Restart every relevant worker and verify the HTTP-serving effective values.

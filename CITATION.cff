@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "Please cite this version and its validation scope when using this defensive kit."
+title: "PHP2Shell Defense Kit: How to Defend Against PHP2Shell"
+type: software
+authors:
+  - name: "Brandefense Research Team"
+version: 0.3.0
+date-released: 2026-10-24
+license: MIT # code; documentation CC-BY-4.0

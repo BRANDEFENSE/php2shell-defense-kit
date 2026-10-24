@@ -1,0 +1,79 @@
+title: PHP or Web Server Process Spawns Shell, Interpreter or Download Tool (php2shell post-exploitation)
+id: 120e77fd-91e2-4cdd-ba44-6f2b5fad42c4
+status: experimental
+description: |
+  Detects a PHP worker (php-fpm, php-cgi, lsphp) or an Apache process running mod_php that starts a shell,
+  a scripting interpreter, a network/download tool or a reconnaissance binary. This is the expected first
+  observable step after remote code execution through CVE-2026-109618 / CVE-2026-109619 ("php2shell") or
+  through any PHP webshell. It is NOT specific to these CVEs - it detects post-exploitation behaviour.
+  UNTESTED in production SIEMs: baseline 1-2 hours and tune before alerting.
+references:
+  - https://www.php.net/archive/2026.php#2026-10-20-1
+  - https://blog.flatt.tech/entry/php2shell
+  - https://www.huntress.com/blog/php2shell-leaked-critical-php-vulnerabilities
+author: ORBITRON
+date: 2026-10-21
+tags:
+  - attack.execution
+  - attack.t1059.004
+  - attack.persistence
+  - attack.t1505.003
+  - attack.initial-access
+  - attack.t1190
+  - cve.2026-109618
+  - cve.2026-109619
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection_parent_php:
+    ParentImage|contains:
+      - 'php-fpm'
+      - 'php-cgi'
+      - 'lsphp'
+  selection_parent_apache:
+    ParentImage|endswith:
+      - 'httpd'
+      - 'apache2'
+  selection_child:
+    Image|endswith:
+      - '/sh'
+      - '/bash'
+      - '/dash'
+      - '/zsh'
+      - '/ksh'
+      - '/ash'
+      - '/busybox'
+      - '/python'
+      - '/python2'
+      - '/python3'
+      - '/perl'
+      - '/ruby'
+      - '/nc'
+      - '/ncat'
+      - '/netcat'
+      - '/socat'
+      - '/curl'
+      - '/wget'
+      - '/telnet'
+      - '/openssl'
+      - '/base64'
+      - '/whoami'
+      - '/id'
+      - '/uname'
+      - '/hostname'
+      - '/ifconfig'
+      - '/crontab'
+      - '/mkfifo'
+      - '/nohup'
+  filter_mail:
+    CommandLine|contains:
+      - 'sendmail'
+      - 'postdrop'
+      - 'exim'
+      - 'msmtp'
+  condition: 1 of selection_parent_* and selection_child and not filter_mail
+falsepositives:
+  - PHP applications that legitimately call exec()/shell_exec()/proc_open() (image processing, PDF tools, git based deploys, backup plugins, control panels)
+  - mail() on hosts where the sendmail wrapper is not covered by the filter
+level: high

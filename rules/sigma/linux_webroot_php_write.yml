@@ -1,0 +1,39 @@
+title: Linux Web Runtime Writing PHP-like Content in a Web Root
+id: 67118697-e5a2-5dcd-897d-6735d2f1eba6
+status: experimental
+description: Detects creation or modification if the source emits file writes. Extend
+  configured roots; legitimate CMS updates match. Level is low because CMS updates match constantly; alert only on files that did not exist before, outside your deployment windows, or correlate with another signal. This is a hunting lead, not attribution
+  to PHP2Shell or proof of successful exploitation.
+references:
+- https://www.php.net/archive/2026.php#2026-10-21-5
+- https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp
+author: Brandefense Research Team
+date: '2026-10-24'
+license: MIT
+tags:
+- attack.t1505.003
+logsource:
+  product: linux
+  category: file_event
+detection:
+  writer:
+    Image|re: (^|/)(php-fpm[0-9.]*|php-cgi[0-9.]*|lsphp[0-9.]*|frankenphp|sw-engine-fpm|apache2|httpd)$
+  root:
+    TargetFilename|startswith:
+    - /var/www/
+    - /srv/www/
+    - /usr/share/nginx/html/
+  extension:
+    TargetFilename|endswith:
+    - .php
+    - .phtml
+    - .php5
+    - .php7
+    - .phar
+  condition: writer and root and extension
+falsepositives:
+- Package-manager, CMS core, plugin and theme updates that run as the web user (WordPress alone writes PHP files on every update)
+- Cache and optimisation plugins that generate PHP files
+- CMS plugin/theme updates
+- Admin edits and deployments
+level: low

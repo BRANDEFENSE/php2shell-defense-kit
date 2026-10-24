@@ -1,0 +1,46 @@
+title: PHP or Web Server Process Writes Executable Script or Per-Directory Config to Web Root (Windows)
+id: e4ae4b72-d043-4906-ab1d-d7cfe24ed018
+status: experimental
+description: |
+  Detects php-cgi.exe / php.exe / httpd.exe / w3wp.exe creating server-side script files or per-directory
+  configuration in typical web roots - webshell drop or persistence after code execution
+  (e.g. CVE-2026-109618 / CVE-2026-109619). Requires Sysmon EventID 11 or EDR file telemetry. UNTESTED.
+references:
+  - https://blog.flatt.tech/entry/php2shell
+author: ORBITRON
+date: 2026-10-21
+tags:
+  - attack.persistence
+  - attack.t1505.003
+  - cve.2026-109618
+  - cve.2026-109619
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection_writer:
+    Image|endswith:
+      - 'php-cgi.exe'
+      - 'php.exe'
+      - 'httpd.exe'
+      - 'w3wp.exe'
+  selection_path:
+    TargetFilename|contains:
+      - '\inetpub\'
+      - '\htdocs\'
+      - '\www\'
+      - '\wwwroot\'
+  selection_ext:
+    TargetFilename|endswith:
+      - '.php'
+      - '.phtml'
+      - '.phar'
+      - '.aspx'
+      - '.ashx'
+      - '\.user.ini'
+      - '\.htaccess'
+      - '\web.config'
+  condition: selection_writer and selection_path and selection_ext
+falsepositives:
+  - CMS/application self-updates, cache files written as PHP, deployment tooling running inside the web server
+level: medium

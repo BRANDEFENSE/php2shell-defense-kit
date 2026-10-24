@@ -1,0 +1,9 @@
+// Generic direct-child hunting; not proof of PHP2Shell. Review locally before use.
+DeviceProcessEvents
+| where Timestamp > ago(7d)
+| where InitiatingProcessFileName in~ ("php", "php.exe", "php-cgi", "php-cgi.exe", "httpd", "httpd.exe", "apache2", "lsphp", "frankenphp", "w3wp.exe")
+    or InitiatingProcessFileName startswith "php-fpm"
+    or InitiatingProcessFileName startswith "lsphp"
+| where FileName in~ ("sh", "bash", "dash", "cmd.exe", "powershell.exe", "pwsh.exe", "curl", "curl.exe", "wget", "python", "python3", "perl", "node")
+| project Timestamp, DeviceId, DeviceName, InitiatingProcessFileName, InitiatingProcessId, FileName, ProcessId, ProcessCommandLine, FolderPath
+| order by Timestamp desc

@@ -1,0 +1,2 @@
+CommandLine IN ("*/etc/cron*", "*/.ssh/authorized_keys*", "*/etc/systemd/system/*")
+| regex ParentImage="(^|/)(php-fpm[0-9.]*|php-cgi[0-9.]*|lsphp[0-9.]*|frankenphp|sw-engine-fpm|apache2|httpd)$"

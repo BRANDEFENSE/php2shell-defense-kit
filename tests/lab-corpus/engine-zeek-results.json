@@ -1,0 +1,56 @@
+{
+ "engine": "zeek",
+ "notices": {
+  "PHP2SHELL::Potentially_Affected_PHP_Version": {
+   "fpm-8.3.35-stock": 1,
+   "fpm-8.3.35-oom": 1,
+   "fpm-8.3.36-stock": 0,
+   "fpm-8.3.36-oom": 0,
+   "apache-8.3.35-stock": 1,
+   "apache-8.3.35-oom": 1,
+   "apache-8.3.36-stock": 0,
+   "apache-8.3.36-oom": 0
+  },
+  "PHP2SHELL::Multipart_Header_Flood": {
+   "fpm-8.3.35-stock": 0,
+   "fpm-8.3.35-oom": 0,
+   "fpm-8.3.36-stock": 0,
+   "fpm-8.3.36-oom": 0,
+   "apache-8.3.35-stock": 0,
+   "apache-8.3.35-oom": 0,
+   "apache-8.3.36-stock": 0,
+   "apache-8.3.36-oom": 0
+  },
+  "PHP2SHELL::Large_Form_Key": {
+   "fpm-8.3.35-stock": 0,
+   "fpm-8.3.35-oom": 0,
+   "fpm-8.3.36-stock": 0,
+   "fpm-8.3.36-oom": 0,
+   "apache-8.3.35-stock": 0,
+   "apache-8.3.35-oom": 0,
+   "apache-8.3.36-stock": 0,
+   "apache-8.3.36-oom": 0
+  },
+  "PHP2SHELL::PHP_Crash_Sequence": {
+   "fpm-8.3.35-stock": 0,
+   "fpm-8.3.35-oom": 0,
+   "fpm-8.3.36-stock": 0,
+   "fpm-8.3.36-oom": 0,
+   "apache-8.3.35-stock": 0,
+   "apache-8.3.35-oom": 0,
+   "apache-8.3.36-stock": 0,
+   "apache-8.3.36-oom": 0
+  },
+  "PHP2SHELL::Serialized_Integer_Overflow": {
+   "fpm-8.3.35-stock": 0,
+   "fpm-8.3.35-oom": 0,
+   "fpm-8.3.36-stock": 0,
+   "fpm-8.3.36-oom": 0,
+   "apache-8.3.35-stock": 0,
+   "apache-8.3.35-oom": 0,
+   "apache-8.3.36-stock": 0,
+   "apache-8.3.36-oom": 0
+  }
+ },
+ "note": "per capture; the version notice is rate-limited to once per hour per server by the package"
+}

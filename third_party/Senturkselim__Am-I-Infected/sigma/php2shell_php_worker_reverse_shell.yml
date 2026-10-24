@@ -1,0 +1,43 @@
+title: PHP2Shell - Reverse-Shell or Downloader Command Line from a PHP/Web Worker
+id: 50c6a546-c6fa-4224-a2d9-cdeb42fd926c
+status: experimental
+description: |
+  Higher-confidence companion to the generic child-process rule: a PHP or web-server worker spawning a
+  process whose command line looks like a reverse shell, a pipe-to-shell download or a staged payload.
+references:
+  - https://www.cybaverse.co.uk/en/php2shell-checker
+author: am-i-infected contributors
+date: 2026-10-23
+tags:
+  - attack.execution
+  - attack.t1059.004
+  - attack.command-and-control
+  - cve.2026-109618
+  - cve.2026-109619
+logsource:
+  category: process_creation
+  product: linux
+detection:
+  parent:
+    ParentImage|contains:
+      - '/php-fpm'
+      - '/php-cgi'
+      - '/lsphp'
+      - '/frankenphp'
+      - '/apache2'
+      - '/httpd'
+  cmd:
+    CommandLine|contains:
+      - '/dev/tcp/'
+      - 'bash -i'
+      - 'mkfifo'
+      - '| sh'
+      - '| bash'
+      - 'base64 -d'
+      - 'base64 --decode'
+      - '/dev/shm/'
+      - 'chmod +x /tmp/'
+  condition: parent and cmd
+falsepositives:
+  - Rare; review every hit
+level: high

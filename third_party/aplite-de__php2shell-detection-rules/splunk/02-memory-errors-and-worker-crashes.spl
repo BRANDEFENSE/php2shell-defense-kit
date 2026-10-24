@@ -1,0 +1,17 @@
+``` PHP2Shell (CVE-2026-109618, CVE-2026-109619)
+    Query 02. Memory errors outside any script, and the worker dying as a result.
+    Normal in-script memory errors and timeouts are left out on purpose. Check them during triage.
+    Data      PHP, PHP-FPM and web server error logs. In our lab the FPM worker exited with
+              code 70 (not a segfault) and nginx logged the lost worker as a 502.
+    Schedule  Every hour with earliest=-1h. For the first run, use earliest="10/20/2026:00:00:00".
+    Severity  Medium (the "possible corruption" rows are worth a closer look)
+    Tuning    Change the index. ```
+index=web ((("Allowed memory size of" OR "Out of memory (allocated") "in Unknown on line 0") OR "exited on signal 11" OR "exit signal Segmentation fault" OR "exited with code 70" OR "unexpected FastCGI record") earliest=-1h
+| eval signal=case(
+    like(_raw, "%in Unknown on line 0%"), "Memory error before any script ran",
+    like(_raw, "%signal 11%") OR like(_raw, "%Segmentation fault%"), "Worker crash (possible corruption)",
+    like(_raw, "%exited with code 70%"), "PHP-FPM worker killed after a fatal",
+    like(_raw, "%unexpected FastCGI record%"), "nginx lost its PHP worker mid-response")
+| bin _time span=10m
+| stats count AS events latest(_raw) AS example BY _time host signal
+| sort -_time

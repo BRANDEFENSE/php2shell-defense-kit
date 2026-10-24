@@ -1,0 +1,29 @@
+title: Linux Web Runtime Spawning a Downloader
+id: c0dc1d10-27db-5b7e-af99-91f42d8f1bb8
+status: experimental
+description: Detects direct downloader execution by a web runtime. Shell-mediated
+  grandchildren need ancestry enrichment. This is a hunting lead, not attribution
+  to PHP2Shell or proof of successful exploitation.
+references:
+- https://www.php.net/archive/2026.php#2026-10-21-5
+- https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp
+author: Brandefense Research Team
+date: '2026-10-24'
+license: MIT
+tags:
+- attack.execution
+- attack.t1105
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  parent:
+    ParentImage|re: (^|/)(php-fpm[0-9.]*|php-cgi[0-9.]*|lsphp[0-9.]*|frankenphp|sw-engine-fpm|apache2|httpd)$
+  child:
+    Image|endswith:
+    - /curl
+    - /wget
+  condition: parent and child
+falsepositives:
+- Legitimate URL fetching by applications
+level: medium

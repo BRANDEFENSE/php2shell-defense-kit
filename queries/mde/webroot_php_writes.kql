@@ -1,0 +1,9 @@
+// File-event coverage depends on platform/policy; CMS updates are common benign matches.
+DeviceFileEvents
+| where Timestamp > ago(7d)
+| where InitiatingProcessFileName startswith "php-fpm" or InitiatingProcessFileName startswith "lsphp"
+    or InitiatingProcessFileName in~ ("php-cgi", "php-cgi.exe", "php.exe", "apache2", "httpd", "httpd.exe", "frankenphp", "w3wp.exe")
+| where FolderPath startswith "/var/www/" or FolderPath startswith "/srv/www/" or FolderPath contains @"\inetpub\wwwroot\"
+| where FileName endswith ".php" or FileName endswith ".phtml" or FileName endswith ".phar"
+| project Timestamp, DeviceId, DeviceName, ActionType, InitiatingProcessFileName, InitiatingProcessId, FolderPath, FileName, SHA256
+| order by Timestamp desc

@@ -1,0 +1,16 @@
+// PHP2Shell (CVE-2026-109618, CVE-2026-109619)
+// Query 03. A PHP or web server process starting a shell, interpreter or download tool.
+// This is the clearest sign that an attack worked.
+// Data      Microsoft Defender for Endpoint (DeviceProcessEvents).
+// Schedule  Every hour, looking back 1 hour. For the first run, set start to datetime(2026-10-20).
+// Severity  High
+// Tuning    Some apps start shells for image or PDF tools. Compare with what each host did before 20 October 2026.
+let start = ago(1h);
+DeviceProcessEvents
+| where TimeGenerated >= start
+| where InitiatingProcessFileName startswith "php"
+     or InitiatingProcessFileName in~ ("httpd", "apache2", "lsphp", "frankenphp")
+| where FileName in~ ("sh", "bash", "dash", "curl", "wget", "python", "python3", "perl", "nc", "ncat", "socat", "base64")
+| where ProcessCommandLine !contains "sendmail" // PHP mail() calls sendmail through sh
+| project TimeGenerated, DeviceName, AccountName, InitiatingProcessFileName, FileName, ProcessCommandLine
+| order by TimeGenerated desc

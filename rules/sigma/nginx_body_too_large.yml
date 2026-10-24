@@ -1,0 +1,25 @@
+title: nginx Rejected an Oversized Request Body
+id: 25bee979-0b7c-4e49-9e4c-77693459f174
+status: experimental
+description: >-
+  nginx error log line 'client intended to send too large body' (HTTP 413) when client_max_body_size stops a large POST. In the Brandefense lab a 1M limit stopped the 3 MB multipart header flood and the large urlencoded bodies before they reached PHP, while small leak-shape requests passed. A good control, a poor alarm: legitimate uploads over the limit match as well. Use it to see who tests your limit, not as an exploit signal.
+references:
+- https://www.php.net/archive/2026.php#2026-10-21-5
+- https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp
+author: Brandefense Research Team
+date: '2026-10-24'
+license: MIT
+tags:
+- attack.t1190
+- attack.t1499
+logsource:
+  product: nginx
+  service: error
+detection:
+  selection:
+    Message|contains: client intended to send too large body
+  condition: selection
+falsepositives:
+- Users uploading files over client_max_body_size
+- Scanners and API clients with oversized bodies
+level: informational

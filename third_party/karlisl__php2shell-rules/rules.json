@@ -1,0 +1,83 @@
+{
+  "rulesVersion": "2026-10-22",
+  "name": "PHP2Shell",
+  "description": "Fixed PHP versions and vendor packages for PHP2Shell, as used by the php2shell.fyi checker. A higher patch release in the same branch also contains the fix.",
+  "checker": "https://php2shell.fyi/",
+  "advisory": {
+    "title": "php.net security advisory, 2026-10-21",
+    "url": "https://www.php.net/archive/2026.php#2026-10-21-5"
+  },
+  "research": "https://www.php2shell.com/",
+  "cves": [
+    {
+      "id": "CVE-2026-109618",
+      "ghsa": "GHSA-w8hw-w9fx-j79w",
+      "url": "https://github.com/php/php-src/security/advisories/GHSA-w8hw-w9fx-j79w",
+      "summary": "Code execution through broken state after PHP runs out of memory.",
+      "cvss": { "version": "4.0", "score": 9.2, "severity": "Critical", "vector": "CVSS:4.0/AV:N/AC:H/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N" }
+    },
+    {
+      "id": "CVE-2026-109619",
+      "ghsa": "GHSA-6wmf-4rv5-p3rp",
+      "url": "https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp",
+      "summary": "Code execution through stale state that one request leaves for the next (use-after-free).",
+      "cvss": { "version": "4.0", "score": 9.2, "severity": "Critical", "vector": "CVSS:4.0/AV:N/AC:H/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N" }
+    }
+  ],
+  "fixed": { "8.2": "8.2.35", "8.3": "8.3.36", "8.4": "8.4.27", "8.5": "8.5.12" },
+  "securitySupportEnds": { "8.2": "2026-12-31", "8.3": "2027-12-31", "8.4": "2028-12-31", "8.5": "2029-12-31" },
+  "securitySupportSource": "https://www.php.net/supported-versions.php",
+  "sourceBackportsOnly": [
+    { "branch": "8.1", "supportEnded": "2025-12-31", "patches": "https://github.com/php/php-src/tree/PHP-8.1-CVE-2026-109618-109619" },
+    { "branch": "8.0", "supportEnded": "2023-11-26", "patches": "https://github.com/php/php-src/tree/PHP-8.0-CVE-2026-109618-109619" },
+    { "branch": "7.4", "supportEnded": "2022-11-28", "patches": "https://github.com/php/php-src/tree/PHP-7.4-CVE-2026-109618-109619" }
+  ],
+  "sourceBackportsNote": "No new PHP release for these branches. Use a patched vendor build, build from the php.net source backport, or upgrade to a fixed branch.",
+  "preRelease": {
+    "version": "8.6.0RC4",
+    "note": "PHP 8.6.0RC4 contains the fixes. Earlier 8.6.0 alpha, beta and RC builds do not. Release candidates are not for production.",
+    "source": "https://github.com/php/php-src/blob/php-8.6.0RC4/NEWS"
+  },
+  "vendorPackages": {
+    "note": "Some distributions keep the old PHP version number in fixed packages. Compare the full package version. Only fixed packages listed on the vendor trackers on 2026-10-22 appear here.",
+    "checked": "2026-10-22",
+    "ubuntu": {
+      "sources": ["https://ubuntu.com/security/CVE-2026-109618", "https://ubuntu.com/security/notices/USN-8948-1", "https://ubuntu.com/security/notices/USN-8948-2"],
+      "packages": [
+        { "release": "26.10", "package": "php8.5", "fixed": "8.5.9-0ubuntu2.1", "notice": "USN-8948-1" },
+        { "release": "26.04", "package": "php8.5", "fixed": "8.5.4-0ubuntu1.5", "notice": "USN-8948-1" },
+        { "release": "24.04", "package": "php8.3", "fixed": "8.3.6-0ubuntu0.24.04.13", "notice": "USN-8948-1" },
+        { "release": "22.04", "package": "php8.1", "fixed": "8.1.2-1ubuntu2.28", "notice": "USN-8948-1" },
+        { "release": "20.04", "package": "php7.4", "fixed": "7.4.3-4ubuntu2.29+esm5", "notice": "USN-8948-2", "requires": "Ubuntu Pro" },
+        { "release": "18.04", "package": "php7.2", "fixed": "7.2.24-0ubuntu0.18.04.17+esm14", "notice": "USN-8948-2", "requires": "Ubuntu Pro" },
+        { "release": "16.04", "package": "php7.0", "fixed": "7.0.33-0ubuntu0.16.04.16+esm22", "notice": "USN-8948-2", "requires": "Ubuntu Pro with Legacy Support" },
+        { "release": "14.04", "package": "php5", "fixed": "5.5.9+dfsg-1ubuntu4.29+esm18", "notice": "USN-8948-2", "requires": "Ubuntu Pro with Legacy Support" }
+      ]
+    },
+    "debian": {
+      "sources": ["https://security-tracker.debian.org/tracker/CVE-2026-109618", "https://security-tracker.debian.org/tracker/CVE-2026-109619"],
+      "packages": [
+        { "release": "13 trixie", "package": "php8.4", "fixed": "8.4.27-1~deb13u1", "advisory": "DSA-6574-1" },
+        { "release": "12 bookworm", "package": "php8.2", "fixed": "8.2.35-1~deb12u1", "advisory": "DLA-4848-1" },
+        { "release": "unstable", "package": "php8.4", "fixed": "8.4.27-1", "advisory": "Debian bug 1151516" }
+      ]
+    },
+    "rhel": {
+      "sources": ["https://access.redhat.com/security/vulnerabilities/RHSB-2026-013", "https://security.access.redhat.com/data/csaf/v2/vex/2026/cve-2026-109618.json"],
+      "packages": [
+        { "release": "RHEL 10", "package": "php", "fixed": "8.3.36-1.el10_2", "advisory": "RHSA-2026:87070" },
+        { "release": "RHEL 10", "package": "php8.4", "fixed": "8.4.27-1.el10_2", "advisory": "RHSA-2026:87071" },
+        { "release": "RHEL 9", "package": "php", "fixed": "8.0.30-8.el9_8.1", "advisory": "RHSA-2026:87151" },
+        { "release": "RHEL 9", "package": "php:8.2 module", "fixed": "8.2.35-1.module+el9.8.0+25111+a1450321", "advisory": "RHSA-2026:87072" },
+        { "release": "RHEL 9", "package": "php:8.3 module", "fixed": "8.3.36-1.module+el9.8.0+25109+6886e21a", "advisory": "RHSA-2026:87079" },
+        { "release": "RHEL 8", "package": "php:7.4 module", "fixed": "7.4.33-8.module+el8.10.0+25117+30337cca", "advisory": "RHSA-2026:87080" },
+        { "release": "RHEL 8", "package": "php:8.2 module", "fixed": "8.2.35-1.module+el8.10.0+25110+f67151d2", "advisory": "RHSA-2026:87073" }
+      ]
+    }
+  },
+  "guides": {
+    "fixedVersions": "https://php2shell.fyi/fixed-versions",
+    "linuxPackages": "https://php2shell.fyi/linux",
+    "mitigations": "https://php2shell.fyi/mitigations"
+  }
+}

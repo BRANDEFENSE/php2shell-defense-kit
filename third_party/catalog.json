@@ -1,0 +1,1083 @@
+[
+  {
+    "file": "third_party/Senturkselim__Am-I-Infected/LICENSE",
+    "repo_dir": "Senturkselim__Am-I-Infected",
+    "upstream": "https://github.com/Senturkselim/Am-I-Infected",
+    "licence": "MIT",
+    "commit": "3a1d08ce346b011e46a0ad74ede2f3ca4f7e65fe",
+    "format": "doc",
+    "sha256": "9b4666848e0fed09b7ea57988cda8969074830ec7965909fd5570ced464de606"
+  },
+  {
+    "file": "third_party/Senturkselim__Am-I-Infected/sigma/php2shell_oversized_phpsessid.yml",
+    "repo_dir": "Senturkselim__Am-I-Infected",
+    "upstream": "https://github.com/Senturkselim/Am-I-Infected",
+    "licence": "MIT",
+    "commit": "3a1d08ce346b011e46a0ad74ede2f3ca4f7e65fe",
+    "format": "sigma",
+    "sha256": "5192a2ed0043a253c919f5a5ba50f56b9c0a63fafe5843105de836eea6fc5c01",
+    "sigma_id": "9bb44415-9403-45e6-b7aa-cc34bdb6e7fa"
+  },
+  {
+    "file": "third_party/Senturkselim__Am-I-Infected/sigma/php2shell_php_worker_child_process.yml",
+    "repo_dir": "Senturkselim__Am-I-Infected",
+    "upstream": "https://github.com/Senturkselim/Am-I-Infected",
+    "licence": "MIT",
+    "commit": "3a1d08ce346b011e46a0ad74ede2f3ca4f7e65fe",
+    "format": "sigma",
+    "sha256": "371598f4c5d4157d2452a1872990de84ba1d274f614910dee3428f43dea66608",
+    "sigma_id": "697d1682-336f-4381-b194-3cba131f2fc4"
+  },
+  {
+    "file": "third_party/Senturkselim__Am-I-Infected/sigma/php2shell_php_worker_reverse_shell.yml",
+    "repo_dir": "Senturkselim__Am-I-Infected",
+    "upstream": "https://github.com/Senturkselim/Am-I-Infected",
+    "licence": "MIT",
+    "commit": "3a1d08ce346b011e46a0ad74ede2f3ca4f7e65fe",
+    "format": "sigma",
+    "sha256": "8276e1135b637604d18d3588a744649e17ff81b299090a164f562c35bd370c93",
+    "sigma_id": "50c6a546-c6fa-4224-a2d9-cdeb42fd926c"
+  },
+  {
+    "file": "third_party/Senturkselim__Am-I-Infected/sigma/php2shell_poc_user_agent.yml",
+    "repo_dir": "Senturkselim__Am-I-Infected",
+    "upstream": "https://github.com/Senturkselim/Am-I-Infected",
+    "licence": "MIT",
+    "commit": "3a1d08ce346b011e46a0ad74ede2f3ca4f7e65fe",
+    "format": "sigma",
+    "sha256": "3a0bd55f3f5a4c92014758b34d384870bd63c504a910020a6db7788a6aa56938",
+    "sigma_id": "0afe0e18-3e8a-4d7c-9adf-07483c21803a"
+  },
+  {
+    "file": "third_party/Senturkselim__Am-I-Infected/sigma/php2shell_upload_progress_marker.yml",
+    "repo_dir": "Senturkselim__Am-I-Infected",
+    "upstream": "https://github.com/Senturkselim/Am-I-Infected",
+    "licence": "MIT",
+    "commit": "3a1d08ce346b011e46a0ad74ede2f3ca4f7e65fe",
+    "format": "sigma",
+    "sha256": "1fb5c5f983cb5ad6e963072692f3abd6f214f0c698c450f1290eb6fb45494297",
+    "sigma_id": "32bdf3f8-2b5e-498e-a332-776b856e3085",
+    "notes": "Noisy in our lab: fired on 4 of 42 benign lab cases (legitimate upload-progress forms). Tune before alerting; file left unchanged."
+  },
+  {
+    "file": "third_party/Senturkselim__Am-I-Infected/sigma/php2shell_worker_crash_or_oom.yml",
+    "repo_dir": "Senturkselim__Am-I-Infected",
+    "upstream": "https://github.com/Senturkselim/Am-I-Infected",
+    "licence": "MIT",
+    "commit": "3a1d08ce346b011e46a0ad74ede2f3ca4f7e65fe",
+    "format": "sigma",
+    "sha256": "fd75dfa2c9c9a18f0bd6653975cff2f673cfe690e1edc4872ed8d69d702b1187",
+    "sigma_id": "b1041050-0f25-4eb0-a86f-bd5804e82348",
+    "notes": "Noisy in our lab: fired on 24 of 42 benign lab cases (ordinary script-level memory errors). Tune before alerting; file left unchanged."
+  },
+  {
+    "file": "third_party/aplite-de__php2shell-detection-rules/LICENSE",
+    "repo_dir": "aplite-de__php2shell-detection-rules",
+    "upstream": "https://github.com/aplite-de/php2shell-detection-rules",
+    "licence": "MIT",
+    "commit": "5c4052213552c21273dac717dd25018e073ede4b",
+    "format": "doc",
+    "sha256": "c8d7e6a9d3fdbcb5ad9f443280b777cfafe29443da8bef75670edbcefd2977fe"
+  },
+  {
+    "file": "third_party/aplite-de__php2shell-detection-rules/README.md",
+    "repo_dir": "aplite-de__php2shell-detection-rules",
+    "upstream": "https://github.com/aplite-de/php2shell-detection-rules",
+    "licence": "MIT",
+    "commit": "5c4052213552c21273dac717dd25018e073ede4b",
+    "format": "doc",
+    "sha256": "c89ddae96afe927583e94b36895074e5e9a753508c4ca0e5e8f73546f58a8785"
+  },
+  {
+    "file": "third_party/aplite-de__php2shell-detection-rules/elastic/01-suspicious-form-posts.esql",
+    "repo_dir": "aplite-de__php2shell-detection-rules",
+    "upstream": "https://github.com/aplite-de/php2shell-detection-rules",
+    "licence": "MIT",
+    "commit": "5c4052213552c21273dac717dd25018e073ede4b",
+    "format": "elastic-esql",
+    "sha256": "0582150a6032401082bfe65b78e89dd7f4bc48a89c371a0fcf9728ccf3f3c485"
+  },
+  {
+    "file": "third_party/aplite-de__php2shell-detection-rules/elastic/02-memory-errors-and-worker-crashes.esql",
+    "repo_dir": "aplite-de__php2shell-detection-rules",
+    "upstream": "https://github.com/aplite-de/php2shell-detection-rules",
+    "licence": "MIT",
+    "commit": "5c4052213552c21273dac717dd25018e073ede4b",
+    "format": "elastic-esql",
+    "sha256": "a78413d10050ea1c4f380927bf3066ba2a49bbe90f687b1a6c9ac85b8de74bca"
+  },
+  {
+    "file": "third_party/aplite-de__php2shell-detection-rules/elastic/03-php-starting-a-shell.esql",
+    "repo_dir": "aplite-de__php2shell-detection-rules",
+    "upstream": "https://github.com/aplite-de/php2shell-detection-rules",
+    "licence": "MIT",
+    "commit": "5c4052213552c21273dac717dd25018e073ede4b",
+    "format": "elastic-esql",
+    "sha256": "ed6e5304a4fdb2abe7e031344245aeb8b491018f7792cc29e2e8cd28328f4ff6"
+  },
+  {
+    "file": "third_party/aplite-de__php2shell-detection-rules/log-formats/apache.conf",
+    "repo_dir": "aplite-de__php2shell-detection-rules",
+    "upstream": "https://github.com/aplite-de/php2shell-detection-rules",
+    "licence": "MIT",
+    "commit": "5c4052213552c21273dac717dd25018e073ede4b",
+    "format": "config",
+    "sha256": "3e3416a2d40a37039e79fd9cfcd5aec5126f399f9925f0cfe95ae24334928a1b"
+  },
+  {
+    "file": "third_party/aplite-de__php2shell-detection-rules/log-formats/nginx.conf",
+    "repo_dir": "aplite-de__php2shell-detection-rules",
+    "upstream": "https://github.com/aplite-de/php2shell-detection-rules",
+    "licence": "MIT",
+    "commit": "5c4052213552c21273dac717dd25018e073ede4b",
+    "format": "config",
+    "sha256": "29a2a74efecb17541f86aa781140e1138944d99c1780d7bf45d91d224b093100"
+  },
+  {
+    "file": "third_party/aplite-de__php2shell-detection-rules/sentinel/01-suspicious-form-posts.kql",
+    "repo_dir": "aplite-de__php2shell-detection-rules",
+    "upstream": "https://github.com/aplite-de/php2shell-detection-rules",
+    "licence": "MIT",
+    "commit": "5c4052213552c21273dac717dd25018e073ede4b",
+    "format": "kql",
+    "sha256": "71537d0610df97c580f0b2b37dabc5ea8c016fa0eccd2f8e9e1ba74b7b5cb7c3"
+  },
+  {
+    "file": "third_party/aplite-de__php2shell-detection-rules/sentinel/02-memory-errors-and-worker-crashes.kql",
+    "repo_dir": "aplite-de__php2shell-detection-rules",
+    "upstream": "https://github.com/aplite-de/php2shell-detection-rules",
+    "licence": "MIT",
+    "commit": "5c4052213552c21273dac717dd25018e073ede4b",
+    "format": "kql",
+    "sha256": "85c978a540948da63b5940c0f362db484304947f562be15d2083f742def1bd9f"
+  },
+  {
+    "file": "third_party/aplite-de__php2shell-detection-rules/sentinel/03-php-starting-a-shell.kql",
+    "repo_dir": "aplite-de__php2shell-detection-rules",
+    "upstream": "https://github.com/aplite-de/php2shell-detection-rules",
+    "licence": "MIT",
+    "commit": "5c4052213552c21273dac717dd25018e073ede4b",
+    "format": "kql",
+    "sha256": "59885c0f579efd2be27d67affa1441b6793e7a19eb651033b6103eda9efa05da"
+  },
+  {
+    "file": "third_party/aplite-de__php2shell-detection-rules/splunk/01-suspicious-form-posts.spl",
+    "repo_dir": "aplite-de__php2shell-detection-rules",
+    "upstream": "https://github.com/aplite-de/php2shell-detection-rules",
+    "licence": "MIT",
+    "commit": "5c4052213552c21273dac717dd25018e073ede4b",
+    "format": "splunk-spl",
+    "sha256": "6c401e09f4ba919edf1c70e23ab4f45d0785c80baa6f835500216f3a06870243"
+  },
+  {
+    "file": "third_party/aplite-de__php2shell-detection-rules/splunk/02-memory-errors-and-worker-crashes.spl",
+    "repo_dir": "aplite-de__php2shell-detection-rules",
+    "upstream": "https://github.com/aplite-de/php2shell-detection-rules",
+    "licence": "MIT",
+    "commit": "5c4052213552c21273dac717dd25018e073ede4b",
+    "format": "splunk-spl",
+    "sha256": "fe9591a7001c293bf003263284a07c47e7e0896d13e497117fe3515df78df365"
+  },
+  {
+    "file": "third_party/aplite-de__php2shell-detection-rules/splunk/03-php-starting-a-shell.spl",
+    "repo_dir": "aplite-de__php2shell-detection-rules",
+    "upstream": "https://github.com/aplite-de/php2shell-detection-rules",
+    "licence": "MIT",
+    "commit": "5c4052213552c21273dac717dd25018e073ede4b",
+    "format": "splunk-spl",
+    "sha256": "0f1e0b6da9ff4de0ab79c40e23027eef4bae101dbfbded024be4a51982ca6031"
+  },
+  {
+    "file": "third_party/break-the-build__php-multipart-waf-signals/LICENSE",
+    "repo_dir": "break-the-build__php-multipart-waf-signals",
+    "upstream": "https://github.com/break-the-build/php-multipart-waf-signals",
+    "licence": "MIT",
+    "commit": "8b7d37f288c16afcec4f64e51367e3f9f7280713",
+    "format": "doc",
+    "sha256": "068fe3fccb52cd42bb79e4d23edc1bb59c9ca543ca915f314e2a584f79f4c0a8"
+  },
+  {
+    "file": "third_party/break-the-build__php-multipart-waf-signals/README.md",
+    "repo_dir": "break-the-build__php-multipart-waf-signals",
+    "upstream": "https://github.com/break-the-build/php-multipart-waf-signals",
+    "licence": "MIT",
+    "commit": "8b7d37f288c16afcec4f64e51367e3f9f7280713",
+    "format": "doc",
+    "sha256": "51f0ae73323dc237ed9f1ca10e613ff6ddf9e74de70b2419b38370e705b46735"
+  },
+  {
+    "file": "third_party/break-the-build__php-multipart-waf-signals/TUNING.md",
+    "repo_dir": "break-the-build__php-multipart-waf-signals",
+    "upstream": "https://github.com/break-the-build/php-multipart-waf-signals",
+    "licence": "MIT",
+    "commit": "8b7d37f288c16afcec4f64e51367e3f9f7280713",
+    "format": "doc",
+    "sha256": "83a5f5c3ba6070ba301902f3d7c366465668fd2c63da538ef0883ac58915d2b0"
+  },
+  {
+    "file": "third_party/break-the-build__php-multipart-waf-signals/modsecurity/php-multipart-signals.conf",
+    "repo_dir": "break-the-build__php-multipart-waf-signals",
+    "upstream": "https://github.com/break-the-build/php-multipart-waf-signals",
+    "licence": "MIT",
+    "commit": "8b7d37f288c16afcec4f64e51367e3f9f7280713",
+    "format": "config",
+    "sha256": "7e279b50610efabef13d679e48400c461aae07645d1f518fd18789607e4cc967",
+    "notes": "Contains rule 9109618, which hit 1 of 24 benign lab sequences in our lab. Tune before alerting; file left unchanged."
+  },
+  {
+    "file": "third_party/break-the-build__php-multipart-waf-signals/suricata/php-multipart-signals.rules",
+    "repo_dir": "break-the-build__php-multipart-waf-signals",
+    "upstream": "https://github.com/break-the-build/php-multipart-waf-signals",
+    "licence": "MIT",
+    "commit": "8b7d37f288c16afcec4f64e51367e3f9f7280713",
+    "format": "suricata-or-auditd",
+    "sha256": "d627a7465eef006b13c74b21f8a605c25f0975062e8c2a82cfe4409535a4bbc0"
+  },
+  {
+    "file": "third_party/break-the-build__php-multipart-waf-signals/suricata/syntax-check-suricata7.txt",
+    "repo_dir": "break-the-build__php-multipart-waf-signals",
+    "upstream": "https://github.com/break-the-build/php-multipart-waf-signals",
+    "licence": "MIT",
+    "commit": "8b7d37f288c16afcec4f64e51367e3f9f7280713",
+    "format": "text",
+    "sha256": "ce05226eb00d6b8561297d5e28902263562851bca1687252ceec1ca5cea22697"
+  },
+  {
+    "file": "third_party/corelight__php2shell-detect/LICENSE",
+    "repo_dir": "corelight__php2shell-detect",
+    "upstream": "https://github.com/corelight/php2shell-detect",
+    "licence": "BSD-3-Clause",
+    "commit": "4d5131c7f7812d7b84a85cb61c64837c125920fe",
+    "format": "doc",
+    "sha256": "8296d03237597d838410b5ce920e3f278d410865304c5f8994e683744a5f284c"
+  },
+  {
+    "file": "third_party/corelight__php2shell-detect/README.md",
+    "repo_dir": "corelight__php2shell-detect",
+    "upstream": "https://github.com/corelight/php2shell-detect",
+    "licence": "BSD-3-Clause",
+    "commit": "4d5131c7f7812d7b84a85cb61c64837c125920fe",
+    "format": "doc",
+    "sha256": "d748342061379ecbf2a2238ef5e631931cdb71b4ac28a233d6b56fdbb51359c7"
+  },
+  {
+    "file": "third_party/corelight__php2shell-detect/scripts/__load__.zeek",
+    "repo_dir": "corelight__php2shell-detect",
+    "upstream": "https://github.com/corelight/php2shell-detect",
+    "licence": "BSD-3-Clause",
+    "commit": "4d5131c7f7812d7b84a85cb61c64837c125920fe",
+    "format": "zeek",
+    "sha256": "43f71109c09e9e3d8c5190ea052382e360992aa112bdcb6dd32b750b141bc736"
+  },
+  {
+    "file": "third_party/corelight__php2shell-detect/scripts/body_inspect.zeek",
+    "repo_dir": "corelight__php2shell-detect",
+    "upstream": "https://github.com/corelight/php2shell-detect",
+    "licence": "BSD-3-Clause",
+    "commit": "4d5131c7f7812d7b84a85cb61c64837c125920fe",
+    "format": "zeek",
+    "sha256": "9c203cb876e57a5adfce5ad554372bf1c5d05d5472f442c13fdcb1474e5150f3"
+  },
+  {
+    "file": "third_party/corelight__php2shell-detect/scripts/cluster.zeek",
+    "repo_dir": "corelight__php2shell-detect",
+    "upstream": "https://github.com/corelight/php2shell-detect",
+    "licence": "BSD-3-Clause",
+    "commit": "4d5131c7f7812d7b84a85cb61c64837c125920fe",
+    "format": "zeek",
+    "sha256": "1386d1ffc058e60a6b09d2d82fa8eb785f76b9bf8b3bae63f4ae97342e89d282"
+  },
+  {
+    "file": "third_party/corelight__php2shell-detect/scripts/config.zeek",
+    "repo_dir": "corelight__php2shell-detect",
+    "upstream": "https://github.com/corelight/php2shell-detect",
+    "licence": "BSD-3-Clause",
+    "commit": "4d5131c7f7812d7b84a85cb61c64837c125920fe",
+    "format": "zeek",
+    "sha256": "1fa816fd5e2f2852b315db9b5ced3f48243f6a4e52902bf51b63562de45af17f"
+  },
+  {
+    "file": "third_party/corelight__php2shell-detect/scripts/headers.zeek",
+    "repo_dir": "corelight__php2shell-detect",
+    "upstream": "https://github.com/corelight/php2shell-detect",
+    "licence": "BSD-3-Clause",
+    "commit": "4d5131c7f7812d7b84a85cb61c64837c125920fe",
+    "format": "zeek",
+    "sha256": "0fe123a9e8ea913000d5dec2ed175245e8a62412962969dd501b84190d59d987"
+  },
+  {
+    "file": "third_party/corelight__php2shell-detect/scripts/http_body_analysis.zeek",
+    "repo_dir": "corelight__php2shell-detect",
+    "upstream": "https://github.com/corelight/php2shell-detect",
+    "licence": "BSD-3-Clause",
+    "commit": "4d5131c7f7812d7b84a85cb61c64837c125920fe",
+    "format": "zeek",
+    "sha256": "62b25f6ade47abd4487b49636f53bfa3d1bdc7f0b4ba87294da58e651700e350"
+  },
+  {
+    "file": "third_party/corelight__php2shell-detect/scripts/patterns.zeek",
+    "repo_dir": "corelight__php2shell-detect",
+    "upstream": "https://github.com/corelight/php2shell-detect",
+    "licence": "BSD-3-Clause",
+    "commit": "4d5131c7f7812d7b84a85cb61c64837c125920fe",
+    "format": "zeek",
+    "sha256": "cd2cee64c18981a5be4217de4eb1329229084d931b38cf08cfd51fb74aeadd89"
+  },
+  {
+    "file": "third_party/corelight__php2shell-detect/scripts/sessions.zeek",
+    "repo_dir": "corelight__php2shell-detect",
+    "upstream": "https://github.com/corelight/php2shell-detect",
+    "licence": "BSD-3-Clause",
+    "commit": "4d5131c7f7812d7b84a85cb61c64837c125920fe",
+    "format": "zeek",
+    "sha256": "935ee79293da4e67d0d013f398a8e6f1744a662f952da1e905dc1c442f02f18f"
+  },
+  {
+    "file": "third_party/corelight__php2shell-detect/scripts/versions.zeek",
+    "repo_dir": "corelight__php2shell-detect",
+    "upstream": "https://github.com/corelight/php2shell-detect",
+    "licence": "BSD-3-Clause",
+    "commit": "4d5131c7f7812d7b84a85cb61c64837c125920fe",
+    "format": "zeek",
+    "sha256": "041d39c544d095445067f45e109ceec0ed8a34dcc3f4033f7155acfa3c3b23b6"
+  },
+  {
+    "file": "third_party/corelight__php2shell-detect/suricata/php2shell.rules",
+    "repo_dir": "corelight__php2shell-detect",
+    "upstream": "https://github.com/corelight/php2shell-detect",
+    "licence": "BSD-3-Clause",
+    "commit": "4d5131c7f7812d7b84a85cb61c64837c125920fe",
+    "format": "suricata-or-auditd",
+    "sha256": "76a4be2666370e743384a472e25e1b3b97873ed20f8ef0fb1d630145d200ad49",
+    "notes": "Noisy in our lab: SID 3000650 fired on 4 of 96 benign captures (legitimate upload-progress forms). Tune before alerting; file left unchanged."
+  },
+  {
+    "file": "third_party/deathbydata__php2shell-exposurehunt/LICENSE",
+    "repo_dir": "deathbydata__php2shell-exposurehunt",
+    "upstream": "https://github.com/deathbydata/php2shell-exposurehunt",
+    "licence": "MIT",
+    "commit": "68a4e63f7bc3d4592f90898a851c17732f84f538",
+    "format": "doc",
+    "sha256": "9bf5e3245feb89b3f2095489ce54fb55e9cfb419df2906a37c20c53b2d0dba14"
+  },
+  {
+    "file": "third_party/deathbydata__php2shell-exposurehunt/README.md",
+    "repo_dir": "deathbydata__php2shell-exposurehunt",
+    "upstream": "https://github.com/deathbydata/php2shell-exposurehunt",
+    "licence": "MIT",
+    "commit": "68a4e63f7bc3d4592f90898a851c17732f84f538",
+    "format": "doc",
+    "sha256": "31e7829afc8f75c23710db90e942a2ca2267946c4fcb1ef400635b6862dcf5c5"
+  },
+  {
+    "file": "third_party/deathbydata__php2shell-exposurehunt/queries/linux/01-any-php.kql",
+    "repo_dir": "deathbydata__php2shell-exposurehunt",
+    "upstream": "https://github.com/deathbydata/php2shell-exposurehunt",
+    "licence": "MIT",
+    "commit": "68a4e63f7bc3d4592f90898a851c17732f84f538",
+    "format": "kql",
+    "sha256": "4117dd1c25b8d95712e84e5df19991215649c4541f31308d596b6e73def3f7b2"
+  },
+  {
+    "file": "third_party/deathbydata__php2shell-exposurehunt/queries/linux/02-evidence-breakout.kql",
+    "repo_dir": "deathbydata__php2shell-exposurehunt",
+    "upstream": "https://github.com/deathbydata/php2shell-exposurehunt",
+    "licence": "MIT",
+    "commit": "68a4e63f7bc3d4592f90898a851c17732f84f538",
+    "format": "kql",
+    "sha256": "1669441d7c0e13afcc002cc95edb9522807272236e9cf751c6b5132d50d51cbc"
+  },
+  {
+    "file": "third_party/deathbydata__php2shell-exposurehunt/queries/linux/03-safety-net.kql",
+    "repo_dir": "deathbydata__php2shell-exposurehunt",
+    "upstream": "https://github.com/deathbydata/php2shell-exposurehunt",
+    "licence": "MIT",
+    "commit": "68a4e63f7bc3d4592f90898a851c17732f84f538",
+    "format": "kql",
+    "sha256": "7945a1f0e9db87d3111a249e9cae9faaf32fde2d2279a86f02f8a12225cdc03f"
+  },
+  {
+    "file": "third_party/deathbydata__php2shell-exposurehunt/queries/linux/04-defender-cve-check.kql",
+    "repo_dir": "deathbydata__php2shell-exposurehunt",
+    "upstream": "https://github.com/deathbydata/php2shell-exposurehunt",
+    "licence": "MIT",
+    "commit": "68a4e63f7bc3d4592f90898a851c17732f84f538",
+    "format": "kql",
+    "sha256": "1ce093592bb9b6ca73ae870f3854047517832df6c3850ea10053dbb48b7a0f75"
+  },
+  {
+    "file": "third_party/deathbydata__php2shell-exposurehunt/queries/windows/01-any-php.kql",
+    "repo_dir": "deathbydata__php2shell-exposurehunt",
+    "upstream": "https://github.com/deathbydata/php2shell-exposurehunt",
+    "licence": "MIT",
+    "commit": "68a4e63f7bc3d4592f90898a851c17732f84f538",
+    "format": "kql",
+    "sha256": "4e7e38419fb403d42b03add3c345c8067a769fd0aa5abaaece9f2b260dfbfd1e"
+  },
+  {
+    "file": "third_party/deathbydata__php2shell-exposurehunt/queries/windows/02-evidence-breakout.kql",
+    "repo_dir": "deathbydata__php2shell-exposurehunt",
+    "upstream": "https://github.com/deathbydata/php2shell-exposurehunt",
+    "licence": "MIT",
+    "commit": "68a4e63f7bc3d4592f90898a851c17732f84f538",
+    "format": "kql",
+    "sha256": "715d4e96dc13f7304b1280c5b09a672da9a2d16ced141b9ebe52d693c14cfeec"
+  },
+  {
+    "file": "third_party/deathbydata__php2shell-exposurehunt/queries/windows/03-safety-net.kql",
+    "repo_dir": "deathbydata__php2shell-exposurehunt",
+    "upstream": "https://github.com/deathbydata/php2shell-exposurehunt",
+    "licence": "MIT",
+    "commit": "68a4e63f7bc3d4592f90898a851c17732f84f538",
+    "format": "kql",
+    "sha256": "b959d6716de7f113bffdaf02ac4f17d13e77ebc54d1a6fe1b409250168ef0739"
+  },
+  {
+    "file": "third_party/deathbydata__php2shell-exposurehunt/queries/windows/04-defender-cve-check.kql",
+    "repo_dir": "deathbydata__php2shell-exposurehunt",
+    "upstream": "https://github.com/deathbydata/php2shell-exposurehunt",
+    "licence": "MIT",
+    "commit": "68a4e63f7bc3d4592f90898a851c17732f84f538",
+    "format": "kql",
+    "sha256": "bb857c96f8f45c92279f7d3350c5a37f1bf11030b1e56071fd19420076daadf1"
+  },
+  {
+    "file": "third_party/karlisl__php2shell-rules/LICENSE",
+    "repo_dir": "karlisl__php2shell-rules",
+    "upstream": "https://github.com/karlisl/php2shell-rules",
+    "licence": "CC0-1.0",
+    "commit": "ff27362919b54484ec5511f4623d877e1f758998",
+    "format": "doc",
+    "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499"
+  },
+  {
+    "file": "third_party/karlisl__php2shell-rules/README.md",
+    "repo_dir": "karlisl__php2shell-rules",
+    "upstream": "https://github.com/karlisl/php2shell-rules",
+    "licence": "CC0-1.0",
+    "commit": "ff27362919b54484ec5511f4623d877e1f758998",
+    "format": "doc",
+    "sha256": "15f3d1344964f610399d3a19ef5d8b594f116663575ba9414a6343c21c3b546f"
+  },
+  {
+    "file": "third_party/karlisl__php2shell-rules/rules.json",
+    "repo_dir": "karlisl__php2shell-rules",
+    "upstream": "https://github.com/karlisl/php2shell-rules",
+    "licence": "CC0-1.0",
+    "commit": "ff27362919b54484ec5511f4623d877e1f758998",
+    "format": "data",
+    "sha256": "3da54107248ee38a10dfa2817e53c5ab1ce5ce6d818449b14e70c98da11595e6"
+  },
+  {
+    "file": "third_party/mym0us3r__PHP2Shell-Detection-with-Wazuh/LICENSE",
+    "repo_dir": "mym0us3r__PHP2Shell-Detection-with-Wazuh",
+    "upstream": "https://github.com/mym0us3r/PHP2Shell-Detection-with-Wazuh",
+    "licence": "MIT",
+    "commit": "17253b3185380956e4fc0aade158f8001793e2c5",
+    "format": "doc",
+    "sha256": "32b5111b5091f524cf3ef58b8db4cb3bc0348172f2039cf6283f593dab15a74a"
+  },
+  {
+    "file": "third_party/mym0us3r__PHP2Shell-Detection-with-Wazuh/README.md",
+    "repo_dir": "mym0us3r__PHP2Shell-Detection-with-Wazuh",
+    "upstream": "https://github.com/mym0us3r/PHP2Shell-Detection-with-Wazuh",
+    "licence": "MIT",
+    "commit": "17253b3185380956e4fc0aade158f8001793e2c5",
+    "format": "doc",
+    "sha256": "476f6b9a0893afd98920564306afc9db149d1c998271892fcab75d35aae8ab08"
+  },
+  {
+    "file": "third_party/mym0us3r__PHP2Shell-Detection-with-Wazuh/apache/php2shell-logformat.conf",
+    "repo_dir": "mym0us3r__PHP2Shell-Detection-with-Wazuh",
+    "upstream": "https://github.com/mym0us3r/PHP2Shell-Detection-with-Wazuh",
+    "licence": "MIT",
+    "commit": "17253b3185380956e4fc0aade158f8001793e2c5",
+    "format": "config",
+    "sha256": "fbc2ebda680d9f305988d1df3d163643d84a5eb386531f4309f46f50a67ff86b"
+  },
+  {
+    "file": "third_party/mym0us3r__PHP2Shell-Detection-with-Wazuh/decoders/php2shell_decoders.xml",
+    "repo_dir": "mym0us3r__PHP2Shell-Detection-with-Wazuh",
+    "upstream": "https://github.com/mym0us3r/PHP2Shell-Detection-with-Wazuh",
+    "licence": "MIT",
+    "commit": "17253b3185380956e4fc0aade158f8001793e2c5",
+    "format": "wazuh-xml",
+    "sha256": "5d4c034d617114144bbc63ba01263b6ad57ffa609a8992ea3375a3c045b329a7"
+  },
+  {
+    "file": "third_party/mym0us3r__PHP2Shell-Detection-with-Wazuh/rules/php2shell_rules.xml",
+    "repo_dir": "mym0us3r__PHP2Shell-Detection-with-Wazuh",
+    "upstream": "https://github.com/mym0us3r/PHP2Shell-Detection-with-Wazuh",
+    "licence": "MIT",
+    "commit": "17253b3185380956e4fc0aade158f8001793e2c5",
+    "format": "wazuh-xml",
+    "sha256": "2f690c2a26ec30ebde5798af5b0bf2898e3ff1fc2d12ac0975152ab3affcf6d2"
+  },
+  {
+    "file": "third_party/mym0us3r__PHP2Shell-Detection-with-Wazuh/sca/php2shell_cve_2026_109618_109619.yml",
+    "repo_dir": "mym0us3r__PHP2Shell-Detection-with-Wazuh",
+    "upstream": "https://github.com/mym0us3r/PHP2Shell-Detection-with-Wazuh",
+    "licence": "MIT",
+    "commit": "17253b3185380956e4fc0aade158f8001793e2c5",
+    "format": "yaml-config",
+    "sha256": "f09b881c905871e52ae9fe1176c5883fe401ad3bf057e336ca69d27e7d4cce57"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/LICENSE",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "doc",
+    "sha256": "efdf483671ee10fee4834b7ef8ac12a8b8bbcdbec40a4e1e8f83a6beed8fb9e1"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/README.md",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "doc",
+    "sha256": "4a9308995197f01179b35b872ebf0d7ef5605ef73c8f4e3f9041b7fe00920588"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/BUILD_REPORT.md",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "doc",
+    "sha256": "0313c337200ac745da51b54eb861f1e03dee273b1492226f6efa74a96fdf6462"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/crowdstrike/lnx_php2shell_webserver_spawns_shell_or_lolbin.logscale",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "crowdstrike-logscale",
+    "sha256": "d83a4934a42a2124c2f35a647c80abe78f73674545dd1f4d0f142b0e5445a18f"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/crowdstrike/lnx_php2shell_webserver_suspicious_cmdline.logscale",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "crowdstrike-logscale",
+    "sha256": "392b8a8d0485c3463e60679f0496392f2da946c323eb2613702b74230f364e58"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/crowdstrike/php2shell_php_fpm_worker_exit_code70.logscale",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "crowdstrike-logscale",
+    "sha256": "f392bb0befa27b5c3313f23d7a5a5b769443cc821efeec4417cd4f916f27611e"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/crowdstrike/php2shell_php_oom_during_request_parsing.logscale",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "crowdstrike-logscale",
+    "sha256": "dcc32dbaa414d9cd77bb07388681ae4e1b39812502184c1ef91c3ea6c1b79544"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/crowdstrike/php2shell_php_worker_crash.logscale",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "crowdstrike-logscale",
+    "sha256": "1de050bad221e2934fa0c2a34210156317ae84b736fe625f458d1ff1e5755308"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/crowdstrike/win_php2shell_webserver_spawns_shell_or_lolbin.logscale",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "crowdstrike-logscale",
+    "sha256": "cf0ec9264891c1a22c4d3e3824ceeed8fcc54484e69985462a6f94d98155b362"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/modsecurity/php2shell-upload-progress.conf",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "config",
+    "sha256": "85b0693f842fcf4e1bf21b3876c2a9a970d010c9b294cb064105b40fed79dcc2",
+    "notes": "Contains rule 9109618, which hit 1 of 24 benign lab sequences in our lab. Tune before alerting; file left unchanged."
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/qradar/lnx_php2shell_php_file_written_to_webroot.aql",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "qradar-aql",
+    "sha256": "19859a5a7fcb3940596cf9f76e6f4bebcd825e65b70935bdc48fd68fffcd7f40"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/qradar/lnx_php2shell_php_file_written_to_webroot.payload.aql",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "qradar-aql",
+    "sha256": "2a1997c16083435cd22cbcd8c94451b4cfe8a3d39113830e16f08515869ca6e8"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/qradar/lnx_php2shell_webserver_spawns_shell_or_lolbin.aql",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "qradar-aql",
+    "sha256": "14dfeee14238041b63d618432db3c8cac641b7ff56a74d1bbe60a113aea6d1d0"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/qradar/lnx_php2shell_webserver_spawns_shell_or_lolbin.payload.aql",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "qradar-aql",
+    "sha256": "29f63c5cae6b2719f2c185630de7fe4cd8385705c067d38a6a1d3767a80c1f01"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/qradar/lnx_php2shell_webserver_suspicious_cmdline.aql",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "qradar-aql",
+    "sha256": "f19866a51a0e41baf23ef1b620197b8e927f1c8c913afa8f5cd9bc76bff25245"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/qradar/lnx_php2shell_webserver_suspicious_cmdline.payload.aql",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "qradar-aql",
+    "sha256": "b2e7366dc0afd1f71615950e9730d9345daa5e41f71975b85212dc7a25d9b62c"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/qradar/php2shell_php_fpm_worker_exit_code70.payload.aql",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "qradar-aql",
+    "sha256": "21a326cbf775578429ab06b7757190688836aa7566a01888263cd3e802cd6097"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/qradar/php2shell_php_oom_during_request_parsing.payload.aql",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "qradar-aql",
+    "sha256": "8fef6dd08484693a47db2437eb70eaebb8b67e06ca3c0b178621c029b5684fc3"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/qradar/php2shell_php_worker_crash.payload.aql",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "qradar-aql",
+    "sha256": "1ce7d18fd7c3f71bc8ebb9d5c27bb6345b4aa6b2bc272a57f799713bcd4c8067"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/qradar/win_php2shell_php_file_written_to_webroot.aql",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "qradar-aql",
+    "sha256": "d1a782cc30584ee61012761a452904db3891f3e23750b45a4bb815817446d412"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/qradar/win_php2shell_php_file_written_to_webroot.payload.aql",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "qradar-aql",
+    "sha256": "85ee0113fa553d94c94ea3bf09ff398147ff7a9eb6054242838ee8875da0cfac"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/qradar/win_php2shell_webserver_spawns_shell_or_lolbin.aql",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "qradar-aql",
+    "sha256": "49a0c95c493db0099b1f9abc1d4b0cf153720690c5b809c64e9a6b58046deed9"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/qradar/win_php2shell_webserver_spawns_shell_or_lolbin.payload.aql",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "qradar-aql",
+    "sha256": "c2e23eceeac816150bc1470802c0724e3dba8364ba3628b2da726b0ee1302cdf"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/sentinelone/lnx_php2shell_php_file_written_to_webroot.dv",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "sentinelone",
+    "sha256": "63935f1b7e0d189f822e40ea7563fd1a93af2e03f031b58915652a97791efd64"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/sentinelone/lnx_php2shell_php_file_written_to_webroot.pq",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "sentinelone",
+    "sha256": "c8bd8297a809f018d757535f38e3af38287864f6de17ce613b731e2855f58485"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/sentinelone/lnx_php2shell_webserver_spawns_shell_or_lolbin.dv",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "sentinelone",
+    "sha256": "2df0a1309745f44ba275437306a6dfe76b8d2b17db3ea8ab0e3a1215cb8b85dd"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/sentinelone/lnx_php2shell_webserver_spawns_shell_or_lolbin.pq",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "sentinelone",
+    "sha256": "6869dac3d7408ccfdc9d74d29cd30205a3b487aa9276ca0a947d64bf09e46263"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/sentinelone/lnx_php2shell_webserver_suspicious_cmdline.dv",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "sentinelone",
+    "sha256": "cf4d0e7c632fe77aa8f01abbfa6221d26d6b0e3d7a26d735e815efce5e0ba87e"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/sentinelone/lnx_php2shell_webserver_suspicious_cmdline.pq",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "sentinelone",
+    "sha256": "36e67ac3608ae7169e21754e39802ab1b38b8af31ed188e1f07813239ae93889"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/sentinelone/win_php2shell_php_file_written_to_webroot.dv",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "sentinelone",
+    "sha256": "a0a0ed8917b93cdc0ccf370b30883073eedaed6a07c1d2386af97090750373d2"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/sentinelone/win_php2shell_php_file_written_to_webroot.pq",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "sentinelone",
+    "sha256": "2f9f454cfe90a61c706b55e9927b1466fb50e0b27a8450afc6119c3922c6b7af"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/sentinelone/win_php2shell_webserver_spawns_shell_or_lolbin.dv",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "sentinelone",
+    "sha256": "783c66e4a3ce80d32503a63aa88d33dd91ea1092851bec1da9d79068336cc0ff"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/sentinelone/win_php2shell_webserver_spawns_shell_or_lolbin.pq",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "sentinelone",
+    "sha256": "4860ebc149c6559a7fb359c047a76698fc43c6cff645eabfa09bca5bb56b4208"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/sigma/lnx_php2shell_php_file_written_to_webroot.yml",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "sigma",
+    "sha256": "7866453de11802bf810fec9eb95c724ed0bfd6aa5891f22cbbfaa294c2d1ad75",
+    "sigma_id": "d4124a4d-73b3-4186-a15a-7aef38e85db3"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/sigma/lnx_php2shell_webserver_spawns_shell_or_lolbin.yml",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "sigma",
+    "sha256": "f6d31bd392e2121a3d451f640a2a783082ce36b90761f6f928b803c03625c6be",
+    "sigma_id": "120e77fd-91e2-4cdd-ba44-6f2b5fad42c4"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/sigma/lnx_php2shell_webserver_suspicious_cmdline.yml",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "sigma",
+    "sha256": "c02f9cd2bf641d848e7feed5805d924921208178c1e38cbd0bfcd4ca5e4f2954",
+    "sigma_id": "98f449aa-52b5-41df-b9d1-c81b3a1c78fe"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/sigma/php2shell_php_fpm_worker_exit_code70.yml",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "sigma",
+    "sha256": "646189180b88fb64663a10d35620c9e5ba26b110a57793eb0d492a5d812a7560",
+    "sigma_id": "6f3a1d82-4e90-4b17-9c3e-2a7f1b5c8d04"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/sigma/php2shell_php_oom_during_request_parsing.yml",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "sigma",
+    "sha256": "c62eb50d943d13a79cbf97c17fd1c4ed0ccdc37b6bfa915e0c7350deb461c721",
+    "sigma_id": "3d0b6f0e-6c1a-4f7e-9a52-1f0c9d2b7a61"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/sigma/php2shell_php_worker_crash.yml",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "sigma",
+    "sha256": "7a6af5a78aa7255f9aff6084b1cb4fe7bd87a8ab1172b6b64eeccb13131dbf54",
+    "sigma_id": "f87775e3-8592-4172-8149-15e966b73151"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/sigma/win_php2shell_php_file_written_to_webroot.yml",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "sigma",
+    "sha256": "f39b5e5926a94b1587c15f64a12c404b3dda257a9f5c32c93589856993baa4ac",
+    "sigma_id": "e4ae4b72-d043-4906-ab1d-d7cfe24ed018"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/sigma/win_php2shell_webserver_spawns_shell_or_lolbin.yml",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "sigma",
+    "sha256": "a4af9ba7c3810d0702fc2b9eac19d12aa6cde6a3ade7a5c52e0ff598500022cf",
+    "sigma_id": "0c88ffdb-d35f-481e-a5d6-2be5229f289f"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/splunk/lnx_php2shell_php_file_written_to_webroot.spl",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "splunk-spl",
+    "sha256": "512cbb83d9b6558591912191de6507e3d7840fb1a34c6964111ae4b574881dd1"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/splunk/lnx_php2shell_webserver_spawns_shell_or_lolbin.cim.spl",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "splunk-spl",
+    "sha256": "e7f041a33ee87e318eb39156eafbaa2ca70ee73c86be87a0878c9aa0f6d838c1"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/splunk/lnx_php2shell_webserver_spawns_shell_or_lolbin.spl",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "splunk-spl",
+    "sha256": "3146ad3a020b2ed55429fd6ffc944210a17df3e3cde53cd2862b962e0e129417"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/splunk/lnx_php2shell_webserver_suspicious_cmdline.cim.spl",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "splunk-spl",
+    "sha256": "d29bc815ad7a38d97e76894ad9706a50f89ca3f02f12ee02a254a572f979cc73"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/splunk/lnx_php2shell_webserver_suspicious_cmdline.spl",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "splunk-spl",
+    "sha256": "a03ddf2e9a1c0ea2dd164bec50dbdeb6d329dc158cf285c4b9ee4f04075f780a"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/splunk/php2shell_php_fpm_worker_exit_code70.spl",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "splunk-spl",
+    "sha256": "c30cfb687351ad6689747fe7682c18ea7d52bff60b086f306588d4229b14d54f"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/splunk/php2shell_php_oom_during_request_parsing.spl",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "splunk-spl",
+    "sha256": "92dfa5211ebb5d6002fd89e180d8d737426330ebb6d4be7f2e91ff12184a947b"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/splunk/php2shell_php_worker_crash.spl",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "splunk-spl",
+    "sha256": "168265291cd019b7818d982c14f50da2dcbcf408ca1ad9fa4fe103b5ed2f0967"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/splunk/win_php2shell_php_file_written_to_webroot.cim.spl",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "splunk-spl",
+    "sha256": "7eb1704cc55aab47cfb7b00ed6ccf4fc01c21f03c42752498e490c23fd6e98a3"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/splunk/win_php2shell_php_file_written_to_webroot.spl",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "splunk-spl",
+    "sha256": "c3c13436ec455d467371232783169034698ce22a95e92e41ef23563bf8dc4462"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/splunk/win_php2shell_webserver_spawns_shell_or_lolbin.cim.spl",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "splunk-spl",
+    "sha256": "2a66da290fe5463dfb8ee0ffb7177ef38ab3e0a3d35b42f1ecbb2a1919ff8da0"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/splunk/win_php2shell_webserver_spawns_shell_or_lolbin.spl",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "splunk-spl",
+    "sha256": "c97a1384ed9e987d08206ddc3df8c966af38b0ef038ad1be2199f2631f513481"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/wazuh/0910-orbitron-php2shell_rules.xml",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "wazuh-xml",
+    "sha256": "90ab257bc45411f44ae226a4613417de0a95c5baf23b96e24f150010bcb23b35"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/wazuh/auditd-php2shell.rules",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "suricata-or-auditd",
+    "sha256": "5035bc256e7dbb351afe39c16654c45bb74e74d053425007579e6bcc909e53d5"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/wazuh/ossec-agent-snippet.xml",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "wazuh-xml",
+    "sha256": "e94b136deb79b843b49c58adbe9f887a44bb47f0101f61f5ab2886be7aa1e4e8"
+  },
+  {
+    "file": "third_party/orbitron-ai__php2shell-response-kit/rules/yara/php2shell_hunting.yar",
+    "repo_dir": "orbitron-ai__php2shell-response-kit",
+    "upstream": "https://github.com/orbitron-ai/php2shell-response-kit",
+    "licence": "MIT",
+    "commit": "3250dee3b5264071b360b57de641ae7efc80193b",
+    "format": "yara",
+    "sha256": "2c7af07a23fe069b99006333501e1f1884f56636b13b18a0040c2d74b868c848"
+  },
+  {
+    "file": "third_party/sorenjohanson__crowdsec-cve-2026-109618-rule/LICENSE",
+    "repo_dir": "sorenjohanson__crowdsec-cve-2026-109618-rule",
+    "upstream": "https://github.com/sorenjohanson/crowdsec-cve-2026-109618-rule",
+    "licence": "MIT",
+    "commit": "0537f3163bab7d75368fe274bbf8beaa37d0c302",
+    "format": "doc",
+    "sha256": "72380798af61d6131287b0dd3c8dc5345535df641002fece3a02d7ef109c5f8e"
+  },
+  {
+    "file": "third_party/sorenjohanson__crowdsec-cve-2026-109618-rule/README.md",
+    "repo_dir": "sorenjohanson__crowdsec-cve-2026-109618-rule",
+    "upstream": "https://github.com/sorenjohanson/crowdsec-cve-2026-109618-rule",
+    "licence": "MIT",
+    "commit": "0537f3163bab7d75368fe274bbf8beaa37d0c302",
+    "format": "doc",
+    "sha256": "93a481db8e201e28aebb49b0ad72785182b805230339617d9b8c05fc2de8810d"
+  },
+  {
+    "file": "third_party/sorenjohanson__crowdsec-cve-2026-109618-rule/appsec-configs/local/php-session-upload-progress.yaml",
+    "repo_dir": "sorenjohanson__crowdsec-cve-2026-109618-rule",
+    "upstream": "https://github.com/sorenjohanson/crowdsec-cve-2026-109618-rule",
+    "licence": "MIT",
+    "commit": "0537f3163bab7d75368fe274bbf8beaa37d0c302",
+    "format": "yaml-config",
+    "sha256": "76ada09d066a4a9f0c28d0c37beda289855a5f61f8df1eec7aaa8e64db456dba"
+  },
+  {
+    "file": "third_party/sorenjohanson__crowdsec-cve-2026-109618-rule/appsec-rules/local/php-session-upload-progress.yaml",
+    "repo_dir": "sorenjohanson__crowdsec-cve-2026-109618-rule",
+    "upstream": "https://github.com/sorenjohanson/crowdsec-cve-2026-109618-rule",
+    "licence": "MIT",
+    "commit": "0537f3163bab7d75368fe274bbf8beaa37d0c302",
+    "format": "yaml-config",
+    "sha256": "607ddb0149ebe1e6f32e0a6aa14689f8011195df0b93f63ca2c459334cc039d2"
+  }
+]

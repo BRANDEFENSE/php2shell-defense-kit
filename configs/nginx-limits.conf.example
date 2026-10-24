@@ -1,0 +1,8 @@
+# Illustrative resource control, not an exploit signature or complete mitigation.
+# Review in an existing server/location context; do not overwrite nginx.conf.
+# nginx runtime/config validation was not available in release testing.
+client_max_body_size 8m;
+# This bounds accepted body size under nginx semantics; it does not prove a bound
+# on PHP heap amplification or input decompression by another component.
+# Limit parts, per-part headers and nesting through capable frontend/parser policy.
+# Validate application functionality and actual request paths before enforcement.

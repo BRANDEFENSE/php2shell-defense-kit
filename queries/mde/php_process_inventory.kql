@@ -1,0 +1,6 @@
+// Observed process telemetry only; no records does not mean no installed PHP.
+DeviceProcessEvents
+| where Timestamp > ago(30d)
+| where FileName startswith "php" or FileName startswith "lsphp" or FileName in~ ("frankenphp", "frankenphp.exe", "sw-engine-fpm")
+| summarize FirstSeen=min(Timestamp), LastSeen=max(Timestamp), Executions=count() by DeviceId, DeviceName, FileName, FolderPath
+| order by LastSeen desc

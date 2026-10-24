@@ -1,0 +1,44 @@
+{
+  "baseline_date": "2026-10-24",
+  "source": "https://aws.amazon.com/blogs/security/amazon-threat-intelligence-identifies-php2shell-exploitation-prior-to-public-disclosure-in-madpot/",
+  "interpretation": "Publicly reported attempt-associated IP observations. Shared anonymization infrastructure can have unrelated users. Investigation pivots only; not successful-compromise proof, unique attribution or permanent block recommendations.",
+  "automatic_actions": false,
+  "observations": [
+    {
+      "ip": "103.216.220.92",
+      "reported_observed_date": "2026-10-17",
+      "classification": "reported_exploitation_attempt_source",
+      "successful_exploitation": "not_established_by_this_indicator"
+    },
+    {
+      "ip": "31.223.184.166",
+      "reported_observed_date": "2026-10-21",
+      "classification": "reported_exploitation_attempt_source",
+      "successful_exploitation": "not_established_by_this_indicator"
+    },
+    {
+      "ip": "37.19.200.5",
+      "reported_observed_date": "2026-10-21",
+      "classification": "reported_exploitation_attempt_source",
+      "successful_exploitation": "not_established_by_this_indicator"
+    },
+    {
+      "ip": "134.209.159.64",
+      "reported_observed_date": "2026-10-21",
+      "classification": "reported_exploitation_attempt_source",
+      "successful_exploitation": "not_established_by_this_indicator"
+    },
+    {
+      "ip": "103.114.163.188",
+      "reported_observed_date": "2026-10-21",
+      "classification": "reported_exploitation_attempt_source",
+      "successful_exploitation": "not_established_by_this_indicator"
+    },
+    {
+      "ip": "95.217.98.37",
+      "reported_observed_date": "2026-10-21",
+      "classification": "reported_exploitation_attempt_source",
+      "successful_exploitation": "not_established_by_this_indicator"
+    }
+  ]
+}

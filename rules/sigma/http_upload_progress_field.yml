@@ -1,0 +1,28 @@
+title: HTTP POST with Default PHP Upload Progress Parameter
+id: 49b62df5-a426-58d6-a566-a4a27cd17dd0
+status: experimental
+description: HUNTING ONLY, do not alert on it (level informational since v0.3.0). Four of 42 benign lab cases hit it because a legitimate upload-progress form carries the same field; it finds sites that use the feature, not attacks. For alerting use http_upload_progress_with_body_session_id. Requires custom extraction of decoded multipart parameter names into
+  BodyParameterNames. Default field only; ordinary access logs lack it and legitimate
+  uploads match. This is a hunting lead, not attribution to PHP2Shell or proof of
+  successful exploitation.
+references:
+- https://aws.amazon.com/blogs/security/amazon-threat-intelligence-identifies-php2shell-exploitation-prior-to-public-disclosure-in-madpot/
+- https://www.wiz.io/blog/php2shell-php-rce
+- https://www.php.net/archive/2026.php#2026-10-21-5
+- https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp
+author: Brandefense Research Team
+date: '2026-10-24'
+license: MIT
+tags:
+- attack.t1190
+logsource:
+  category: webserver
+detection:
+  method:
+    cs-method: POST
+  field:
+    BodyParameterNames: PHP_SESSION_UPLOAD_PROGRESS
+  condition: method and field
+falsepositives:
+- Legitimate upload progress
+level: informational

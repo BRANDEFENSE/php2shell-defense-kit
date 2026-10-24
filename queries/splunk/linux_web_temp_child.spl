@@ -1,0 +1,2 @@
+Image IN ("/tmp/*", "/var/tmp/*", "/dev/shm/*")
+| regex ParentImage="(^|/)(php-fpm[0-9.]*|php-cgi[0-9.]*|lsphp[0-9.]*|frankenphp|sw-engine-fpm|apache2|httpd)$"

@@ -1,0 +1,25 @@
+title: PHP2Shell - Oversized PHPSESSID Cookie
+id: 9bb44415-9403-45e6-b7aa-cc34bdb6e7fa
+status: experimental
+description: |
+  PHP session IDs are at most 256 characters (default 32). Wiz lists unexpectedly large or malformed
+  PHPSESSID cookies as an indicator. Requires a log source that records the Cookie header; field names
+  follow the W3C/IIS-style webserver taxonomy and may need mapping for your pipeline.
+references:
+  - https://www.prophetsecurity.ai/blog/php2shell
+author: am-i-infected contributors
+date: 2026-10-23
+tags:
+  - attack.initial-access
+  - attack.t1190
+  - cve.2026-109618
+  - cve.2026-109619
+logsource:
+  category: webserver
+detection:
+  selection:
+    cs-cookie|re: 'PHPSESSID=[^;]{257,}'
+  condition: selection
+falsepositives:
+  - Applications that deliberately issue very long session identifiers
+level: medium

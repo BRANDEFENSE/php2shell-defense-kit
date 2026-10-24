@@ -1,0 +1,29 @@
+title: Linux Web Runtime Child Referencing Persistence Locations
+id: 2ae4533b-2c25-5e58-a364-5dcc7591ca4e
+status: experimental
+description: Detects commands referencing persistence locations; access is not proof
+  of modification. This is a hunting lead, not attribution to PHP2Shell or proof of
+  successful exploitation.
+references:
+- https://www.php.net/archive/2026.php#2026-10-21-5
+- https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp
+author: Brandefense Research Team
+date: '2026-10-24'
+license: MIT
+tags:
+- attack.t1053.003
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  parent:
+    ParentImage|re: (^|/)(php-fpm[0-9.]*|php-cgi[0-9.]*|lsphp[0-9.]*|frankenphp|sw-engine-fpm|apache2|httpd)$
+  paths:
+    CommandLine|contains:
+    - /etc/cron
+    - /.ssh/authorized_keys
+    - /etc/systemd/system/
+  condition: parent and paths
+falsepositives:
+- Privileged administration panels
+level: high

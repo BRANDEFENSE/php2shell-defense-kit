@@ -1,0 +1,23 @@
+title: Oversized POST Rejected With HTTP 413
+id: dc1817d9-a830-4db7-b157-68085c6dc052
+status: experimental
+description: >-
+  A POST answered 413 by the frontend (nginx client_max_body_size, Apache LimitRequestBody, WAF). Lab: the 1M body limit produced 413 for the oversized bodies and none for the small leak-shape request. Same caution as nginx_body_too_large: legitimate over-limit uploads match.
+references:
+- https://www.php.net/archive/2026.php#2026-10-21-5
+- https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp
+author: Brandefense Research Team
+date: '2026-10-24'
+license: MIT
+tags:
+- attack.t1190
+logsource:
+  category: webserver
+detection:
+  selection:
+    cs-method: POST
+    sc-status: 413
+  condition: selection
+falsepositives:
+- Legitimate uploads over the configured limit
+level: informational

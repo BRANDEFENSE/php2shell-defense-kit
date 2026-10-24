@@ -1,0 +1,32 @@
+// PHP2Shell (CVE-2026-109618, CVE-2026-109619)
+// Query 01. Suspicious form POSTs in web server access logs.
+// Finds multipart POSTs to URLs that never take uploads: chunked bodies, bursts
+// from one source, and POSTs that fail with a 5xx. The attack body is small (a few
+// hundred KB in our lab), so a large body is only one of several triggers.
+// Data      Web server access logs in the format from log-formats/, as Azure Monitor Agent text logs.
+// Schedule  Every hour, looking back 1 hour. For the first run, set start to datetime(2026-10-20).
+// Severity  Medium
+// Tuning    Change the table name. Add your real upload URLs to KnownUploadPaths.
+let start = ago(1h);
+let KnownUploadPaths = dynamic(["/wp-admin/async-upload.php"]); // replace with your real upload URLs
+WebAccessLogs_CL
+| where TimeGenerated >= start
+| where RawData has "POST"
+| parse RawData with ClientIp " " * " [" * "] \"" Method " " Url " " * "\" " Status:int " " * " \"" * "\" \"" UserAgent "\" ct=\"" ContentType "\" te=\"" TransferEncoding "\" reqlen=" RequestLength
+| extend Path = tostring(split(Url, "?")[0]), RequestBytes = tolong(RequestLength)
+| where Method == "POST" and Path !in~ (KnownUploadPaths)
+| extend IsMultipart = ContentType startswith "multipart/form-data"
+| extend IsChunkedMultipart = IsMultipart and TransferEncoding contains "chunked",
+         IsLargeForm = (IsMultipart or ContentType startswith "application/x-www-form-urlencoded") and RequestBytes > 1000000
+| summarize Posts = count(),
+            MultipartPosts = countif(IsMultipart),
+            ChunkedMultipart = countif(IsChunkedMultipart),
+            LargeForms = countif(IsLargeForm),
+            ServerErrors = countif(Status >= 500),
+            Paths = make_set(Path, 10),
+            UserAgents = make_set(UserAgent, 5)
+          by ClientIp, Computer, Window = bin(TimeGenerated, 10m)
+// Chunked, oversized, a burst, or a multipart POST that errored out. The memory
+// crash surfaces here as a 5xx, so one failing multipart POST is enough to flag.
+| where ChunkedMultipart > 0 or LargeForms > 0 or MultipartPosts >= 10 or (MultipartPosts > 0 and ServerErrors > 0)
+| order by MultipartPosts desc

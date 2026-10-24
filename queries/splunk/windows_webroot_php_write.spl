@@ -1,0 +1,1 @@
+Image IN ("*\\php-cgi.exe", "*\\php.exe", "*\\httpd.exe", "*\\w3wp.exe") TargetFilename="*\\inetpub\\wwwroot\\*" TargetFilename IN ("*.php", "*.phtml", "*.phar")

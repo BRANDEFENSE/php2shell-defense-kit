@@ -1,0 +1,26 @@
+title: Upload-Progress Field Together With a Session Id in the Body
+id: 426eb98a-ba38-430a-877e-17e211c2c148
+status: experimental
+description: >-
+  Multipart POST that carries PHP_SESSION_UPLOAD_PROGRESS and a PHPSESSID form field. In the Brandefense lab this is the shape of the session-state leak request (unpatched 8.3.35, 8.4.26, 8.5.11); a legitimate upload-progress form identifies the session by cookie and has no PHPSESSID body field. Needs decoded multipart field names (BodyParameterNames) from a WAF, proxy or sensor. Default names only: renaming session.upload_progress.name or session.name makes this rule blind. The leak leaves no error in any server log, so request metadata is the only place to see it. Hunting lead only.
+references:
+- https://www.php.net/archive/2026.php#2026-10-21-5
+- https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp
+author: Brandefense Research Team
+date: '2026-10-24'
+license: MIT
+tags:
+- attack.t1190
+logsource:
+  category: webserver
+detection:
+  method:
+    cs-method: POST
+  fields:
+    BodyParameterNames|all:
+    - PHP_SESSION_UPLOAD_PROGRESS
+    - PHPSESSID
+  condition: method and fields
+falsepositives:
+- Applications that deliberately send the session id as a form field next to the progress field
+level: medium

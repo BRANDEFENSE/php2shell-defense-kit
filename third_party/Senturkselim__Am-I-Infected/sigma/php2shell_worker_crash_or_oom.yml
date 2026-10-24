@@ -1,0 +1,29 @@
+title: PHP2Shell - PHP Worker Crash or Memory Exhaustion Messages
+id: b1041050-0f25-4eb0-a86f-bd5804e82348
+status: experimental
+description: |
+  Matches PHP-FPM children exiting on a signal and PHP memory-exhaustion errors in syslog-style logs.
+  Exploitation of CVE-2026-109618 relies on out-of-memory conditions, so bursts on internet-facing hosts
+  deserve review. PHP's advisory notes a failure can occur before PHP writes any message, and patched PHP
+  deliberately exits on a hard OOM threshold, so treat hits as leads and alert on spikes, not single events.
+references:
+  - https://www.vulncheck.com/blog/php2shell-vulnerabilities
+author: am-i-infected contributors
+date: 2026-10-23
+tags:
+  - attack.initial-access
+  - attack.t1190
+  - cve.2026-109618
+  - cve.2026-109619
+logsource:
+  product: linux
+  service: syslog
+detection:
+  fpm_signal:
+    - 'exited on signal'
+  oom:
+    - 'Allowed memory size of'
+  condition: fpm_signal or oom
+falsepositives:
+  - Memory-hungry legitimate scripts, leaky plugins, deliberate kills of PHP-FPM children
+level: low

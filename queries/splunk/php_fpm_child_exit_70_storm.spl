@@ -1,0 +1,6 @@
+Message="*exited with code 70 after*"
+
+| bin _time span=5m
+| stats count as event_count by _time host PoolName
+
+| search event_count >= 5

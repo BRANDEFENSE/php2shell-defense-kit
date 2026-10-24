@@ -1,0 +1,30 @@
+title: Linux Web Runtime Executing a Child from Writable Temporary Paths
+id: e885103d-4e3e-58a1-89e9-45c744f17651
+status: experimental
+description: Detects direct execution of an image located in temporary storage. Scripts
+  passed as arguments need separate telemetry. This is a hunting lead, not attribution
+  to PHP2Shell or proof of successful exploitation.
+references:
+- https://www.php.net/archive/2026.php#2026-10-21-5
+- https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp
+author: Brandefense Research Team
+date: '2026-10-24'
+license: MIT
+tags:
+- attack.execution
+- attack.t1059
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  parent:
+    ParentImage|re: (^|/)(php-fpm[0-9.]*|php-cgi[0-9.]*|lsphp[0-9.]*|frankenphp|sw-engine-fpm|apache2|httpd)$
+  path:
+    Image|startswith:
+    - /tmp/
+    - /var/tmp/
+    - /dev/shm/
+  condition: parent and path
+falsepositives:
+- Temporary helper binaries deployed by applications
+level: high

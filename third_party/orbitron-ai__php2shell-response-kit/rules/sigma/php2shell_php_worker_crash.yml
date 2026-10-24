@@ -1,0 +1,34 @@
+title: PHP Worker or Apache Child Crashed With Memory Corruption Signal (possible php2shell exploitation attempt)
+id: f87775e3-8592-4172-8149-15e966b73151
+status: experimental
+description: |
+  CVE-2026-109618 / CVE-2026-109619 are reported to be memory-corruption bugs. Failed or unstable exploitation
+  of memory corruption commonly crashes the PHP worker. This rule looks for php-fpm "child ... exited on
+  signal 11/6/7" and Apache "exit signal Segmentation fault/Aborted/Bus error" messages in PHP-FPM and
+  web server error logs. A single crash is weak evidence; bursts, crashes correlated with multipart POST
+  requests, or crashes followed by the process-creation rules are strong evidence. UNTESTED.
+references:
+  - https://blog.flatt.tech/entry/php2shell
+author: ORBITRON
+date: 2026-10-21
+tags:
+  - attack.initial-access
+  - attack.t1190
+  - cve.2026-109618
+  - cve.2026-109619
+logsource:
+  product: linux
+  service: php-fpm
+  definition: 'PHP-FPM error log (error_log in php-fpm.conf) and Apache/LiteSpeed error_log forwarded as raw text'
+detection:
+  keywords:
+    - 'exited on signal 11'
+    - 'exited on signal 6'
+    - 'exited on signal 7'
+    - 'exit signal Segmentation fault'
+    - 'exit signal Aborted'
+    - 'exit signal Bus error'
+  condition: keywords
+falsepositives:
+  - Buggy or mismatched PHP extensions (opcache/JIT, ionCube, imagick, xdebug) - check the baseline crash rate before alerting
+level: medium

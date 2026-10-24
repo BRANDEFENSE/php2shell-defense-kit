@@ -1,0 +1,10 @@
+{
+ "rules/yara/php_triage.yar": {
+  "files_scanned": 8,
+  "hits": []
+ },
+ "third_party/orbitron-ai__php2shell-response-kit/rules/yara/php2shell_hunting.yar": {
+  "files_scanned": 8,
+  "hits": []
+ }
+}

@@ -1,0 +1,97 @@
+# Security Configuration Assessment
+# PHP2Shell - CVE-2026-109618 / CVE-2026-109619
+# Scope: Ubuntu 24.04 LTS, PHP 8.3, Apache 2 with mod_php
+#
+# Checks 109601 to 109604 pass when the installed package carries the vendor
+# backport (109600) or when the interim mitigation is effective.
+# 109601 to 109603 compute the effective value the way the Apache SAPI loads
+# it: the PHP CLI binary is started with the Apache php.ini (-c) and the Apache
+# conf.d scan directory (PHP_INI_SCAN_DIR), and ini_get() returns the value PHP
+# resolves after every drop-in file. They need the php8.3-cli package.
+# 109604 searches the Apache configuration and .htaccess files under /var/www
+# for php_value, php_admin_value, php_flag and php_admin_flag lines that undo
+# a mitigation, because those override php.ini at request time.
+# Author: Kislley Rodrigues - Wazuh Ambassador
+#
+# References:
+#   https://www.php.net/archive/2026.php#2026-10-21-5
+#   https://www.wiz.io/blog/php2shell-php-rce
+#   https://calif.io/php2shell/
+
+policy:
+  id: "php2shell_ubuntu2404_php83"
+  file: "php2shell_cve_2026_109618_109619.yml"
+  name: "PHP2Shell (CVE-2026-109618 / CVE-2026-109619) exposure - Ubuntu 24.04 PHP 8.3 Apache mod_php"
+  description: "Checks whether the Ubuntu PHP 8.3 package includes the vendor backport for CVE-2026-109618 and CVE-2026-109619, and, on hosts without the backport, whether the interim mitigations listed in the official PHP security advisory are effective in the Apache mod_php configuration."
+  references:
+    - https://www.php.net/archive/2026.php#2026-10-21-5
+    - https://www.wiz.io/blog/php2shell-php-rce
+    - https://calif.io/php2shell/
+
+requirements:
+  title: "Ubuntu PHP 8.3 package and Apache mod_php configuration are present"
+  description: "The policy only runs on endpoints with the Ubuntu php8.3-common package and the Apache 2 PHP 8.3 php.ini file."
+  condition: all
+  rules:
+    - 'f:/etc/php/8.3/apache2/php.ini'
+    - 'c:dpkg-query -W php8.3-common -> r:^php8.3-common'
+
+checks:
+  - id: 109600
+    title: "PHP 8.3 package includes the CVE-2026-109618 / CVE-2026-109619 backport (8.3.6-0ubuntu0.24.04.13 or later)"
+    description: "Ubuntu ships the fix as a backport in package version 8.3.6-0ubuntu0.24.04.13. The upstream version string remains 8.3.6, so php -v cannot be used to determine exposure."
+    rationale: "Unpatched PHP builds allow unauthenticated remote code execution and process memory disclosure through out-of-memory and stale global state conditions in the PHP engine."
+    remediation: "Run: apt update && apt install --only-upgrade php8.3-common libapache2-mod-php8.3 php8.3-cli php8.3-opcache php8.3-readline && systemctl restart apache2"
+    references:
+      - https://www.php.net/archive/2026.php#2026-10-21-5
+    condition: all
+    rules:
+      - 'c:dpkg-query -W php8.3-common -> n:24.04.(\d+)$ compare >= 13'
+
+  - id: 109601
+    title: "Interim mitigation: session.upload_progress.enabled is disabled for Apache mod_php"
+    description: "The official PHP advisory lists session.upload_progress.enabled=0 as an interim measure for CVE-2026-109619. The PHP default is enabled. The effective value is read with ini_get() using the Apache php.ini and conf.d. The check passes on hosts that carry the vendor backport, since the interim measure is only needed before updating."
+    rationale: "Session upload progress handling runs during request startup, before application code, and is part of the confirmed exploitation paths."
+    remediation: "In /etc/php/8.3/apache2/php.ini set session.upload_progress.enabled = Off and restart Apache. Do not rely on ini_set() or .user.ini. This is a partial mitigation; updating PHP is the only complete fix."
+    references:
+      - https://www.php.net/archive/2026.php#2026-10-21-5
+    condition: any
+    rules:
+      - 'c:dpkg-query -W php8.3-common -> n:24.04.(\d+)$ compare >= 13'
+      - 'c:sh -c "PHP_INI_SCAN_DIR=/etc/php/8.3/apache2/conf.d php8.3 -c /etc/php/8.3/apache2/php.ini -r ''echo ini_get($argv[1])?1:0;'' -- session.upload_progress.enabled 2>/dev/null; echo" -> r:^0$'
+
+  - id: 109602
+    title: "Interim mitigation: memory_limit is set to -1 for Apache mod_php"
+    description: "The official PHP advisory lists memory_limit=-1 as an interim measure for CVE-2026-109618, removing the controllable PHP memory limit failure. The effective value is read with ini_get() using the Apache php.ini and conf.d. The check passes on hosts that carry the vendor backport, since the interim measure is only needed before updating."
+    rationale: "The exploitation chain relies on triggering a fatal memory_limit error at a chosen allocation."
+    remediation: "In /etc/php/8.3/apache2/php.ini set memory_limit = -1 and enforce a container or cgroup memory limit as the availability boundary. This increases memory exhaustion risk and is a partial mitigation only; updating PHP is the only complete fix."
+    references:
+      - https://www.php.net/archive/2026.php#2026-10-21-5
+    condition: any
+    rules:
+      - 'c:dpkg-query -W php8.3-common -> n:24.04.(\d+)$ compare >= 13'
+      - 'c:sh -c "PHP_INI_SCAN_DIR=/etc/php/8.3/apache2/conf.d php8.3 -c /etc/php/8.3/apache2/php.ini -r ''echo ini_get($argv[1]);'' -- memory_limit 2>/dev/null; echo" -> r:^-1$'
+
+  - id: 109603
+    title: "Interim mitigation: post_max_size is 32M or lower for Apache mod_php"
+    description: "The official PHP advisory recommends post_max_size = 8M for applications without uploads and 32M when uploads are required. The effective value is read with ini_get() using the Apache php.ini and conf.d, converted to MiB and rounded up. 0 (unlimited) fails. The check passes on hosts that carry the vendor backport."
+    rationale: "A low post_max_size reduces the request size available to build memory pressure. The researchers documented bypasses using chunked or lengthless requests, so request limits must also be enforced at the web server or proxy."
+    remediation: "In /etc/php/8.3/apache2/php.ini set post_max_size = 8M (or 32M if uploads are required), keep upload_max_filesize below post_max_size and restart Apache."
+    references:
+      - https://www.php.net/archive/2026.php#2026-10-21-5
+    condition: any
+    rules:
+      - 'c:dpkg-query -W php8.3-common -> n:24.04.(\d+)$ compare >= 13'
+      - 'c:sh -c "PHP_INI_SCAN_DIR=/etc/php/8.3/apache2/conf.d php8.3 -c /etc/php/8.3/apache2/php.ini -r ''$v=ini_parse_quantity(ini_get($argv[1]));echo $v>0?min(9999,(int)ceil($v/1048576)):-1;'' -- post_max_size 2>/dev/null; echo" -> n:^(\d+)$ compare <= 32'
+
+  - id: 109604
+    title: "Interim mitigation: no Apache or .htaccess override undoes the memory_limit, post_max_size or session.upload_progress.enabled mitigation"
+    description: "The official PHP advisory says to set memory_limit where applications cannot override it, such as php_admin_value in the Apache configuration, and to check that no directory or application setting puts a finite limit back. The check searches /etc/apache2 and .htaccess files under /var/www for php_value, php_admin_value, php_flag and php_admin_flag lines that set memory_limit to anything other than -1, post_max_size above 32M or unlimited, or session.upload_progress.enabled on. Commented lines are ignored. It passes on hosts that carry the vendor backport. .htaccess files outside /var/www and per-application settings are not read."
+    rationale: "A php_value or php_admin_value line in the Apache configuration overrides php.ini, so a correct php.ini value does not prove the effective value."
+    remediation: "Review the matches with: grep -REi 'php_(admin_)?(value|flag)' /etc/apache2 and grep -REi --include=.htaccess 'php_(admin_)?(value|flag)' /var/www. Remove or correct any line that sets memory_limit, post_max_size or session.upload_progress.enabled to a value that undoes the interim mitigation, and restart Apache."
+    references:
+      - https://www.php.net/archive/2026.php#2026-10-21-5
+    condition: any
+    rules:
+      - 'c:dpkg-query -W php8.3-common -> n:24.04.(\d+)$ compare >= 13'
+      - 'not c:sh -c "{ grep -REhis ''^[[:space:]]*php_(admin_)?(value|flag)[[:space:]]'' /etc/apache2; grep -REhis --include=.htaccess ''^[[:space:]]*php_(admin_)?(value|flag)[[:space:]]'' /var/www; } | tr -d ''\042\047'' | grep -Eiq ''^[[:space:]]*php_(admin_)?(value|flag)[[:space:]]+(memory_limit[[:space:]]+([^-[:space:]]|-[^1])|post_max_size[[:space:]]+(0|-1|[0-9]+[Gg]|(3[3-9]|[4-9][0-9]|[0-9]{3,})[Mm]|[0-9]{9,})[[:space:]]*$|session[.]upload_progress[.]enabled[[:space:]]+(1|on|true|yes)[[:space:]]*$)'' && echo override_found; exit 0" -> r:override_found'

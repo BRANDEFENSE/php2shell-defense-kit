@@ -1,0 +1,50 @@
+title: PHP or Web Server Process Writes Executable Script or Per-Directory Config to Web Root (Linux)
+id: d4124a4d-73b3-4186-a15a-7aef38e85db3
+status: experimental
+description: |
+  Detects the web server / PHP worker creating PHP-executable files (.php, .phtml, .phar ...) or per-directory
+  configuration (.user.ini, .htaccess) inside common web roots - typical webshell drop or auto_prepend_file
+  persistence after PHP code execution (e.g. CVE-2026-109618 / CVE-2026-109619). Requires file creation
+  telemetry (Sysmon for Linux EventID 11, auditd, EDR). UNTESTED in production.
+references:
+  - https://blog.flatt.tech/entry/php2shell
+author: ORBITRON
+date: 2026-10-21
+tags:
+  - attack.persistence
+  - attack.t1505.003
+  - cve.2026-109618
+  - cve.2026-109619
+logsource:
+  product: linux
+  category: file_event
+detection:
+  selection_writer_php:
+    Image|contains:
+      - 'php-fpm'
+      - 'php-cgi'
+      - 'lsphp'
+  selection_writer_apache:
+    Image|endswith:
+      - 'httpd'
+      - 'apache2'
+  selection_path:
+    TargetFilename|startswith:
+      - '/var/www/'
+      - '/srv/'
+      - '/usr/share/nginx/'
+      - '/home/'
+  selection_ext:
+    TargetFilename|endswith:
+      - '.php'
+      - '.phtml'
+      - '.phar'
+      - '.php5'
+      - '.php7'
+      - '.pht'
+      - '/.user.ini'
+      - '/.htaccess'
+  condition: 1 of selection_writer_* and selection_path and selection_ext
+falsepositives:
+  - CMS core/plugin/theme updates (WordPress, Joomla, Drupal, Magento) and template caches written as .php
+level: medium

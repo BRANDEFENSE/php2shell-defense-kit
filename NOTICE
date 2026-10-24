@@ -1,0 +1,31 @@
+PHP2Shell Defense Kit — Brandefense Research Team, 2026. Code and rules MIT; documentation CC BY 4.0.
+
+This is an original defensive package, plus a separate folder of third-party detection content (third_party/). The discovery of the PHP vulnerabilities
+and the vendor mitigations belong to the researchers and maintainers credited
+in the PHP advisories. This package does not claim their discovery or reproduce
+third-party exploit code.
+
+Behavioral detections and YARA matches are investigation leads. They do not
+attribute activity to a CVE, prove exploitation, or certify a system as safe.
+No production validation or lab exploit reproduction is claimed.
+
+Sigma, YARA, Splunk, Microsoft, osquery, PHP and other names identify independent
+projects or products. No endorsement or affiliation is implied.
+
+Third-party material (folder third_party/, unchanged copies; each folder holds the
+upstream LICENSE and a SOURCE.md with URL, commit and fetch date). These files are not
+written, reviewed for production or endorsed by Brandefense, and they are not covered
+by this package's MIT / CC BY 4.0 licences. Their own licences apply:
+
+- corelight/php2shell-detect: BSD-3-Clause, Copyright (c) 2026 Corelight, Inc.
+- orbitron-ai/php2shell-response-kit: MIT, Copyright (c) 2026 ORBITRON
+- Senturkselim/Am-I-Infected: MIT, Copyright (c) 2026 Senturkselim
+- break-the-build/php-multipart-waf-signals: MIT, Copyright (c) 2026 break-the-build
+- aplite-de/php2shell-detection-rules: MIT, Copyright (c) 2026 Aplite
+- deathbydata/php2shell-exposurehunt: MIT (upstream copyright holder left as a placeholder)
+- mym0us3r/PHP2Shell-Detection-with-Wazuh: MIT, Copyright (c) 2026 Kislley Rodrigues a.k.a. m0us3r
+- sorenjohanson/crowdsec-cve-2026-109618-rule: MIT, Copyright (c) 2026 Contributors
+- karlisl/php2shell-rules: CC0 1.0 (public domain dedication)
+
+Redistribution of any of these files must keep the matching LICENSE. A curated list of
+these and other community projects is in docs/community-resources.md.

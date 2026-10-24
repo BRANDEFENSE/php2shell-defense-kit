@@ -1,0 +1,512 @@
+[
+  {
+    "rule": "linux_web_shell",
+    "event": {
+      "ParentImage": "/usr/sbin/php-fpm8.3",
+      "Image": "/bin/sh"
+    },
+    "expected": true
+  },
+  {
+    "rule": "linux_web_shell",
+    "event": {
+      "ParentImage": "/usr/sbin/httpd",
+      "Image": "/bin/bash"
+    },
+    "expected": true
+  },
+  {
+    "rule": "linux_web_shell",
+    "event": {
+      "ParentImage": "/usr/bin/sshd",
+      "Image": "/bin/bash"
+    },
+    "expected": false
+  },
+  {
+    "rule": "linux_web_shell",
+    "event": {
+      "ParentImage": "/usr/sbin/php-fpm8.3",
+      "Image": "/usr/bin/convert"
+    },
+    "expected": false
+  },
+  {
+    "rule": "linux_web_downloader",
+    "event": {
+      "ParentImage": "/usr/sbin/php-fpm",
+      "Image": "/usr/bin/curl"
+    },
+    "expected": true
+  },
+  {
+    "rule": "linux_web_downloader",
+    "event": {
+      "ParentImage": "/bin/bash",
+      "Image": "/usr/bin/curl"
+    },
+    "expected": false
+  },
+  {
+    "rule": "linux_web_interpreter",
+    "event": {
+      "ParentImage": "/usr/bin/frankenphp",
+      "Image": "/usr/bin/python3.12"
+    },
+    "expected": true
+  },
+  {
+    "rule": "linux_web_interpreter",
+    "event": {
+      "ParentImage": "/usr/bin/cron",
+      "Image": "/usr/bin/python3"
+    },
+    "expected": false
+  },
+  {
+    "rule": "linux_web_interpreter",
+    "event": {
+      "ParentImage": "/usr/sbin/php-fpm",
+      "Image": "/usr/bin/php-fpm"
+    },
+    "expected": false
+  },
+  {
+    "rule": "linux_web_secret_command",
+    "event": {
+      "ParentImage": "/usr/sbin/php-fpm",
+      "CommandLine": "cat /etc/shadow"
+    },
+    "expected": true
+  },
+  {
+    "rule": "linux_web_secret_command",
+    "event": {
+      "ParentImage": "/bin/bash",
+      "CommandLine": "cat /etc/shadow"
+    },
+    "expected": false
+  },
+  {
+    "rule": "linux_web_secret_command",
+    "event": {
+      "ParentImage": "/usr/sbin/php-fpm",
+      "CommandLine": "cat /etc/os-release"
+    },
+    "expected": false
+  },
+  {
+    "rule": "linux_web_persistence_command",
+    "event": {
+      "ParentImage": "/usr/sbin/httpd",
+      "CommandLine": "cat /etc/cron.d/example"
+    },
+    "expected": true
+  },
+  {
+    "rule": "linux_web_persistence_command",
+    "event": {
+      "ParentImage": "/usr/sbin/httpd",
+      "CommandLine": "cat /etc/hosts"
+    },
+    "expected": false
+  },
+  {
+    "rule": "linux_web_temp_child",
+    "event": {
+      "ParentImage": "/usr/sbin/php-fpm",
+      "Image": "/dev/shm/helper"
+    },
+    "expected": true
+  },
+  {
+    "rule": "linux_web_temp_child",
+    "event": {
+      "ParentImage": "/usr/sbin/php-fpm",
+      "Image": "/usr/bin/helper"
+    },
+    "expected": false
+  },
+  {
+    "rule": "linux_webroot_php_write",
+    "event": {
+      "Image": "/usr/sbin/php-fpm",
+      "TargetFilename": "/var/www/html/cache/new.php"
+    },
+    "expected": true
+  },
+  {
+    "rule": "linux_webroot_php_write",
+    "event": {
+      "Image": "/usr/sbin/php-fpm",
+      "TargetFilename": "/var/www/html/image.jpg"
+    },
+    "expected": false
+  },
+  {
+    "rule": "linux_webroot_php_write",
+    "event": {
+      "Image": "/usr/bin/git",
+      "TargetFilename": "/var/www/html/index.php"
+    },
+    "expected": false
+  },
+  {
+    "rule": "windows_web_shell",
+    "event": {
+      "ParentImage": "C:\\PHP\\php-cgi.exe",
+      "Image": "C:\\Windows\\System32\\cmd.exe"
+    },
+    "expected": true
+  },
+  {
+    "rule": "windows_web_shell",
+    "event": {
+      "ParentImage": "C:\\Windows\\explorer.exe",
+      "Image": "C:\\Windows\\System32\\cmd.exe"
+    },
+    "expected": false
+  },
+  {
+    "rule": "windows_web_transfer",
+    "event": {
+      "ParentImage": "C:\\PHP\\php-cgi.exe",
+      "Image": "C:\\Windows\\System32\\curl.exe"
+    },
+    "expected": true
+  },
+  {
+    "rule": "windows_web_transfer",
+    "event": {
+      "ParentImage": "C:\\Windows\\explorer.exe",
+      "Image": "C:\\Windows\\System32\\curl.exe"
+    },
+    "expected": false
+  },
+  {
+    "rule": "windows_webroot_php_write",
+    "event": {
+      "Image": "C:\\PHP\\php-cgi.exe",
+      "TargetFilename": "C:\\inetpub\\wwwroot\\new.php"
+    },
+    "expected": true
+  },
+  {
+    "rule": "windows_webroot_php_write",
+    "event": {
+      "Image": "C:\\PHP\\php-cgi.exe",
+      "TargetFilename": "C:\\inetpub\\wwwroot\\photo.jpg"
+    },
+    "expected": false
+  },
+  {
+    "rule": "http_upload_progress_field",
+    "event": {
+      "cs-method": "POST",
+      "BodyParameterNames": [
+        "file",
+        "PHP_SESSION_UPLOAD_PROGRESS"
+      ]
+    },
+    "expected": true
+  },
+  {
+    "rule": "http_upload_progress_field",
+    "event": {
+      "cs-method": "GET",
+      "BodyParameterNames": "PHP_SESSION_UPLOAD_PROGRESS"
+    },
+    "expected": false
+  },
+  {
+    "rule": "http_upload_progress_field",
+    "event": {
+      "cs-method": "POST",
+      "cs-uri-query": "PHP_SESSION_UPLOAD_PROGRESS"
+    },
+    "expected": false
+  },
+  {
+    "rule": "http_upload_progress_field",
+    "event": {
+      "cs-method": "POST",
+      "BodyParameterNames": "file,custom_progress"
+    },
+    "expected": false
+  },
+  {
+    "rule": "http_large_session_cookie",
+    "event": {
+      "ResponseCookieName": "PHPSESSID",
+      "ResponseCookieValueLength": 5000
+    },
+    "expected": true
+  },
+  {
+    "rule": "http_large_session_cookie",
+    "event": {
+      "ResponseCookieName": "PHPSESSID",
+      "ResponseCookieValueLength": 32
+    },
+    "expected": false
+  },
+  {
+    "rule": "http_large_session_cookie",
+    "event": {
+      "ResponseCookieName": "other",
+      "ResponseCookieValueLength": 5000
+    },
+    "expected": false
+  },
+  {
+    "rule": "php_memory_exhaustion",
+    "event": {
+      "Message": "PHP Fatal error: Allowed memory size of 134217728 bytes exhausted (tried to allocate 262144 bytes) in Unknown on line 0"
+    },
+    "expected": true
+  },
+  {
+    "rule": "php_memory_exhaustion",
+    "event": {
+      "Message": "PHP warning: unknown setting"
+    },
+    "expected": false
+  },
+  {
+    "rule": "php_memory_exhaustion",
+    "event": {
+      "Message": "Allowed memory size of 134217728 bytes"
+    },
+    "expected": false
+  },
+  {
+    "rule": "php_memory_exhaustion",
+    "event": {
+      "Message": "PHP Fatal error: Allowed memory size of 134217728 bytes exhausted (tried to allocate 20480 bytes) in /var/www/html/app.php on line 42"
+    },
+    "expected": false
+  },
+  {
+    "rule": "php_execution_timeout",
+    "event": {
+      "Message": "Maximum execution time of 30 seconds exceeded"
+    },
+    "expected": true
+  },
+  {
+    "rule": "php_execution_timeout",
+    "event": {
+      "Message": "Job completed in 30 seconds"
+    },
+    "expected": false
+  },
+  {
+    "rule": "linux_php_worker_crash",
+    "event": {
+      "Message": "php-fpm8.3[123]: segfault at 0 ip 0"
+    },
+    "expected": true
+  },
+  {
+    "rule": "linux_php_worker_crash",
+    "event": {
+      "Message": "php-fpm started"
+    },
+    "expected": false
+  },
+  {
+    "rule": "linux_php_worker_crash",
+    "event": {
+      "Message": "database segfault at 0"
+    },
+    "expected": false
+  },
+  {
+    "rule": "http_upload_progress_field",
+    "event": {
+      "cs-method": "POST",
+      "BodyParameterNames": [
+        "file",
+        "prefixPHP_SESSION_UPLOAD_PROGRESSsuffix"
+      ]
+    },
+    "expected": false
+  },
+  {
+    "rule": "linux_web_interpreter",
+    "event": {
+      "ParentImage": "/usr/sbin/php-fpm8.3",
+      "Image": "/usr/bin/php8.3"
+    },
+    "expected": false
+  },
+  {
+    "rule": "linux_web_interpreter",
+    "event": {
+      "ParentImage": "/usr/sbin/apache2",
+      "Image": "/usr/bin/perl"
+    },
+    "expected": true
+  },
+  {
+    "rule": "php_startup_oom_fatal",
+    "event": {
+      "Message": "PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 4096 bytes) in Unknown on line 0"
+    },
+    "expected": true
+  },
+  {
+    "rule": "php_startup_oom_fatal",
+    "event": {
+      "Message": "PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 4096 bytes) in /var/www/app.php on line 12"
+    },
+    "expected": false
+  },
+  {
+    "rule": "php_startup_oom_fatal",
+    "event": {
+      "Message": "PHP Warning: Bar in Unknown on line 0"
+    },
+    "expected": false
+  },
+  {
+    "rule": "php_fpm_child_exit_70_storm",
+    "event": {
+      "Message": "WARNING: [pool www] child 17 exited with code 70 after 2.1 seconds from start"
+    },
+    "expected": true
+  },
+  {
+    "rule": "php_fpm_child_exit_70_storm",
+    "event": {
+      "Message": "NOTICE: [pool www] child 17 exited with code 0 after 2.1 seconds from start"
+    },
+    "expected": false
+  },
+  {
+    "rule": "php_fpm_child_exit_70_storm",
+    "event": {
+      "Message": "WARNING: [pool www] child 17 exited with code 700 after 2.1 seconds from start"
+    },
+    "expected": false
+  },
+  {
+    "rule": "nginx_body_too_large",
+    "event": {
+      "Message": "[error] 10#10: *3 client intended to send too large body: 3000063 bytes, client: 127.0.0.1"
+    },
+    "expected": true
+  },
+  {
+    "rule": "nginx_body_too_large",
+    "event": {
+      "Message": "[warn] a client request body is buffered to a temporary file"
+    },
+    "expected": false
+  },
+  {
+    "rule": "http_post_rejected_413",
+    "event": {
+      "cs-method": "POST",
+      "sc-status": 413
+    },
+    "expected": true
+  },
+  {
+    "rule": "http_post_rejected_413",
+    "event": {
+      "cs-method": "GET",
+      "sc-status": 413
+    },
+    "expected": false
+  },
+  {
+    "rule": "http_post_rejected_413",
+    "event": {
+      "cs-method": "POST",
+      "sc-status": 200
+    },
+    "expected": false
+  },
+  {
+    "rule": "http_upload_progress_with_body_session_id",
+    "event": {
+      "cs-method": "POST",
+      "BodyParameterNames": [
+        "PHPSESSID",
+        "PHP_SESSION_UPLOAD_PROGRESS",
+        "file1"
+      ]
+    },
+    "expected": true
+  },
+  {
+    "rule": "http_upload_progress_with_body_session_id",
+    "event": {
+      "cs-method": "POST",
+      "BodyParameterNames": [
+        "PHP_SESSION_UPLOAD_PROGRESS",
+        "doc"
+      ]
+    },
+    "expected": false
+  },
+  {
+    "rule": "http_upload_progress_with_body_session_id",
+    "event": {
+      "cs-method": "POST",
+      "BodyParameterNames": [
+        "PHPSESSID",
+        "doc"
+      ]
+    },
+    "expected": false
+  },
+  {
+    "rule": "http_upload_progress_with_body_session_id",
+    "event": {
+      "cs-method": "GET",
+      "BodyParameterNames": [
+        "PHPSESSID",
+        "PHP_SESSION_UPLOAD_PROGRESS"
+      ]
+    },
+    "expected": false
+  },
+  {
+    "rule": "http_multipart_flood",
+    "event": {
+      "cs-method": "POST",
+      "PartHeaderCount": 600001,
+      "PartCount": 1
+    },
+    "expected": true
+  },
+  {
+    "rule": "http_multipart_flood",
+    "event": {
+      "cs-method": "POST",
+      "PartHeaderCount": 8002,
+      "PartCount": 4001
+    },
+    "expected": true
+  },
+  {
+    "rule": "http_multipart_flood",
+    "event": {
+      "cs-method": "POST",
+      "PartHeaderCount": 3,
+      "PartCount": 1
+    },
+    "expected": false
+  },
+  {
+    "rule": "http_multipart_flood",
+    "event": {
+      "cs-method": "GET",
+      "PartHeaderCount": 600001,
+      "PartCount": 1
+    },
+    "expected": false
+  }
+]

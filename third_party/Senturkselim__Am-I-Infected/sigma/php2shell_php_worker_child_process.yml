@@ -1,0 +1,44 @@
+title: PHP2Shell - Shell or Recon Tool Spawned by a PHP/Web Worker
+id: 697d1682-336f-4381-b194-3cba131f2fc4
+status: experimental
+description: |
+  Code execution through PHP2Shell runs as the web worker account, so the typical post-exploitation signal
+  is a PHP or web-server process starting a shell or a reconnaissance tool. Tune against applications that
+  legitimately shell out (mail via sendmail wrappers, ImageMagick, git, wp-cli, CGI scripts).
+references:
+  - https://www.cybaverse.co.uk/en/php2shell-checker
+author: am-i-infected contributors
+date: 2026-10-23
+tags:
+  - attack.execution
+  - attack.t1059.004
+  - cve.2026-109618
+  - cve.2026-109619
+logsource:
+  category: process_creation
+  product: linux
+detection:
+  parent:
+    ParentImage|contains:
+      - '/php-fpm'
+      - '/php-cgi'
+      - '/lsphp'
+      - '/frankenphp'
+      - '/apache2'
+      - '/httpd'
+  child:
+    Image|endswith:
+      - '/sh'
+      - '/bash'
+      - '/dash'
+      - '/nc'
+      - '/ncat'
+      - '/netcat'
+      - '/socat'
+      - '/whoami'
+      - '/id'
+      - '/uname'
+  condition: parent and child
+falsepositives:
+  - Applications that exec helper programs through a shell
+level: medium

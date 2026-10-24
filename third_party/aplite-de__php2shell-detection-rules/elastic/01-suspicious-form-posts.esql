@@ -1,0 +1,33 @@
+// PHP2Shell (CVE-2026-109618, CVE-2026-109619)
+// Query 01. Suspicious form POSTs in web server access logs.
+// Finds multipart POSTs to URLs that never take uploads: chunked bodies, bursts
+// from one source, and POSTs that fail with a 5xx. The attack body is small (a few
+// hundred KB in our lab), so a large body is only one of several triggers.
+// Data      nginx or Apache access logs in the format from log-formats/. Reads event.original, so turn on
+//           "Preserve original event" in the integration, or parse ct, te and reqlen at ingest.
+// Schedule  Save as an ES|QL detection rule that runs every hour. The time range comes from the rule
+//           schedule, or from the time picker in Discover. For the first run, start on 20 October 2026.
+// Severity  Medium
+// Tuning    Change the data streams. Add your real upload URLs to the NOT IN list.
+FROM logs-nginx.access-*, logs-apache.access-*
+| WHERE http.request.method == "POST"
+| WHERE url.path NOT IN ("/wp-admin/async-upload.php")
+| GROK event.original """ct="%{DATA:ct}" te="%{DATA:te}" reqlen=%{NUMBER:reqlen:int}"""
+| EVAL ct = TO_LOWER(ct), te = TO_LOWER(te)
+| EVAL is_multipart = ct LIKE "multipart/form-data*",
+       is_chunked_mp = ct LIKE "multipart/form-data*" AND te LIKE "*chunked*",
+       is_large_form = (ct LIKE "multipart/form-data*" OR ct LIKE "application/x-www-form-urlencoded*") AND reqlen > 1000000,
+       is_error = http.response.status_code >= 500,
+       window = DATE_TRUNC(10 minutes, @timestamp)
+| STATS posts = COUNT(*),
+        multipart_posts = SUM(CASE(is_multipart, 1, 0)),
+        chunked_multipart = SUM(CASE(is_chunked_mp, 1, 0)),
+        large_forms = SUM(CASE(is_large_form, 1, 0)),
+        server_errors = SUM(CASE(is_error, 1, 0)),
+        paths = VALUES(url.path),
+        user_agents = VALUES(user_agent.original)
+  BY source.ip, host.name, window
+// Chunked, oversized, a burst, or a multipart POST that errored out. The memory
+// crash surfaces here as a 5xx, so one failing multipart POST is enough to flag.
+| WHERE chunked_multipart > 0 OR large_forms > 0 OR multipart_posts >= 10 OR (multipart_posts > 0 AND server_errors > 0)
+| SORT multipart_posts DESC

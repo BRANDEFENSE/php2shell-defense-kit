@@ -1,0 +1,29 @@
+title: PHP Allowed Memory Size Exhaustion at Request Startup (narrowed)
+id: ac78a8cc-e840-5bb5-be6e-9f06ea7b6cf7
+status: deprecated
+description: >-
+  Narrowed in v0.3.0. The earlier generic version matched every 'Allowed memory size exhausted' line and fired on 24 of 42 benign lab cases (ordinary script-level memory errors). It now needs the request-startup signature 'in Unknown on line 0', which makes it match exactly the same lines as php_startup_oom_fatal. Kept only so existing rule ids and dashboards keep working; use php_startup_oom_fatal for new deployments. Hunting lead, not attribution to PHP2Shell or proof of exploitation.
+references:
+- https://www.wiz.io/blog/php2shell-php-rce
+- https://www.php.net/archive/2026.php#2026-10-21-5
+- https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp
+author: Brandefense Research Team
+date: '2026-10-24'
+license: MIT
+tags:
+- attack.t1190
+- attack.t1499
+logsource:
+  product: php
+  service: error
+detection:
+  selection:
+    Message|contains|all:
+    - Allowed memory size of
+    - exhausted
+    - in Unknown on line 0
+  condition: selection
+falsepositives:
+- Patched builds that stop an oversized request cleanly (same line)
+- Legitimate oversized form posts or uploads when memory_limit is low
+level: low

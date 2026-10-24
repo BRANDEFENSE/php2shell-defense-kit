@@ -1,0 +1,2 @@
+TargetFilename IN ("/var/www/*", "/srv/www/*", "/usr/share/nginx/html/*") TargetFilename IN ("*.php", "*.phtml", "*.php5", "*.php7", "*.phar")
+| regex Image="(^|/)(php-fpm[0-9.]*|php-cgi[0-9.]*|lsphp[0-9.]*|frankenphp|sw-engine-fpm|apache2|httpd)$"

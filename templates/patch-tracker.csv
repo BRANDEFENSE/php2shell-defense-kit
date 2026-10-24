@@ -1,0 +1,2 @@
+asset_id,owner,runtime_sapi,installed_package_or_image,exact_version_or_digest,vendor_advisory_url,both_original_cves_fixed,running_web_build_verified,restart_or_rollout_verified,effective_upload_progress,related_115560_review,incident_review,coverage_gaps,status
+EXAMPLE_ONLY,assign_owner,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,not_started,not_assessed,open

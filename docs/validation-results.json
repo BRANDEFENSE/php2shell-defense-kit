@@ -1,0 +1,56 @@
+{
+  "release": "0.3.0",
+  "baseline_date": "2026-10-24",
+  "environment": {
+    "os": "Linux",
+    "python": "3.14.6",
+    "packages": {
+      "PyYAML": "6.0.3",
+      "yara-python": "4.5.4",
+      "pySigma": "1.5.1",
+      "pySigma-backend-splunk": "2.1.0",
+      "pytest": "9.1.1"
+    }
+  },
+  "result": {
+    "tests": 169,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "validated": [
+    "Sigma parsing and synthetic event semantics via pySigma AST",
+    "Splunk selection-query conversion, not execution in Splunk",
+    "YARA compilation with warnings treated as errors and inert-string matching",
+    "Linux collector CLI smoke test in this container",
+    "Inventory/config/source/SBOM/log privacy and conservative classification regressions",
+    "Loopback HTTP HEAD/no-redirect behavior",
+    "osquery SQL shape using synthetic SQLite schemas",
+    "Every Python tool starts under python3 -I",
+    "YARA noise check: 0 hits on 89,312 files of a local WordPress tree (one site, not a false-positive rate)",
+    "Lab corpus replay (277 cases) through every runnable Sigma rule; Suricata, Zeek, ModSecurity and YARA offline on lab captures"
+  ],
+  "not_validated": [
+    "Production false-positive/false-negative rates",
+    "Live SIEM or Microsoft Defender execution and mapping",
+    "Native osquery execution",
+    "Windows PowerShell execution",
+    "Docker/Kubernetes runtime execution",
+    "Nginx runtime configuration validation",
+    "Remote code execution reproduction and exploit prevention"
+  ],
+  "lab_results": {
+    "status": "filled",
+    "document": "docs/lab-validation.md",
+    "corpus": {
+      "cases": 277,
+      "requests": 908,
+      "log_lines": 2968
+    },
+    "sigma_rules_total": 35,
+    "sigma_rules_tested": 15,
+    "sigma_rules_caught_attack_oom": 13,
+    "sigma_rules_caught_attack_leak": 3,
+    "note": "Lab on arm64 release builds with synthetic traffic; not production false-positive rates."
+  }
+}

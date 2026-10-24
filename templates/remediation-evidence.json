@@ -1,0 +1,15 @@
+{
+  "asset_id": "EXAMPLE_ONLY",
+  "owner": "assign_owner",
+  "observed_at": null,
+  "runtime_sapi": "unknown",
+  "package_or_image_digest": "unknown",
+  "vendor_fix_evidence": {"url": null, "exact_package_release": null, "CVE-2026-109618": "unknown", "CVE-2026-109619": "unknown"},
+  "running_web_build_evidence": null,
+  "worker_restart_or_rollout_evidence": null,
+  "effective_startup_settings_evidence": null,
+  "CVE-2026-115560_condition_review": "not_assessed",
+  "historical_incident_review": "not_started",
+  "coverage_gaps": ["not_assessed"],
+  "closure": "open"
+}

@@ -1,0 +1,20 @@
+{
+  "platform": "linux",
+  "queries": {
+    "php_runtime_processes": {
+      "query": "SELECT pid,parent,name,path,uid FROM processes WHERE name LIKE 'php%' OR name LIKE 'lsphp%' OR name IN ('frankenphp','sw-engine-fpm','httpd','apache2');",
+      "interval": 3600,
+      "description": "Candidates including non-PHP Apache; no command line or environment"
+    },
+    "php_listening_ports": {
+      "query": "SELECT p.pid,p.name,l.address,l.port,l.protocol FROM processes p JOIN listening_ports l ON p.pid=l.pid WHERE p.name LIKE 'php%' OR p.name LIKE 'lsphp%' OR p.name IN ('frankenphp','httpd','apache2');",
+      "interval": 3600,
+      "description": "Local listeners only; no active scan"
+    },
+    "php_socket_review": {
+      "query": "SELECT p.pid,p.name,s.local_address,s.local_port,s.remote_address,s.remote_port FROM processes p JOIN process_open_sockets s ON p.pid=s.pid WHERE (p.name LIKE 'php%' OR p.name LIKE 'lsphp%' OR p.name='frankenphp') AND s.remote_port>0;",
+      "interval": 3600,
+      "description": "Connections require baseline; no maliciousness verdict"
+    }
+  }
+}

@@ -1,0 +1,28 @@
+title: PHP Out-of-Memory Fatal During Request Startup
+id: 3915dc05-5060-4706-bbaf-89b78b9c9681
+status: experimental
+description: >-
+  'Allowed memory size ... exhausted ... in Unknown on line 0' means PHP ran out of memory while parsing the request, before any script ran. Seen in the Brandefense lab on unpatched 8.3.35, 8.4.26 and 8.5.11 with oversized multipart and urlencoded bodies. PATCHED builds (8.3.36, 8.4.27, 8.5.12) log the same line when they stop the request cleanly, so one line is not proof of exploitation and does not tell patched from unpatched. A storm of worker exits from one client (php_fpm_child_exit_70_storm) is the better signal. A few attack cases ran out of memory later, inside a script (location is a file and line), and are not matched. Hunting lead only; see docs/lab-validation.md.
+references:
+- https://www.php.net/archive/2026.php#2026-10-21-5
+- https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp
+author: Brandefense Research Team
+date: '2026-10-24'
+license: MIT
+tags:
+- attack.t1190
+- attack.t1499
+logsource:
+  product: php
+  service: error
+detection:
+  selection:
+    Message|contains|all:
+    - Allowed memory size of
+    - exhausted
+    - in Unknown on line 0
+  condition: selection
+falsepositives:
+- Patched builds that stop an oversized request cleanly (same line, lab-verified)
+- Legitimate oversized form posts or uploads when memory_limit is low
+level: low

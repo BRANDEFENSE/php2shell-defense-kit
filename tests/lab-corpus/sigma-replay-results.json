@@ -1,0 +1,1457 @@
+{
+ "own": [
+  {
+   "rule": "http_large_session_cookie",
+   "title": "Abnormally Large Default PHP Session Response Cookie",
+   "source": "rules/sigma/http_large_session_cookie.yml",
+   "level": "medium",
+   "status": "not tested",
+   "reason": "field(s) not present in lab telemetry: ResponseCookieName, ResponseCookieValueLength"
+  },
+  {
+   "rule": "http_multipart_flood",
+   "title": "Multipart POST With Extreme Part or Part-Header Count",
+   "source": "rules/sigma/http_multipart_flood.yml",
+   "level": "low",
+   "pool": "request_records",
+   "fields": [
+    "PartCount",
+    "PartHeaderCount",
+    "cs-method"
+   ],
+   "status": "tested",
+   "summary": {
+    "attack-oom": {
+     "cases_total": 120,
+     "cases_hit": 72,
+     "events_total": 264,
+     "events_hit": 72,
+     "occurred_cases": 72,
+     "occurred_cases_hit": 44,
+     "by_sapi": {
+      "fpm": {
+       "cases": 36,
+       "hit": 22
+      },
+      "apache": {
+       "cases": 36,
+       "hit": 22
+      }
+     },
+     "blocked_at_frontend_cases": 8,
+     "blocked_at_frontend_hit": 4
+    },
+    "attack-leak": {
+     "cases_total": 31,
+     "cases_hit": 0,
+     "events_total": 31,
+     "events_hit": 0,
+     "occurred_cases": 25,
+     "occurred_cases_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 13,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 12,
+       "hit": 0
+      }
+     },
+     "blocked_at_frontend_cases": 0,
+     "blocked_at_frontend_hit": 0
+    },
+    "benign": {
+     "cases_total": 42,
+     "cases_hit": 0,
+     "events_total": 445,
+     "events_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 21,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 21,
+       "hit": 0
+      }
+     }
+    },
+    "patched-graceful": {
+     "cases_total": 84,
+     "cases_hit": 42,
+     "events_total": 168,
+     "events_hit": 42,
+     "by_sapi": {
+      "fpm": {
+       "cases": 42,
+       "hit": 21
+      },
+      "apache": {
+       "cases": 42,
+       "hit": 21
+      }
+     }
+    }
+   }
+  },
+  {
+   "rule": "http_post_rejected_413",
+   "title": "Oversized POST Rejected With HTTP 413",
+   "source": "rules/sigma/http_post_rejected_413.yml",
+   "level": "informational",
+   "pool": "request_records",
+   "fields": [
+    "cs-method",
+    "sc-status"
+   ],
+   "status": "tested",
+   "summary": {
+    "attack-oom": {
+     "cases_total": 120,
+     "cases_hit": 8,
+     "events_total": 264,
+     "events_hit": 18,
+     "occurred_cases": 72,
+     "occurred_cases_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 36,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 36,
+       "hit": 0
+      }
+     },
+     "blocked_at_frontend_cases": 8,
+     "blocked_at_frontend_hit": 8
+    },
+    "attack-leak": {
+     "cases_total": 31,
+     "cases_hit": 0,
+     "events_total": 31,
+     "events_hit": 0,
+     "occurred_cases": 25,
+     "occurred_cases_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 13,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 12,
+       "hit": 0
+      }
+     },
+     "blocked_at_frontend_cases": 0,
+     "blocked_at_frontend_hit": 0
+    },
+    "benign": {
+     "cases_total": 42,
+     "cases_hit": 0,
+     "events_total": 445,
+     "events_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 21,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 21,
+       "hit": 0
+      }
+     }
+    },
+    "patched-graceful": {
+     "cases_total": 84,
+     "cases_hit": 0,
+     "events_total": 168,
+     "events_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 42,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 42,
+       "hit": 0
+      }
+     }
+    }
+   }
+  },
+  {
+   "rule": "http_upload_progress_field",
+   "title": "HTTP POST with Default PHP Upload Progress Parameter",
+   "source": "rules/sigma/http_upload_progress_field.yml",
+   "level": "informational",
+   "pool": "request_records",
+   "fields": [
+    "BodyParameterNames",
+    "cs-method"
+   ],
+   "status": "tested",
+   "summary": {
+    "attack-oom": {
+     "cases_total": 120,
+     "cases_hit": 24,
+     "events_total": 264,
+     "events_hit": 24,
+     "occurred_cases": 72,
+     "occurred_cases_hit": 14,
+     "by_sapi": {
+      "fpm": {
+       "cases": 36,
+       "hit": 7
+      },
+      "apache": {
+       "cases": 36,
+       "hit": 7
+      }
+     },
+     "blocked_at_frontend_cases": 8,
+     "blocked_at_frontend_hit": 0
+    },
+    "attack-leak": {
+     "cases_total": 31,
+     "cases_hit": 31,
+     "events_total": 31,
+     "events_hit": 31,
+     "occurred_cases": 25,
+     "occurred_cases_hit": 25,
+     "by_sapi": {
+      "fpm": {
+       "cases": 13,
+       "hit": 13
+      },
+      "apache": {
+       "cases": 12,
+       "hit": 12
+      }
+     },
+     "blocked_at_frontend_cases": 0,
+     "blocked_at_frontend_hit": 0
+    },
+    "benign": {
+     "cases_total": 42,
+     "cases_hit": 4,
+     "events_total": 445,
+     "events_hit": 4,
+     "by_sapi": {
+      "fpm": {
+       "cases": 21,
+       "hit": 2
+      },
+      "apache": {
+       "cases": 21,
+       "hit": 2
+      }
+     }
+    },
+    "patched-graceful": {
+     "cases_total": 84,
+     "cases_hit": 28,
+     "events_total": 168,
+     "events_hit": 28,
+     "by_sapi": {
+      "fpm": {
+       "cases": 42,
+       "hit": 14
+      },
+      "apache": {
+       "cases": 42,
+       "hit": 14
+      }
+     }
+    }
+   }
+  },
+  {
+   "rule": "http_upload_progress_with_body_session_id",
+   "title": "Upload-Progress Field Together With a Session Id in the Body",
+   "source": "rules/sigma/http_upload_progress_with_body_session_id.yml",
+   "level": "medium",
+   "pool": "request_records",
+   "fields": [
+    "BodyParameterNames",
+    "cs-method"
+   ],
+   "status": "tested",
+   "summary": {
+    "attack-oom": {
+     "cases_total": 120,
+     "cases_hit": 24,
+     "events_total": 264,
+     "events_hit": 24,
+     "occurred_cases": 72,
+     "occurred_cases_hit": 14,
+     "by_sapi": {
+      "fpm": {
+       "cases": 36,
+       "hit": 7
+      },
+      "apache": {
+       "cases": 36,
+       "hit": 7
+      }
+     },
+     "blocked_at_frontend_cases": 8,
+     "blocked_at_frontend_hit": 0
+    },
+    "attack-leak": {
+     "cases_total": 31,
+     "cases_hit": 31,
+     "events_total": 31,
+     "events_hit": 31,
+     "occurred_cases": 25,
+     "occurred_cases_hit": 25,
+     "by_sapi": {
+      "fpm": {
+       "cases": 13,
+       "hit": 13
+      },
+      "apache": {
+       "cases": 12,
+       "hit": 12
+      }
+     },
+     "blocked_at_frontend_cases": 0,
+     "blocked_at_frontend_hit": 0
+    },
+    "benign": {
+     "cases_total": 42,
+     "cases_hit": 0,
+     "events_total": 445,
+     "events_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 21,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 21,
+       "hit": 0
+      }
+     }
+    },
+    "patched-graceful": {
+     "cases_total": 84,
+     "cases_hit": 28,
+     "events_total": 168,
+     "events_hit": 28,
+     "by_sapi": {
+      "fpm": {
+       "cases": 42,
+       "hit": 14
+      },
+      "apache": {
+       "cases": 42,
+       "hit": 14
+      }
+     }
+    }
+   }
+  },
+  {
+   "rule": "linux_php_worker_crash",
+   "title": "Linux PHP or Web Worker Segmentation Fault",
+   "source": "rules/sigma/linux_php_worker_crash.yml",
+   "level": "medium",
+   "pool": "error_logs",
+   "fields": [
+    "Message"
+   ],
+   "status": "tested",
+   "summary": {
+    "attack-oom": {
+     "cases_total": 120,
+     "cases_hit": 0,
+     "events_total": 1018,
+     "events_hit": 0,
+     "occurred_cases": 72,
+     "occurred_cases_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 36,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 36,
+       "hit": 0
+      }
+     },
+     "blocked_at_frontend_cases": 8,
+     "blocked_at_frontend_hit": 0
+    },
+    "attack-leak": {
+     "cases_total": 31,
+     "cases_hit": 0,
+     "events_total": 0,
+     "events_hit": 0,
+     "occurred_cases": 25,
+     "occurred_cases_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 13,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 12,
+       "hit": 0
+      }
+     },
+     "blocked_at_frontend_cases": 0,
+     "blocked_at_frontend_hit": 0
+    },
+    "benign": {
+     "cases_total": 42,
+     "cases_hit": 0,
+     "events_total": 573,
+     "events_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 21,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 21,
+       "hit": 0
+      }
+     }
+    },
+    "patched-graceful": {
+     "cases_total": 84,
+     "cases_hit": 0,
+     "events_total": 369,
+     "events_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 42,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 42,
+       "hit": 0
+      }
+     }
+    }
+   }
+  },
+  {
+   "rule": "linux_web_downloader",
+   "title": "Linux Web Runtime Spawning a Downloader",
+   "source": "rules/sigma/linux_web_downloader.yml",
+   "level": "medium",
+   "status": "not tested",
+   "reason": "needs process or file telemetry; the lab produced none (no remote code execution reproduced)"
+  },
+  {
+   "rule": "linux_web_interpreter",
+   "title": "Linux Web Runtime Spawning Another Interpreter",
+   "source": "rules/sigma/linux_web_interpreter.yml",
+   "level": "medium",
+   "status": "not tested",
+   "reason": "needs process or file telemetry; the lab produced none (no remote code execution reproduced)"
+  },
+  {
+   "rule": "linux_web_persistence_command",
+   "title": "Linux Web Runtime Child Referencing Persistence Locations",
+   "source": "rules/sigma/linux_web_persistence_command.yml",
+   "level": "high",
+   "status": "not tested",
+   "reason": "needs process or file telemetry; the lab produced none (no remote code execution reproduced)"
+  },
+  {
+   "rule": "linux_web_secret_command",
+   "title": "Linux Web Runtime Child Referencing Sensitive Credential Paths",
+   "source": "rules/sigma/linux_web_secret_command.yml",
+   "level": "high",
+   "status": "not tested",
+   "reason": "needs process or file telemetry; the lab produced none (no remote code execution reproduced)"
+  },
+  {
+   "rule": "linux_web_shell",
+   "title": "Linux Web Runtime Spawning a Shell",
+   "source": "rules/sigma/linux_web_shell.yml",
+   "level": "high",
+   "status": "not tested",
+   "reason": "needs process or file telemetry; the lab produced none (no remote code execution reproduced)"
+  },
+  {
+   "rule": "linux_web_temp_child",
+   "title": "Linux Web Runtime Executing a Child from Writable Temporary Paths",
+   "source": "rules/sigma/linux_web_temp_child.yml",
+   "level": "high",
+   "status": "not tested",
+   "reason": "needs process or file telemetry; the lab produced none (no remote code execution reproduced)"
+  },
+  {
+   "rule": "linux_webroot_php_write",
+   "title": "Linux Web Runtime Writing PHP-like Content in a Web Root",
+   "source": "rules/sigma/linux_webroot_php_write.yml",
+   "level": "low",
+   "status": "not tested",
+   "reason": "needs process or file telemetry; the lab produced none (no remote code execution reproduced)"
+  },
+  {
+   "rule": "nginx_body_too_large",
+   "title": "nginx Rejected an Oversized Request Body",
+   "source": "rules/sigma/nginx_body_too_large.yml",
+   "level": "informational",
+   "pool": "nginx_error",
+   "fields": [
+    "Message"
+   ],
+   "status": "tested",
+   "summary": {
+    "attack-oom": {
+     "cases_total": 120,
+     "cases_hit": 4,
+     "events_total": 236,
+     "events_hit": 9,
+     "occurred_cases": 72,
+     "occurred_cases_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 36,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 36,
+       "hit": 0
+      }
+     },
+     "blocked_at_frontend_cases": 8,
+     "blocked_at_frontend_hit": 4
+    },
+    "attack-leak": {
+     "cases_total": 31,
+     "cases_hit": 0,
+     "events_total": 0,
+     "events_hit": 0,
+     "occurred_cases": 25,
+     "occurred_cases_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 13,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 12,
+       "hit": 0
+      }
+     },
+     "blocked_at_frontend_cases": 0,
+     "blocked_at_frontend_hit": 0
+    },
+    "benign": {
+     "cases_total": 42,
+     "cases_hit": 0,
+     "events_total": 0,
+     "events_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 21,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 21,
+       "hit": 0
+      }
+     }
+    },
+    "patched-graceful": {
+     "cases_total": 84,
+     "cases_hit": 0,
+     "events_total": 139,
+     "events_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 42,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 42,
+       "hit": 0
+      }
+     }
+    }
+   }
+  },
+  {
+   "rule": "php_execution_timeout",
+   "title": "PHP Execution Time Limit Exceeded",
+   "source": "rules/sigma/php_execution_timeout.yml",
+   "level": "low",
+   "pool": "php_error",
+   "fields": [
+    "Message"
+   ],
+   "status": "tested",
+   "summary": {
+    "attack-oom": {
+     "cases_total": 120,
+     "cases_hit": 0,
+     "events_total": 163,
+     "events_hit": 0,
+     "occurred_cases": 72,
+     "occurred_cases_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 36,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 36,
+       "hit": 0
+      }
+     },
+     "blocked_at_frontend_cases": 8,
+     "blocked_at_frontend_hit": 0
+    },
+    "attack-leak": {
+     "cases_total": 31,
+     "cases_hit": 0,
+     "events_total": 0,
+     "events_hit": 0,
+     "occurred_cases": 25,
+     "occurred_cases_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 13,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 12,
+       "hit": 0
+      }
+     },
+     "blocked_at_frontend_cases": 0,
+     "blocked_at_frontend_hit": 0
+    },
+    "benign": {
+     "cases_total": 42,
+     "cases_hit": 0,
+     "events_total": 83,
+     "events_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 21,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 21,
+       "hit": 0
+      }
+     }
+    },
+    "patched-graceful": {
+     "cases_total": 84,
+     "cases_hit": 0,
+     "events_total": 102,
+     "events_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 42,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 42,
+       "hit": 0
+      }
+     }
+    }
+   }
+  },
+  {
+   "rule": "php_fpm_child_exit_70_storm",
+   "title": "PHP-FPM Worker Exited With Code 70 (Single Event and Storm)",
+   "source": "rules/sigma/php_fpm_child_exit_70_storm.yml",
+   "level": "low",
+   "correlation": "event_count >= 5 in 5m per case and pool",
+   "pool": "fpm_master",
+   "fields": [
+    "Message"
+   ],
+   "status": "tested",
+   "summary": {
+    "attack-oom": {
+     "cases_total": 120,
+     "cases_hit": 7,
+     "events_total": 202,
+     "events_hit": null,
+     "occurred_cases": 72,
+     "occurred_cases_hit": 7,
+     "by_sapi": {
+      "fpm": {
+       "cases": 36,
+       "hit": 7
+      },
+      "apache": {
+       "cases": 36,
+       "hit": 0
+      }
+     },
+     "blocked_at_frontend_cases": 8,
+     "blocked_at_frontend_hit": 0
+    },
+    "attack-leak": {
+     "cases_total": 31,
+     "cases_hit": 0,
+     "events_total": 0,
+     "events_hit": null,
+     "occurred_cases": 25,
+     "occurred_cases_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 13,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 12,
+       "hit": 0
+      }
+     },
+     "blocked_at_frontend_cases": 0,
+     "blocked_at_frontend_hit": 0
+    },
+    "benign": {
+     "cases_total": 42,
+     "cases_hit": 0,
+     "events_total": 114,
+     "events_hit": null,
+     "by_sapi": {
+      "fpm": {
+       "cases": 21,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 21,
+       "hit": 0
+      }
+     }
+    },
+    "patched-graceful": {
+     "cases_total": 84,
+     "cases_hit": 6,
+     "events_total": 116,
+     "events_hit": null,
+     "by_sapi": {
+      "fpm": {
+       "cases": 42,
+       "hit": 6
+      },
+      "apache": {
+       "cases": 42,
+       "hit": 0
+      }
+     }
+    }
+   }
+  },
+  {
+   "rule": "php_memory_exhaustion",
+   "title": "PHP Allowed Memory Size Exhaustion at Request Startup (narrowed)",
+   "source": "rules/sigma/php_memory_exhaustion.yml",
+   "level": "low",
+   "pool": "php_error",
+   "fields": [
+    "Message"
+   ],
+   "status": "tested",
+   "summary": {
+    "attack-oom": {
+     "cases_total": 120,
+     "cases_hit": 74,
+     "events_total": 163,
+     "events_hit": 136,
+     "occurred_cases": 72,
+     "occurred_cases_hit": 72,
+     "by_sapi": {
+      "fpm": {
+       "cases": 36,
+       "hit": 36
+      },
+      "apache": {
+       "cases": 36,
+       "hit": 36
+      }
+     },
+     "blocked_at_frontend_cases": 8,
+     "blocked_at_frontend_hit": 2
+    },
+    "attack-leak": {
+     "cases_total": 31,
+     "cases_hit": 0,
+     "events_total": 0,
+     "events_hit": 0,
+     "occurred_cases": 25,
+     "occurred_cases_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 13,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 12,
+       "hit": 0
+      }
+     },
+     "blocked_at_frontend_cases": 0,
+     "blocked_at_frontend_hit": 0
+    },
+    "benign": {
+     "cases_total": 42,
+     "cases_hit": 0,
+     "events_total": 83,
+     "events_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 21,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 21,
+       "hit": 0
+      }
+     }
+    },
+    "patched-graceful": {
+     "cases_total": 84,
+     "cases_hit": 34,
+     "events_total": 102,
+     "events_hit": 86,
+     "by_sapi": {
+      "fpm": {
+       "cases": 42,
+       "hit": 17
+      },
+      "apache": {
+       "cases": 42,
+       "hit": 17
+      }
+     }
+    }
+   }
+  },
+  {
+   "rule": "php_startup_oom_fatal",
+   "title": "PHP Out-of-Memory Fatal During Request Startup",
+   "source": "rules/sigma/php_startup_oom_fatal.yml",
+   "level": "low",
+   "pool": "php_error",
+   "fields": [
+    "Message"
+   ],
+   "status": "tested",
+   "summary": {
+    "attack-oom": {
+     "cases_total": 120,
+     "cases_hit": 74,
+     "events_total": 163,
+     "events_hit": 136,
+     "occurred_cases": 72,
+     "occurred_cases_hit": 72,
+     "by_sapi": {
+      "fpm": {
+       "cases": 36,
+       "hit": 36
+      },
+      "apache": {
+       "cases": 36,
+       "hit": 36
+      }
+     },
+     "blocked_at_frontend_cases": 8,
+     "blocked_at_frontend_hit": 2
+    },
+    "attack-leak": {
+     "cases_total": 31,
+     "cases_hit": 0,
+     "events_total": 0,
+     "events_hit": 0,
+     "occurred_cases": 25,
+     "occurred_cases_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 13,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 12,
+       "hit": 0
+      }
+     },
+     "blocked_at_frontend_cases": 0,
+     "blocked_at_frontend_hit": 0
+    },
+    "benign": {
+     "cases_total": 42,
+     "cases_hit": 0,
+     "events_total": 83,
+     "events_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 21,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 21,
+       "hit": 0
+      }
+     }
+    },
+    "patched-graceful": {
+     "cases_total": 84,
+     "cases_hit": 34,
+     "events_total": 102,
+     "events_hit": 86,
+     "by_sapi": {
+      "fpm": {
+       "cases": 42,
+       "hit": 17
+      },
+      "apache": {
+       "cases": 42,
+       "hit": 17
+      }
+     }
+    }
+   }
+  },
+  {
+   "rule": "windows_web_shell",
+   "title": "Windows Web Runtime Spawning a Command Interpreter",
+   "source": "rules/sigma/windows_web_shell.yml",
+   "level": "high",
+   "status": "not tested",
+   "reason": "needs process or file telemetry; the lab produced none (no remote code execution reproduced)"
+  },
+  {
+   "rule": "windows_web_transfer",
+   "title": "Windows Web Runtime Spawning Transfer Utilities",
+   "source": "rules/sigma/windows_web_transfer.yml",
+   "level": "medium",
+   "status": "not tested",
+   "reason": "needs process or file telemetry; the lab produced none (no remote code execution reproduced)"
+  },
+  {
+   "rule": "windows_webroot_php_write",
+   "title": "Windows Web Runtime Writing PHP-like Content in IIS Web Root",
+   "source": "rules/sigma/windows_webroot_php_write.yml",
+   "level": "low",
+   "status": "not tested",
+   "reason": "needs process or file telemetry; the lab produced none (no remote code execution reproduced)"
+  }
+ ],
+ "third_party": [
+  {
+   "rule": "php2shell_oversized_phpsessid",
+   "title": "PHP2Shell - Oversized PHPSESSID Cookie",
+   "source": "third_party/Senturkselim__Am-I-Infected/sigma/php2shell_oversized_phpsessid.yml",
+   "level": "medium",
+   "status": "not tested",
+   "reason": "field(s) not present in lab telemetry: cs-cookie"
+  },
+  {
+   "rule": "php2shell_php_worker_child_process",
+   "title": "PHP2Shell - Shell or Recon Tool Spawned by a PHP/Web Worker",
+   "source": "third_party/Senturkselim__Am-I-Infected/sigma/php2shell_php_worker_child_process.yml",
+   "level": "medium",
+   "status": "not tested",
+   "reason": "needs process or file telemetry; the lab produced none (no remote code execution reproduced)"
+  },
+  {
+   "rule": "php2shell_php_worker_reverse_shell",
+   "title": "PHP2Shell - Reverse-Shell or Downloader Command Line from a PHP/Web Worker",
+   "source": "third_party/Senturkselim__Am-I-Infected/sigma/php2shell_php_worker_reverse_shell.yml",
+   "level": "high",
+   "status": "not tested",
+   "reason": "needs process or file telemetry; the lab produced none (no remote code execution reproduced)"
+  },
+  {
+   "rule": "php2shell_poc_user_agent",
+   "title": "PHP2Shell - Public PoC or Scanner User-Agent",
+   "source": "third_party/Senturkselim__Am-I-Infected/sigma/php2shell_poc_user_agent.yml",
+   "level": "medium",
+   "status": "not tested",
+   "reason": "matches the user-agent names of public PoC tools; the lab ran no third-party PoC and its clients send no user agent"
+  },
+  {
+   "rule": "php2shell_upload_progress_marker",
+   "title": "PHP2Shell - Session Upload Progress Field in Request",
+   "source": "third_party/Senturkselim__Am-I-Infected/sigma/php2shell_upload_progress_marker.yml",
+   "level": "medium",
+   "pool": "request_records",
+   "fields": [],
+   "status": "tested",
+   "summary": {
+    "attack-oom": {
+     "cases_total": 120,
+     "cases_hit": 24,
+     "events_total": 264,
+     "events_hit": 24,
+     "occurred_cases": 72,
+     "occurred_cases_hit": 14,
+     "by_sapi": {
+      "fpm": {
+       "cases": 36,
+       "hit": 7
+      },
+      "apache": {
+       "cases": 36,
+       "hit": 7
+      }
+     },
+     "blocked_at_frontend_cases": 8,
+     "blocked_at_frontend_hit": 0
+    },
+    "attack-leak": {
+     "cases_total": 31,
+     "cases_hit": 31,
+     "events_total": 31,
+     "events_hit": 31,
+     "occurred_cases": 25,
+     "occurred_cases_hit": 25,
+     "by_sapi": {
+      "fpm": {
+       "cases": 13,
+       "hit": 13
+      },
+      "apache": {
+       "cases": 12,
+       "hit": 12
+      }
+     },
+     "blocked_at_frontend_cases": 0,
+     "blocked_at_frontend_hit": 0
+    },
+    "benign": {
+     "cases_total": 42,
+     "cases_hit": 4,
+     "events_total": 445,
+     "events_hit": 4,
+     "by_sapi": {
+      "fpm": {
+       "cases": 21,
+       "hit": 2
+      },
+      "apache": {
+       "cases": 21,
+       "hit": 2
+      }
+     }
+    },
+    "patched-graceful": {
+     "cases_total": 84,
+     "cases_hit": 28,
+     "events_total": 168,
+     "events_hit": 28,
+     "by_sapi": {
+      "fpm": {
+       "cases": 42,
+       "hit": 14
+      },
+      "apache": {
+       "cases": 42,
+       "hit": 14
+      }
+     }
+    }
+   }
+  },
+  {
+   "rule": "php2shell_worker_crash_or_oom",
+   "title": "PHP2Shell - PHP Worker Crash or Memory Exhaustion Messages",
+   "source": "third_party/Senturkselim__Am-I-Infected/sigma/php2shell_worker_crash_or_oom.yml",
+   "level": "low",
+   "pool": "error_logs",
+   "fields": [],
+   "status": "tested",
+   "summary": {
+    "attack-oom": {
+     "cases_total": 120,
+     "cases_hit": 76,
+     "events_total": 1018,
+     "events_hit": 141,
+     "occurred_cases": 72,
+     "occurred_cases_hit": 72,
+     "by_sapi": {
+      "fpm": {
+       "cases": 36,
+       "hit": 36
+      },
+      "apache": {
+       "cases": 36,
+       "hit": 36
+      }
+     },
+     "blocked_at_frontend_cases": 8,
+     "blocked_at_frontend_hit": 2
+    },
+    "attack-leak": {
+     "cases_total": 31,
+     "cases_hit": 0,
+     "events_total": 0,
+     "events_hit": 0,
+     "occurred_cases": 25,
+     "occurred_cases_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 13,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 12,
+       "hit": 0
+      }
+     },
+     "blocked_at_frontend_cases": 0,
+     "blocked_at_frontend_hit": 0
+    },
+    "benign": {
+     "cases_total": 42,
+     "cases_hit": 24,
+     "events_total": 573,
+     "events_hit": 24,
+     "by_sapi": {
+      "fpm": {
+       "cases": 21,
+       "hit": 12
+      },
+      "apache": {
+       "cases": 21,
+       "hit": 12
+      }
+     }
+    },
+    "patched-graceful": {
+     "cases_total": 84,
+     "cases_hit": 34,
+     "events_total": 369,
+     "events_hit": 86,
+     "by_sapi": {
+      "fpm": {
+       "cases": 42,
+       "hit": 17
+      },
+      "apache": {
+       "cases": 42,
+       "hit": 17
+      }
+     }
+    }
+   }
+  },
+  {
+   "rule": "lnx_php2shell_php_file_written_to_webroot",
+   "title": "PHP or Web Server Process Writes Executable Script or Per-Directory Config to Web Root (Linux)",
+   "source": "third_party/orbitron-ai__php2shell-response-kit/rules/sigma/lnx_php2shell_php_file_written_to_webroot.yml",
+   "level": "medium",
+   "status": "not tested",
+   "reason": "needs process or file telemetry; the lab produced none (no remote code execution reproduced)"
+  },
+  {
+   "rule": "lnx_php2shell_webserver_spawns_shell_or_lolbin",
+   "title": "PHP or Web Server Process Spawns Shell, Interpreter or Download Tool (php2shell post-exploitation)",
+   "source": "third_party/orbitron-ai__php2shell-response-kit/rules/sigma/lnx_php2shell_webserver_spawns_shell_or_lolbin.yml",
+   "level": "high",
+   "status": "not tested",
+   "reason": "needs process or file telemetry; the lab produced none (no remote code execution reproduced)"
+  },
+  {
+   "rule": "lnx_php2shell_webserver_suspicious_cmdline",
+   "title": "PHP or Web Server Process Executes Reverse Shell or Reconnaissance Command Line (php2shell post-exploitation)",
+   "source": "third_party/orbitron-ai__php2shell-response-kit/rules/sigma/lnx_php2shell_webserver_suspicious_cmdline.yml",
+   "level": "critical",
+   "status": "not tested",
+   "reason": "needs process or file telemetry; the lab produced none (no remote code execution reproduced)"
+  },
+  {
+   "rule": "php2shell_php_fpm_worker_exit_code70",
+   "title": "PHP-FPM Worker Exited With Code 70 (php2shell out-of-memory during request start-up)",
+   "source": "third_party/orbitron-ai__php2shell-response-kit/rules/sigma/php2shell_php_fpm_worker_exit_code70.yml",
+   "level": "medium",
+   "pool": "error_logs",
+   "fields": [],
+   "status": "tested",
+   "summary": {
+    "attack-oom": {
+     "cases_total": 120,
+     "cases_hit": 38,
+     "events_total": 1018,
+     "events_hit": 92,
+     "occurred_cases": 72,
+     "occurred_cases_hit": 36,
+     "by_sapi": {
+      "fpm": {
+       "cases": 36,
+       "hit": 36
+      },
+      "apache": {
+       "cases": 36,
+       "hit": 0
+      }
+     },
+     "blocked_at_frontend_cases": 8,
+     "blocked_at_frontend_hit": 2
+    },
+    "attack-leak": {
+     "cases_total": 31,
+     "cases_hit": 0,
+     "events_total": 0,
+     "events_hit": 0,
+     "occurred_cases": 25,
+     "occurred_cases_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 13,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 12,
+       "hit": 0
+      }
+     },
+     "blocked_at_frontend_cases": 0,
+     "blocked_at_frontend_hit": 0
+    },
+    "benign": {
+     "cases_total": 42,
+     "cases_hit": 0,
+     "events_total": 573,
+     "events_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 21,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 21,
+       "hit": 0
+      }
+     }
+    },
+    "patched-graceful": {
+     "cases_total": 84,
+     "cases_hit": 17,
+     "events_total": 369,
+     "events_hit": 58,
+     "by_sapi": {
+      "fpm": {
+       "cases": 42,
+       "hit": 17
+      },
+      "apache": {
+       "cases": 42,
+       "hit": 0
+      }
+     }
+    }
+   }
+  },
+  {
+   "rule": "php2shell_php_oom_during_request_parsing",
+   "title": "PHP Ran Out Of Memory While Parsing The Request (php2shell trigger condition)",
+   "source": "third_party/orbitron-ai__php2shell-response-kit/rules/sigma/php2shell_php_oom_during_request_parsing.yml",
+   "level": "high",
+   "pool": "error_logs",
+   "fields": [],
+   "status": "tested",
+   "summary": {
+    "attack-oom": {
+     "cases_total": 120,
+     "cases_hit": 74,
+     "events_total": 1018,
+     "events_hit": 136,
+     "occurred_cases": 72,
+     "occurred_cases_hit": 72,
+     "by_sapi": {
+      "fpm": {
+       "cases": 36,
+       "hit": 36
+      },
+      "apache": {
+       "cases": 36,
+       "hit": 36
+      }
+     },
+     "blocked_at_frontend_cases": 8,
+     "blocked_at_frontend_hit": 2
+    },
+    "attack-leak": {
+     "cases_total": 31,
+     "cases_hit": 0,
+     "events_total": 0,
+     "events_hit": 0,
+     "occurred_cases": 25,
+     "occurred_cases_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 13,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 12,
+       "hit": 0
+      }
+     },
+     "blocked_at_frontend_cases": 0,
+     "blocked_at_frontend_hit": 0
+    },
+    "benign": {
+     "cases_total": 42,
+     "cases_hit": 0,
+     "events_total": 573,
+     "events_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 21,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 21,
+       "hit": 0
+      }
+     }
+    },
+    "patched-graceful": {
+     "cases_total": 84,
+     "cases_hit": 34,
+     "events_total": 369,
+     "events_hit": 86,
+     "by_sapi": {
+      "fpm": {
+       "cases": 42,
+       "hit": 17
+      },
+      "apache": {
+       "cases": 42,
+       "hit": 17
+      }
+     }
+    }
+   }
+  },
+  {
+   "rule": "php2shell_php_worker_crash",
+   "title": "PHP Worker or Apache Child Crashed With Memory Corruption Signal (possible php2shell exploitation attempt)",
+   "source": "third_party/orbitron-ai__php2shell-response-kit/rules/sigma/php2shell_php_worker_crash.yml",
+   "level": "medium",
+   "pool": "error_logs",
+   "fields": [],
+   "status": "tested",
+   "summary": {
+    "attack-oom": {
+     "cases_total": 120,
+     "cases_hit": 2,
+     "events_total": 1018,
+     "events_hit": 2,
+     "occurred_cases": 72,
+     "occurred_cases_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 36,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 36,
+       "hit": 0
+      }
+     },
+     "blocked_at_frontend_cases": 8,
+     "blocked_at_frontend_hit": 0
+    },
+    "attack-leak": {
+     "cases_total": 31,
+     "cases_hit": 0,
+     "events_total": 0,
+     "events_hit": 0,
+     "occurred_cases": 25,
+     "occurred_cases_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 13,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 12,
+       "hit": 0
+      }
+     },
+     "blocked_at_frontend_cases": 0,
+     "blocked_at_frontend_hit": 0
+    },
+    "benign": {
+     "cases_total": 42,
+     "cases_hit": 0,
+     "events_total": 573,
+     "events_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 21,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 21,
+       "hit": 0
+      }
+     }
+    },
+    "patched-graceful": {
+     "cases_total": 84,
+     "cases_hit": 0,
+     "events_total": 369,
+     "events_hit": 0,
+     "by_sapi": {
+      "fpm": {
+       "cases": 42,
+       "hit": 0
+      },
+      "apache": {
+       "cases": 42,
+       "hit": 0
+      }
+     }
+    }
+   }
+  },
+  {
+   "rule": "win_php2shell_php_file_written_to_webroot",
+   "title": "PHP or Web Server Process Writes Executable Script or Per-Directory Config to Web Root (Windows)",
+   "source": "third_party/orbitron-ai__php2shell-response-kit/rules/sigma/win_php2shell_php_file_written_to_webroot.yml",
+   "level": "medium",
+   "status": "not tested",
+   "reason": "needs process or file telemetry; the lab produced none (no remote code execution reproduced)"
+  },
+  {
+   "rule": "win_php2shell_webserver_spawns_shell_or_lolbin",
+   "title": "PHP or Web Server Process Spawns Shell or LOLBin on Windows (php2shell post-exploitation)",
+   "source": "third_party/orbitron-ai__php2shell-response-kit/rules/sigma/win_php2shell_webserver_spawns_shell_or_lolbin.yml",
+   "level": "high",
+   "status": "not tested",
+   "reason": "needs process or file telemetry; the lab produced none (no remote code execution reproduced)"
+  }
+ ],
+ "corpus": {
+  "cases": {
+   "attack-oom": 120,
+   "attack-leak": 31,
+   "benign": 42,
+   "patched-graceful": 84
+  },
+  "requests": {
+   "attack-oom": 264,
+   "attack-leak": 31,
+   "benign": 445,
+   "patched-graceful": 168
+  },
+  "log_lines": {
+   "attack-oom": 1156,
+   "attack-leak": 17,
+   "benign": 1323,
+   "patched-graceful": 472
+  }
+ }
+}

@@ -1,0 +1,20 @@
+<!-- ORBITRON php2shell - Wazuh agent configuration snippet (merge into <ossec_config> of the agent or a shared agent.conf) -->
+<ossec_config>
+  <!-- Linux: audit events for rule 109610-109613 -->
+  <localfile>
+    <log_format>audit</log_format>
+    <location>/var/log/audit/audit.log</location>
+  </localfile>
+
+  <!-- PHP-FPM and web server error logs for rule 109625/109626 (adjust paths to your distribution) -->
+  <localfile><log_format>syslog</log_format><location>/var/log/php*-fpm.log</location></localfile>
+  <localfile><log_format>syslog</log_format><location>/var/log/php-fpm/error.log</location></localfile>
+  <localfile><log_format>apache</log_format><location>/var/log/apache2/error.log</location></localfile>
+  <localfile><log_format>apache</log_format><location>/var/log/httpd/error_log</location></localfile>
+
+  <!-- Real-time FIM on web roots for rule 109615/109616 (whodata adds user/process attribution) -->
+  <syscheck>
+    <directories realtime="yes" whodata="yes" check_all="yes"
+                 restrict="\.php$|\.php[0-9]$|\.phtml$|\.phar$|\.pht$|\.user\.ini$|\.htaccess$">/var/www,/srv/www,/usr/share/nginx</directories>
+  </syscheck>
+</ossec_config>

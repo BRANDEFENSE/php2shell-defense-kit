@@ -1,0 +1,62 @@
+title: PHP or Web Server Process Executes Reverse Shell or Reconnaissance Command Line (php2shell post-exploitation)
+id: 98f449aa-52b5-41df-b9d1-c81b3a1c78fe
+status: experimental
+description: |
+  High-confidence companion to the parent/child rule: a child of php-fpm, php-cgi, lsphp or Apache (mod_php)
+  whose command line contains reverse-shell, payload-staging or reconnaissance patterns. Not specific to
+  CVE-2026-109618 / CVE-2026-109619 - it detects what attackers typically run after PHP code execution.
+  UNTESTED in production SIEMs.
+references:
+  - https://www.huntress.com/blog/php2shell-leaked-critical-php-vulnerabilities
+  - https://blog.flatt.tech/entry/php2shell
+author: ORBITRON
+date: 2026-10-21
+tags:
+  - attack.execution
+  - attack.t1059.004
+  - attack.command-and-control
+  - attack.t1105
+  - attack.discovery
+  - attack.t1082
+  - cve.2026-109618
+  - cve.2026-109619
+logsource:
+  product: linux
+  category: process_creation
+detection:
+  selection_parent_php:
+    ParentImage|contains:
+      - 'php-fpm'
+      - 'php-cgi'
+      - 'lsphp'
+  selection_parent_apache:
+    ParentImage|endswith:
+      - 'httpd'
+      - 'apache2'
+  selection_cmdline:
+    CommandLine|contains:
+      - '/dev/tcp/'
+      - '/dev/udp/'
+      - 'mkfifo'
+      - 'fsockopen'
+      - 'bash -i'
+      - 'sh -i'
+      - 'nc -e'
+      - 'ncat -e'
+      - 'socat exec'
+      - 'base64 -d'
+      - 'base64 --decode'
+      - '| sh'
+      - '|sh'
+      - '| bash'
+      - '|bash'
+      - 'chmod +x'
+      - '/dev/shm/'
+      - '/etc/passwd'
+      - '/etc/shadow'
+      - 'uname -a'
+      - 'whoami'
+  condition: 1 of selection_parent_* and selection_cmdline
+falsepositives:
+  - Very rare; administrative scripts deliberately executed through the web server
+level: critical

@@ -1,0 +1,29 @@
+title: PHP2Shell - Public PoC or Scanner User-Agent
+id: 0afe0e18-3e8a-4d7c-9adf-07483c21803a
+status: experimental
+description: |
+  Matches the self-identifying User-Agent strings reported for the public php2shell PoC and for scanners
+  seen in live traffic on 2026-10-21 (php2shell-109618, php2shell-109619, php2shell-scan/109618,
+  php2shell-verify/1.0). Attackers can change these trivially, so absence means little. A hit shows an
+  attempt, not a compromise.
+references:
+  - https://www.kelacyber.com/blog/php2shell-underground-response/
+author: am-i-infected contributors
+date: 2026-10-23
+tags:
+  - attack.initial-access
+  - attack.t1190
+  - cve.2026-109618
+  - cve.2026-109619
+logsource:
+  category: webserver
+detection:
+  keywords:
+    - 'php2shell-109618'
+    - 'php2shell-109619'
+    - 'php2shell-scan/'
+    - 'php2shell-verify/'
+  condition: keywords
+falsepositives:
+  - Your own exposure checkers or vulnerability scanners that identify themselves with these names
+level: medium

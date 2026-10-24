@@ -1,0 +1,34 @@
+title: Windows Web Runtime Spawning Transfer Utilities
+id: 322abe4f-f01d-5c55-b245-a0b8b5f6b774
+status: experimental
+description: Detects direct transfer-tool children; a utility execution alone does
+  not prove a transfer occurred. This is a hunting lead, not attribution to PHP2Shell
+  or proof of successful exploitation.
+references:
+- https://www.php.net/archive/2026.php#2026-10-21-5
+- https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp
+author: Brandefense Research Team
+date: '2026-10-24'
+license: MIT
+tags:
+- attack.execution
+- attack.t1105
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  parent:
+    ParentImage|endswith:
+    - \php-cgi.exe
+    - \php.exe
+    - \httpd.exe
+    - \w3wp.exe
+  child:
+    Image|endswith:
+    - \curl.exe
+    - \certutil.exe
+    - \bitsadmin.exe
+  condition: parent and child
+falsepositives:
+- Legitimate application downloads and certificate operations
+level: medium

@@ -1,0 +1,67 @@
+[
+ {
+  "rule": "BD_PHP_Direct_Request_Command",
+  "text": "<?php system($_POST['example']);",
+  "expected": true
+ },
+ {
+  "rule": "BD_PHP_Direct_Request_Command",
+  "text": "<?php echo $_POST['example'];",
+  "expected": false
+ },
+ {
+  "rule": "BD_PHP_Direct_Request_Command",
+  "text": "<?php system('date');",
+  "expected": false
+ },
+ {
+  "rule": "BD_PHP_Encoded_Eval_Loader",
+  "text": "<?php eval(base64_decode('SYNTHETIC_INVALID_TEXT'));",
+  "expected": true
+ },
+ {
+  "rule": "BD_PHP_Encoded_Eval_Loader",
+  "text": "<?php echo base64_decode('aGVsbG8=');",
+  "expected": false
+ },
+ {
+  "rule": "BD_PHP_Request_Driven_File_Write",
+  "text": "<?php file_put_contents('/not-executed/example.txt', base64_decode($_POST['text']));",
+  "expected": true
+ },
+ {
+  "rule": "BD_PHP_Request_Driven_File_Write",
+  "text": "<?php file_put_contents('/not-executed/example.txt', 'fixed text');",
+  "expected": false
+ },
+ {
+  "rule": "BD_PHP_Socket_And_Process_Primitives",
+  "text": "<?php /* inert text fixture: fsockopen( proc_open( */",
+  "expected": true
+ },
+ {
+  "rule": "BD_PHP_Socket_And_Process_Primitives",
+  "text": "<?php /* inert text fixture: fsockopen( */",
+  "expected": false
+ },
+ {
+  "rule": "BD_PHP_Upload_Progress_Research_Artifact",
+  "text": "DEFENSIVE DOCUMENT php2shell PHP_SESSION_UPLOAD_PROGRESS",
+  "expected": true
+ },
+ {
+  "rule": "BD_PHP_Upload_Progress_Research_Artifact",
+  "text": "normal upload PHP_SESSION_UPLOAD_PROGRESS",
+  "expected": false
+ },
+ {
+  "rule": "BD_PHP_Request_Driven_File_Write",
+  "text": "<?php file_put_contents($_GET['p'], 'fixed text');",
+  "expected": true
+ },
+ {
+  "rule": "BD_PHP_Request_Driven_File_Write",
+  "text": "<?php file_put_contents('/not-executed/cache.txt', $_POST['text']);",
+  "expected": false
+ }
+]

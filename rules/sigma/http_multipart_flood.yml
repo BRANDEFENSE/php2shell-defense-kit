@@ -1,0 +1,27 @@
+title: Multipart POST With Extreme Part or Part-Header Count
+id: 6df09586-c65a-4eca-b588-26a5ca4b29ae
+status: experimental
+description: >-
+  Multipart POST with 10,000 or more part-header lines or 1,000 or more parts. Lab: the request-startup OOM triggers had 600,001 header lines in 3 MB, 150,001 headers in about 1.8 MB, and 8,002 header lines in 4,000 file parts; ordinary lab uploads had at most 3 headers and 1 part. Needs a parser that counts parts and part headers (WAF, proxy or sensor); access logs cannot see this. Thresholds are lab-derived starting points. Hunting lead only.
+references:
+- https://www.php.net/archive/2026.php#2026-10-21-5
+- https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp
+author: Brandefense Research Team
+date: '2026-10-24'
+license: MIT
+tags:
+- attack.t1190
+- attack.t1499
+logsource:
+  category: webserver
+detection:
+  method:
+    cs-method: POST
+  headers:
+    PartHeaderCount|gte: 10000
+  parts:
+    PartCount|gte: 1000
+  condition: method and (headers or parts)
+falsepositives:
+- Bulk upload tools that send very many files in one request
+level: low

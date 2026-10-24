@@ -1,0 +1,32 @@
+title: PHP-FPM Worker Exited With Code 70 (php2shell out-of-memory during request start-up)
+id: 6f3a1d82-4e90-4b17-9c3e-2a7f1b5c8d04
+status: experimental
+description: |
+  CVE-2026-109618 / CVE-2026-109619 (fixed in PHP 8.2.35 / 8.3.36 / 8.4.27 / 8.5.12). When PHP runs out of
+  memory while parsing a request before any script runs, PHP-FPM does not crash with a signal: it ends the
+  worker cleanly with FPM_EXIT_SOFTWARE (exit code 70). ORBITRON lab-verified this is the most common
+  observable of the OOM trigger on PHP-FPM, which the signal-based crash rule does not catch. Code 70 means
+  "request start-up failed"; the php2shell-relevant cause is the out-of-memory, so correlate this with the
+  out-of-memory rule (php2shell_php_oom_during_request_parsing) in the same pool and time window. Other
+  start-up failures can also produce code 70, so this rule is medium confidence on its own.
+references:
+  - https://www.php.net/archive/2026.php#2026-10-21-2
+  - https://github.com/orbitron-ai/php2shell-response-kit
+author: ORBITRON
+date: 2026-10-21
+tags:
+  - attack.initial-access
+  - attack.t1190
+  - cve.2026-109618
+  - cve.2026-109619
+logsource:
+  product: linux
+  service: php-fpm
+  definition: 'PHP-FPM master error log (error_log in php-fpm.conf) forwarded as raw text'
+detection:
+  keywords:
+    - 'exited with code 70'
+  condition: keywords
+falsepositives:
+  - Other PHP-FPM request start-up failures also exit with code 70 (bad chroot, missing SCRIPT_FILENAME handler) - correlate with the out-of-memory rule and baseline the normal rate
+level: medium

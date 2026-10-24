@@ -1,0 +1,16 @@
+``` PHP2Shell (CVE-2026-109618, CVE-2026-109619)
+    Query 03. A PHP or web server process starting a shell, interpreter or download tool.
+    This is the clearest sign that an attack worked.
+    Data      CIM Endpoint data model, fed by your EDR or Sysmon for Linux.
+    Schedule  Every hour with earliest=-1h. For the first run, use earliest="10/20/2026:00:00:00".
+    Severity  High
+    Tuning    Some apps start shells for image or PDF tools. Compare with what each host did before 20 October 2026. ```
+| tstats summariesonly=false count min(_time) AS first_seen max(_time) AS last_seen
+    from datamodel=Endpoint.Processes
+    where Processes.parent_process_name IN ("php*", "httpd", "apache2", "lsphp", "frankenphp")
+      Processes.process_name IN ("sh", "bash", "dash", "curl", "wget", "python", "python3", "perl", "nc", "ncat", "socat", "base64")
+      earliest=-1h
+    by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process
+| rename Processes.* AS *
+| search NOT process="*sendmail*"
+| convert ctime(first_seen) ctime(last_seen)

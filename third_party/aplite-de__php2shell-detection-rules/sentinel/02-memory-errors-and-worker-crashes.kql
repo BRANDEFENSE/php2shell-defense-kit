@@ -1,0 +1,22 @@
+// PHP2Shell (CVE-2026-109618, CVE-2026-109619)
+// Query 02. Memory errors outside any script, and the worker dying as a result.
+// Normal in-script memory errors and timeouts are left out on purpose. Check them during triage.
+// Make sure PHP-FPM and nginx error logs reach this table: in our lab the FPM worker
+// exited with code 70 (not a segfault), and nginx logged the lost worker as a 502.
+// Data      PHP, PHP-FPM and web server error logs, as Azure Monitor Agent text logs.
+// Schedule  Every hour, looking back 1 hour. For the first run, set start to datetime(2026-10-20).
+// Severity  Medium (the "possible corruption" rows are worth a closer look)
+// Tuning    Change the table name.
+let start = ago(1h);
+WebErrorLogs_CL
+| where TimeGenerated >= start
+| where RawData matches regex @"Allowed memory size of|Out of memory \(allocated|exited on signal 11|exit signal Segmentation fault|exited with code 70|unexpected FastCGI record"
+| extend Signal = case(
+    RawData contains "in Unknown on line 0" and (RawData contains "Allowed memory size of" or RawData contains "Out of memory"), "Memory error before any script ran",
+    RawData contains "signal 11" or RawData contains "Segmentation fault", "Worker crash (possible corruption)",
+    RawData contains "exited with code 70", "PHP-FPM worker killed after a fatal",
+    RawData contains "unexpected FastCGI record", "nginx lost its PHP worker mid-response",
+    "")
+| where isnotempty(Signal)
+| summarize Events = count(), Example = take_any(RawData) by Computer, Signal, Window = bin(TimeGenerated, 10m)
+| order by Window desc

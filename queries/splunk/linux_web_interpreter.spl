@@ -1,0 +1,3 @@
+Image IN ("*/python*", "*/perl*", "*/ruby*", "*/node*")
+| regex ParentImage="(^|/)(php-fpm[0-9.]*|php-cgi[0-9.]*|lsphp[0-9.]*|frankenphp|sw-engine-fpm|apache2|httpd)$"
+| regex Image="(^|/)(python[0-9.]*|perl|ruby|node)$"

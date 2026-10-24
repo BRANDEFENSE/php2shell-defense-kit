@@ -1,0 +1,37 @@
+title: Windows Web Runtime Writing PHP-like Content in IIS Web Root
+id: 962131e4-db56-57bc-8560-dce96e2e8180
+status: experimental
+description: Default IIS web root only; map actual paths and file-write sources. IIS
+  is not PHP-specific. Level is low because CMS updates match constantly; alert only on files that did not exist before, outside your deployment windows, or correlate with another signal. This is a hunting lead, not attribution to PHP2Shell or proof
+  of successful exploitation.
+references:
+- https://www.php.net/archive/2026.php#2026-10-21-5
+- https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp
+author: Brandefense Research Team
+date: '2026-10-24'
+license: MIT
+tags:
+- attack.t1505.003
+logsource:
+  product: windows
+  category: file_event
+detection:
+  writer:
+    Image|endswith:
+    - \php-cgi.exe
+    - \php.exe
+    - \httpd.exe
+    - \w3wp.exe
+  root:
+    TargetFilename|contains: \inetpub\wwwroot\
+  extension:
+    TargetFilename|endswith:
+    - .php
+    - .phtml
+    - .phar
+  condition: writer and root and extension
+falsepositives:
+- Package-manager, CMS core, plugin and theme updates that run as the web user
+- Cache and optimisation plugins that generate PHP files
+- CMS updates and web administration
+level: low

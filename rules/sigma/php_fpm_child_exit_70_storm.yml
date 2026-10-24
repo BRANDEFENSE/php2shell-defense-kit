@@ -1,0 +1,53 @@
+title: PHP-FPM Worker Exited With Code 70 (Single Event and Storm)
+id: b175fdef-2d56-473f-9be0-10b354aacf3f
+status: experimental
+description: >-
+  A PHP-FPM child exits with code 70 after a request-startup out-of-memory fatal and is replaced (lab: every OOM-trigger request on FPM, patched builds included). The base rule matches one exit; the correlation rule fires when one pool on one host logs 5 or more within 5 minutes. The threshold is a lab-derived starting point (one scenario of seven oversized requests gave 7 to 8 exits; ordinary and benign lab traffic gave none), not a production baseline, so tune it. A single oversized request gives ONE exit and stays below the threshold. Requires extracting PoolName from the log text (the [pool NAME] token) and a host field. Hunting lead only.
+references:
+- https://www.php.net/archive/2026.php#2026-10-21-5
+- https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp
+author: Brandefense Research Team
+date: '2026-10-24'
+license: MIT
+tags:
+- attack.t1190
+- attack.t1499
+logsource:
+  product: php
+  service: fpm
+detection:
+  selection:
+    Message|contains: exited with code 70 after
+  condition: selection
+falsepositives:
+- Other request-startup failures also exit with code 70 (bad chroot, missing handler)
+- Patched builds exit the same way when they stop an oversized request
+level: low
+name: php_fpm_child_exit_70
+---
+title: PHP-FPM Worker Exit Code 70 Storm
+id: ad394136-5af6-45d0-8810-9cbe7b8da018
+status: experimental
+description: >-
+  Five or more FPM child exits with code 70 in one pool on one host within 5 minutes. Experimental lab-derived threshold (docs/lab-validation.md); tune against your own baseline.
+references:
+- https://www.php.net/archive/2026.php#2026-10-21-5
+- https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp
+author: Brandefense Research Team
+date: '2026-10-24'
+license: MIT
+tags:
+- attack.t1499
+correlation:
+  type: event_count
+  rules:
+  - php_fpm_child_exit_70
+  group-by:
+  - host
+  - PoolName
+  timespan: 5m
+  condition:
+    gte: 5
+falsepositives:
+- Mass restarts after a bad deploy that also exit with code 70
+level: medium

@@ -1,0 +1,27 @@
+title: PHP2Shell - Session Upload Progress Field in Request
+id: 32bdf3f8-2b5e-498e-a332-776b856e3085
+status: experimental
+description: |
+  Matches the PHP_SESSION_UPLOAD_PROGRESS field (or the name configured in session.upload_progress.name)
+  in logs that record request details or bodies (WAF / ModSecurity audit logs, application-layer logs).
+  Vendors describe it as an exploitation-attempt marker when sent in multipart POSTs to endpoints that do
+  not handle uploads. Ordinary access logs do not contain request bodies, so most attempts will not match.
+references:
+  - https://www.indusface.com/blog/php2shell-vulnerability/
+  - https://www.kelacyber.com/blog/php2shell-underground-response/
+author: am-i-infected contributors
+date: 2026-10-23
+tags:
+  - attack.initial-access
+  - attack.t1190
+  - cve.2026-109618
+  - cve.2026-109619
+logsource:
+  category: webserver
+detection:
+  keywords:
+    - 'PHP_SESSION_UPLOAD_PROGRESS'
+  condition: keywords
+falsepositives:
+  - Applications that genuinely use PHP's upload-progress feature (compare against the endpoint)
+level: medium

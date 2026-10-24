@@ -1,0 +1,1 @@
+Message IN ("*php-fpm*", "*php-cgi*", "*lsphp*", "*frankenphp*", "*apache2*", "*httpd*") Message IN ("*segfault*", "*SIGSEGV*", "*signal 11*")

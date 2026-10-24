@@ -1,0 +1,14 @@
+// PHP2Shell (CVE-2026-109618, CVE-2026-109619)
+// Query 03. A PHP or web server process starting a shell, interpreter or download tool.
+// This is the clearest sign that an attack worked.
+// Data      Elastic Defend process events.
+// Schedule  Save as an ES|QL detection rule that runs every hour. For the first run, start on 20 October 2026.
+// Severity  High
+// Tuning    Some apps start shells for image or PDF tools. Compare with what each host did before 20 October 2026.
+FROM logs-endpoint.events.process-*
+| WHERE event.type == "start"
+| WHERE process.parent.name LIKE "php*" OR process.parent.name IN ("httpd", "apache2", "lsphp", "frankenphp")
+| WHERE process.name IN ("sh", "bash", "dash", "curl", "wget", "python", "python3", "perl", "nc", "ncat", "socat", "base64")
+| WHERE process.command_line IS NULL OR process.command_line NOT LIKE "*sendmail*"
+| KEEP @timestamp, host.name, user.name, process.parent.name, process.name, process.command_line
+| SORT @timestamp DESC

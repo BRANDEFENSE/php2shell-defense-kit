@@ -1,0 +1,42 @@
+# Provisional alert-only rules for selected PHP multipart request shapes.
+# R1/R3 use upload-progress fields; R5 observes part-header inflation.
+# Validate with suricata -T and representative pcaps before deployment.
+# No counting claim and no use-after-free reproduction is implied.
+
+# R1: two parsed-looking field names in one inspected multipart body.
+alert http $EXTERNAL_NET any -> $HOME_NET $HTTP_PORTS (msg:"PHP upload progress field with body session id"; \
+    flow:established,to_server; \
+    http.method; content:"POST"; \
+    http.content_type; content:"multipart/form-data"; nocase; startswith; \
+    http.request_body; content:"name="; \
+    pcre:"/name=\"PHP_SESSION_UPLOAD_PROGRESS\"/i"; \
+    pcre:"/name=\"PHPSESSID\"/i"; \
+    classtype:web-application-attack; sid:20260001; rev:4;)
+
+# R3: size-only heuristic. A large Content-Length does not establish an OOM,
+# repeated parts, or a vulnerability. Chunked requests lack this header.
+alert http $EXTERNAL_NET any -> $HOME_NET $HTTP_PORTS (msg:"PHP upload progress field with large multipart body"; \
+    flow:established,to_server; \
+    http.method; content:"POST"; \
+    http.content_type; content:"multipart/form-data"; nocase; startswith; \
+    http.content_len; byte_test:0,>=,5242880,0,string,dec; \
+    http.request_body; content:"name=\"PHP_SESSION_UPLOAD_PROGRESS\""; nocase; \
+    classtype:web-application-attack; sid:20260004; rev:4;)
+
+# R2 (>=40 repeated fields) is omitted. detection_filter counts rule matches
+# over time, not occurrences of a field within one request.
+
+# R5: CVE-2026-109618 OOM strategy — per-part header inflation. Each multipart part
+# can carry an unbounded header block whose in-memory representation exceeds its
+# wire bytes; >= 96 consecutive header lines in one inspected body is the wire
+# marker in the advisory's framing (tune to environment).
+alert http $EXTERNAL_NET any -> $HOME_NET $HTTP_PORTS (msg:"PHP multipart part-header inflation (CVE-2026-109618 OOM strategy)"; \
+    flow:established,to_server; \
+    http.method; content:"POST"; \
+    http.content_type; content:"multipart/form-data"; nocase; startswith; \
+    http.request_body; pcre:"/(?im)(?:^[A-Za-z0-9!#$%&'*+\-.^_`|~]{1,64}:[ \t]*[^\r\n]{0,512}[\r\n]+){96,}/"; \
+    reference:url,github.com/php/php-src/security/advisories/GHSA-w8hw-w9fx-j79w; \
+    classtype:web-application-attack; sid:20260006; rev:1;)
+
+# Same-client-IP sequencing was removed. It neither identifies PHP workers nor
+# proves that the earlier request published stale state.
