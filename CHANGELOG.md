@@ -1,5 +1,8 @@
 # Changelog
 
+## Unreleased
+- security: `tools/php2shell-check.sh` stops with exit 3 when it cannot create a private temp dir, instead of falling back to a predictable `/tmp` path.
+
 ## 0.3.0 (24 Oct 2026)
 - security: no execution of discovered binaries. `tools/php2shell-check.sh` and `.ps1` read the PHP version from the file (banner string / version resource) instead of running `<binary> -v` on paths taken from `/proc`, process lists or the disk; the `<binary> -i` ini probe is removed; a php-fpm-named process with a non-root binary is not trusted. Re-tested in lab containers (fake process not executed).
 - fix: pre-release builds (dev, alpha, beta, RC) are never "fixed" (WARN/unknown); only a final release at or above the fixed one passes. New tests in `tests/test_php2shell_check.py`.

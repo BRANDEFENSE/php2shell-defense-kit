@@ -19,7 +19,7 @@ Also prints (INFO) the ini values relevant to the temporary controls: `session.u
     bash tools/php2shell-check.sh --no-containers # skip docker/podman
     bash tools/php2shell-check.sh --quiet         # hide INFO lines
 
-No network, no writes (a temp dir is created and removed), no exploit traffic. Exit codes: 0 all PASS, 1 WARN, 2 FAIL, 3 nothing PHP found.
+No network, no writes (a temp dir is created and removed), no exploit traffic. Exit codes: 0 all PASS, 1 WARN, 2 FAIL, 3 nothing PHP found or the check could not run (bad option, no private temp dir).
 Inside a container run it as root; without CAP_SYS_PTRACE other users' workers are judged through their (inspected) parent process.
 
 ## Limits

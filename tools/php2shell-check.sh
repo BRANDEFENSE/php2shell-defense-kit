@@ -24,7 +24,7 @@
 # or via /proc. It makes NO network calls, writes nothing, sends no exploit traffic.
 # Run as root for a complete process check (other users' /proc entries are unreadable otherwise).
 #
-# Exit codes: 0 all PASS (INFO/N/A only), 1 at least one WARN, 2 at least one FAIL, 3 nothing PHP-related found.
+# Exit codes: 0 all PASS (INFO/N/A only), 1 at least one WARN, 2 at least one FAIL, 3 nothing PHP-related found, or the check could not run.
 # Fixed upstream: 8.2.35, 8.3.36, 8.4.27, 8.5.12. PHP 8.1 and older get no upstream fix: only a vendor backport counts.
 
 set -u
@@ -90,7 +90,7 @@ fixed_state() {
 have() { command -v "$1" >/dev/null 2>&1; }
 # in_other_ns <pid>: true when the process lives in another mount namespace (a container seen from the host)
 in_other_ns() { [ "$(readlink "/proc/$1/ns/mnt" 2>/dev/null)" != "$(readlink /proc/self/ns/mnt 2>/dev/null)" ]; }
-TMP=$(mktemp -d 2>/dev/null || echo /tmp/p2s.$$); mkdir -p "$TMP"; trap 'rm -rf "$TMP"' EXIT
+TMP=$(mktemp -d 2>/dev/null) || { echo "cannot create a private temp dir (mktemp -d failed); not continuing" >&2; exit 3; }; trap 'rm -rf "$TMP"' EXIT
 PKGSTATE="$TMP/pkgstate"; : > "$PKGSTATE"   # lines: <owner-key>\t<state>\t<text>   state=OK|BAD|UNSURE
 
 # ---- 1. PACKAGE ------------------------------------------------------------------------------------------
